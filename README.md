@@ -30,7 +30,10 @@ Command to initialize composer for a repository
 ### Mandatory
 
 <a name="rules-validated-mandatory-base-namespace"></a>
-#### [Base namespace](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-base-namespace) with `autoload-dev -> psr-4`
+#### [Base namespace](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-base-namespace) 
+
+**With `autoload-dev -> psr-4`**
+
 ```json
   "autoload-dev": {
     "psr-4": {
