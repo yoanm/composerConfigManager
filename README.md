@@ -1,8 +1,8 @@
 # initRepositoryWithComposer
 
-> *Implementation is compliant to this* **[Tests strategy](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md)**
-
 Command to initialize composer for a repository
+
+> *Implementation is compliant to this* **[Tests strategy](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md)**
 
  * [Configuration reference](#configuration-reference)
  * [Tests strategy rules validated by configuration reference](#rules-validated)
