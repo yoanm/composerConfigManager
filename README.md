@@ -37,7 +37,9 @@ Command to initialize composer for a repository
 **With `autoload-dev -> psr-4`**
 
 <a name="rules-validated-mandatory-base-namespace-phpunit"></a>
- * PhpUnit
+ * PhpUnit 
+ 
+   *See [implementation](https://github.com/yoanm/initRepositoryWithPhpUnit)*
    
    ```json
    "autoload-dev": {
@@ -50,7 +52,9 @@ Command to initialize composer for a repository
    ```
 
 <a name="rules-validated-mandatory-base-namespace-behat"></a>
- * Behat
+ * Behat 
+ 
+   *See [implementation](https://github.com/yoanm/initRepositoryWithBehat)*
    
    ```json
    "autoload-dev": {
