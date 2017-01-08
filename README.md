@@ -1,4 +1,4 @@
-# intRepositoryWithComposer
+# initRepositoryWithComposer
 
 > *Implementation is compliant to this* **[Tests strategy](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md)**
 
