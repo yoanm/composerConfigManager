@@ -2,7 +2,7 @@
 
 Command to initialize composer for a repository
 
-> :information_source: *Implementation is compliant with this* [**Tests strategy**](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md)
+> :information_source: **[Yoanm Tests strategy](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md) compliant**
 
  * [Configuration reference](#configuration-reference)
  * [Tests strategy rules validated by configuration reference](#rules-validated)
