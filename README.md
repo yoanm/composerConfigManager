@@ -26,13 +26,13 @@ Command to initialize composer for a repository
 ```
 
 <a name="rules-validated"></a>
-## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules) validated by [configuration reference](#configuration-reference)
+## [Tests strategy rules](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules) validated by [configuration reference](#configuration-reference)
 
 <a name="rules-validated-mandatory"></a>
 ### Mandatory
 
 <a name="rules-validated-mandatory-base-namespace"></a>
-#### [Base namespace](https://github.com/yoanm/Readme/blob/master/TESTS_STRATEGY.md#rules-base-namespace) 
+#### [Base namespace](https://github.com/yoanm/Readme/blob/master/strategy/tests/README.md#rules-base-namespace) 
 
 **With `autoload-dev -> psr-4`**
 
