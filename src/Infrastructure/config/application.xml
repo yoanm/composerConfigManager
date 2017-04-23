@@ -1,0 +1,30 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="init_repo_with_composer.app.write_configuration" class="Yoanm\InitRepositoryWithComposer\Application\WriteConfiguration">
+            <argument type="service" id="init_repo_with_composer.infra.writer.default" />
+        </service>
+
+        <!-- Normalizers -->
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ConfigurationNormalizer">
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration.author" />
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration.package" />
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration.suggested_package" />
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration.support" />
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration.autoload" />
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration.script" />
+        </service>
+
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration.author" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\AuthorListNormalizer"/>
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration.package" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\PackageListNormalizer"/>
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration.suggested_package" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\SuggestedPackageListNormalizer"/>
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration.support" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\SupportListNormalizer"/>
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration.autoload" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\AutoloadListNormalizer"/>
+        <service id="init_repo_with_composer.app.serializer.normalizer.configuration.script" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ScriptListNormalizer"/>
+
+        <!-- Encoders -->
+        <service id="init_repo_with_composer.app.serializer.encoder.composer" class="Yoanm\InitRepositoryWithComposer\Application\Serializer\Encoder\ComposerEncoder" />
+    </services>
+</container>

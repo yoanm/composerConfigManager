@@ -1,0 +1,37 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="init_repo_with_composer.sf_app" class="Yoanm\InitRepositoryWithComposer\Infrastructure\SfApplication">
+            <argument type="service" id="init_repo_with_composer.infra.command.write_configuration" />
+        </service>
+
+        <service id="init_repo_with_composer.infra.command.write_configuration" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Command\WriteConfigurationCommand">
+            <argument type="service" id="init_repo_with_composer.infra.command.transformer.input" />
+            <argument type="service" id="init_repo_with_composer.app.write_configuration" />
+        </service>
+
+        <service id="init_repo_with_composer.infra.command.transformer.input" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer\InputTransformer" />
+
+        <service id="init_repo_with_composer.infra.filesystem" class="Symfony\Component\Filesystem\Filesystem" />
+
+        <service id="init_repo_with_composer.infra.writer.default" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Writer\DefaultWriter">
+            <argument type="service" id="init_repo_with_composer.infra.serializer" />
+            <argument type="service" id="init_repo_with_composer.infra.filesystem" />
+        </service>
+        <service id="init_repo_with_composer.infra.encoder.composer" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Encoder\ComposerEncoder">
+            <argument type="service" id="init_repo_with_composer.app.serializer.encoder.composer" />
+        </service>
+        <service id="init_repo_with_composer.infra.normalizer.configuration" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer">
+            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration" />
+        </service>
+        <service id="init_repo_with_composer.infra.serializer" class="Symfony\Component\Serializer\Serializer">
+            <argument type="collection">
+                <argument type="service" id="init_repo_with_composer.infra.normalizer.configuration" />
+            </argument>
+            <argument type="collection">
+                <argument type="service" id="init_repo_with_composer.infra.encoder.composer" />
+            </argument>
+        </service>
+    </services>
+</container>
