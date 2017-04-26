@@ -1,8 +1,8 @@
 <?php
 namespace Yoanm\InitRepositoryWithComposer\Domain\Model;
 
-class Author {
-
+class Author
+{
     /** @var string */
     private $name;
     /** @var string */

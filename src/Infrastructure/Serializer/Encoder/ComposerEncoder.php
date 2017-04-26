@@ -31,5 +31,4 @@ class ComposerEncoder implements EncoderInterface
     {
         return self::FORMAT === $format;
     }
-
 }

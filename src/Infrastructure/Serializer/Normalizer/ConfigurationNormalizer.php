@@ -2,18 +2,18 @@
 namespace Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
 use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigurationNormalizer;
 
 class ConfigurationNormalizer implements NormalizerInterface
 {
-    /** @var AppConfigurationNormalizer */
+    /** @var AppConfigNormalizer */
     private $appConfigurationNormalizer;
 
     /**
-     * @param AppConfigurationNormalizer $appConfigurationNormalizer
+     * @param AppConfigNormalizer $appConfigurationNormalizer
      */
-    public function __construct(AppConfigurationNormalizer $appConfigurationNormalizer)
+    public function __construct(AppConfigNormalizer $appConfigurationNormalizer)
     {
         $this->appConfigurationNormalizer = $appConfigurationNormalizer;
     }
@@ -33,5 +33,4 @@ class ConfigurationNormalizer implements NormalizerInterface
     {
         return $data instanceof Configuration;
     }
-
 }

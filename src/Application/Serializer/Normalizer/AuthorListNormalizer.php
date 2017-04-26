@@ -5,6 +5,9 @@ use Yoanm\InitRepositoryWithComposer\Domain\Model\Author;
 
 class AuthorListNormalizer
 {
+    const KEY_NAME = 'name';
+    const KEY_EMAIL = 'email';
+    const KEY_ROLE = 'role';
     /**
      * @param Author[] $authorList
      *
@@ -14,12 +17,12 @@ class AuthorListNormalizer
     {
         $normalizeList = [];
         foreach ($authorList as $author) {
-            $normalizedAuthor = ['name' => $author->getName()];
+            $normalizedAuthor = [self::KEY_NAME => $author->getName()];
             if ($author->getEmail()) {
-                $normalizedAuthor['email'] = $author->getEmail();
+                $normalizedAuthor[self::KEY_EMAIL] = $author->getEmail();
             }
             if ($author->getRole()) {
-                $normalizedAuthor['role'] = $author->getRole();
+                $normalizedAuthor[self::KEY_ROLE] = $author->getRole();
             }
             $normalizeList[] = $normalizedAuthor;
         }

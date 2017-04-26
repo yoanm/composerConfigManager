@@ -7,8 +7,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yoanm\InitRepositoryWithComposer\Application\WriteConfiguration;
-use Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer\InputTransformer;
 use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer\InputTransformer;
 
 class WriteConfigurationCommand extends Command
 {
@@ -77,25 +77,13 @@ class WriteConfigurationCommand extends Command
                 InputTransformer::OPTION_KEYWORD,
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Package description'
+                'Package keywords'
             )
             ->addOption(
-                InputTransformer::OPTION_AUTHOR_NAME,
+                InputTransformer::OPTION_AUTHOR,
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Package author name'
-            )
-            ->addOption(
-                InputTransformer::OPTION_AUTHOR_EMAIL,
-                null,
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Package author email'
-            )
-            ->addOption(
-                InputTransformer::OPTION_AUTHOR_ROLE,
-                null,
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Package author role'
+                'Package authors. Format "name[#email[#role]]'
             )
             ->addOption(
                 InputTransformer::OPTION_PROVIDED_PACKAGE,

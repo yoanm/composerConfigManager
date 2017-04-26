@@ -1,7 +1,8 @@
 <?php
 namespace Yoanm\InitRepositoryWithComposer\Domain\Model;
 
-class Configuration {
+class Configuration
+{
     const DEFAULT_TYPE = 'library';
     const DEFAULT_LICENSE = 'MIT';
     const DEFAULT_VERSION = '0.0.1';

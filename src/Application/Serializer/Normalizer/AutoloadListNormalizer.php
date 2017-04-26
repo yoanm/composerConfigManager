@@ -16,7 +16,7 @@ class AutoloadListNormalizer
         foreach ($autoloadList as $autoload) {
             if (count($autoload->getEntryList())) {
                 foreach ($autoload->getEntryList() as $entry) {
-                    $normalizedAutoloadList[$autoload->getType()][$entry->getNamespace()] = $entry->getPath();
+                    $normalizeList[$autoload->getType()][$entry->getNamespace()] = $entry->getPath();
                 }
             }
         }
