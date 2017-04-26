@@ -44,19 +44,10 @@ See below for more information regarding command line options
   * `--version "X.Y.Z"`
   * `--description "package description"`
   * `--keywords "KEYWORD1"` *Many allowed*
-  * Author *Many allowed*
-    * `--author-name "name1"` 
-    * `--author-email "email1"` 
-    * `--author-role "role1"` 
-  * Provided packages *Many allowed*
-    * `--provided-package-name "package-1"` 
-    * `--provided-package-version "~X.Y"`
-  * Suggested packages *Many allowed*
-    * `--suggested-package-name "package-1"` 
-    * `--suggested-package-description "description1"`
-  * Support *Multiple supports allowed*
-    * `--support-type "type1"` 
-    * `--support-url "url1"`
+  * `--author"name1#email#role"` *Many allowed*  
+  * `--provided-package "package-1#~X.Y"` *Many allowed*
+  * `--suggested-package "package-1#description1"` *Many allowed*
+  * `--support-type "type1#url1"` *Many allowed*
   * Autoload *Many allowed*
     
     * `--autoload-psr0 "RootNamespace\SubNamespace#path"`
