@@ -19,7 +19,7 @@ composer require --global yoanm/init-repository-with-composer
 
 just type the following
 ```bash
-BIN_PATH/initRepositoryWithComposer path/to/repository/directory "vendor/package-name"
+BIN_PATH/initRepositoryWithComposer "vendor/package-name" path/to/repository/directory
 ```
 
 In case you launch the command from the repository directory, you can simply use 
@@ -35,6 +35,7 @@ See below for more information regarding command line options
 ### Command line arguments
 
   * `"vendor/package-name"` The package name
+  * `"path/to/repository/directory"` Path where composer.json file will be created. *(default current directory)*
 
 <a name="in-the-box-command-line-options"></a>
 ### Command line options
