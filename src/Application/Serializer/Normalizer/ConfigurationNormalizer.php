@@ -52,75 +52,115 @@ class ConfigurationNormalizer
 
     public function normalize(Configuration $configuration)
     {
-        $normalizedAuthorList = $this->authorListNormalizer->normalize(
-            $configuration->getAuthorList()
-        );
-        $normalizedProvidedPackageList = $this->packageListNormalizer->normalize(
-            $configuration->getProvidedPackageList()
-        );
-        $normalizedSuggestedPackageList = $this->suggestedPackageListNormalizer->normalize(
-            $configuration->getSuggestedPackageList()
-        );
-        $normalizedSupportList = $this->supportListNormalizer->normalize(
-            $configuration->getSupportList()
-        );
-        $normalizedRequiredPackageList = $this->packageListNormalizer->normalize(
-            $configuration->getRequiredPackageList()
-        );
-        $normalizedRequiredDevPackageList = $this->packageListNormalizer->normalize(
-            $configuration->getRequiredDevPackageList()
-        );
-        $normalizedAutoloadList = $this->autoloadListNormalizer->normalize(
-            $configuration->getAutoloadList()
-        );
-        $normalizedAutoloadDevList = $this->autoloadListNormalizer->normalize(
-            $configuration->getAutoloadDevList()
-        );
-        $normalizedScriptList = $this->scriptListNormalizer->normalize(
-            $configuration->getScriptList()
-        );
-
         $normalizedConfiguration = [
             self::KEY_NAME => $configuration->getPackageName(),
             self::KEY_TYPE =>$configuration->getType(),
             self::KEY_LICENSE => $configuration->getLicense()
         ];
 
-        if ($configuration->getPackageVersion()) {
-            $normalizedConfiguration[self::KEY_VERSION] = $configuration->getPackageVersion();
+        // package version
+        $normalizedConfiguration = $this->appendIfDefined(
+            $normalizedConfiguration,
+            $configuration->getPackageVersion(),
+            self::KEY_VERSION
+        );
+        // description
+        $normalizedConfiguration = $this->appendIfDefined(
+            $normalizedConfiguration,
+            $configuration->getDescription(),
+            self::KEY_DESCRIPTION
+        );
+        // keywords
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $configuration->getKeywordList(),
+            self::KEY_KEYWORDS
+        );
+        // authors
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->authorListNormalizer->normalize($configuration->getAuthorList()),
+            self::KEY_AUTHORS
+        );
+        // provide
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->packageListNormalizer->normalize($configuration->getProvidedPackageList()),
+            self::KEY_PROVIDE
+        );
+        // suggest
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->suggestedPackageListNormalizer->normalize($configuration->getSuggestedPackageList()),
+            self::KEY_SUGGEST
+        );
+        // support
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->supportListNormalizer->normalize($configuration->getSupportList()),
+            self::KEY_SUPPORT
+        );
+        // require
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->packageListNormalizer->normalize($configuration->getRequiredPackageList()),
+            self::KEY_REQUIRE
+        );
+        // require-dev
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->packageListNormalizer->normalize($configuration->getRequiredDevPackageList()),
+            self::KEY_REQUIRE_DEV
+        );
+        // autoload
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->autoloadListNormalizer->normalize($configuration->getAutoloadList()),
+            self::KEY_AUTOLOAD
+        );
+        // autoload-dev
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->autoloadListNormalizer->normalize($configuration->getAutoloadDevList()),
+            self::KEY_AUTOLOAD_DEV
+        );
+        // script
+        $normalizedConfiguration = $this->appendIfNotEmpty(
+            $normalizedConfiguration,
+            $this->scriptListNormalizer->normalize($configuration->getScriptList()),
+            self::KEY_SCRIPT
+        );
+
+        return $normalizedConfiguration;
+    }
+
+    /**
+     * @param array  $normalizedConfiguration
+     * @param array  $list
+     * @param string $key
+     *
+     * @return array
+     */
+    protected function appendIfNotEmpty(array $normalizedConfiguration, array $list, $key)
+    {
+        if (count($list)) {
+            $normalizedConfiguration[$key] = $list;
         }
-        if ($configuration->getDescription()) {
-            $normalizedConfiguration[self::KEY_DESCRIPTION] = $configuration->getDescription();
-        }
-        if (count($configuration->getKeywordList())) {
-            $normalizedConfiguration[self::KEY_KEYWORDS] = $configuration->getKeywordList();
-        }
-        if (count($normalizedAuthorList)) {
-            $normalizedConfiguration[self::KEY_AUTHORS] = $normalizedAuthorList;
-        }
-        if (count($normalizedProvidedPackageList)) {
-            $normalizedConfiguration[self::KEY_PROVIDE] = $normalizedProvidedPackageList;
-        }
-        if (count($normalizedSuggestedPackageList)) {
-            $normalizedConfiguration[self::KEY_SUGGEST] = $normalizedSuggestedPackageList;
-        }
-        if (count($normalizedSupportList)) {
-            $normalizedConfiguration[self::KEY_SUPPORT] = $normalizedSupportList;
-        }
-        if (count($normalizedRequiredPackageList)) {
-            $normalizedConfiguration[self::KEY_REQUIRE] = $normalizedRequiredPackageList;
-        }
-        if (count($normalizedRequiredDevPackageList)) {
-            $normalizedConfiguration[self::KEY_REQUIRE_DEV] = $normalizedRequiredDevPackageList;
-        }
-        if (count($normalizedAutoloadList)) {
-            $normalizedConfiguration[self::KEY_AUTOLOAD] = $normalizedAutoloadList;
-        }
-        if (count($normalizedAutoloadDevList)) {
-            $normalizedConfiguration[self::KEY_AUTOLOAD_DEV] = $normalizedAutoloadDevList;
-        }
-        if (count($normalizedScriptList)) {
-            $normalizedConfiguration[self::KEY_SCRIPT] = $normalizedScriptList;
+
+        return $normalizedConfiguration;
+    }
+
+    /**
+     * @param array  $normalizedConfiguration
+     * @param string $value
+     * @param string $key
+     *
+     * @return array
+     */
+    protected function appendIfDefined(array $normalizedConfiguration, $value, $key)
+    {
+        if ($value) {
+            $normalizedConfiguration[$key] = $value;
         }
 
         return $normalizedConfiguration;
