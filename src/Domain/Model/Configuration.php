@@ -39,104 +39,56 @@ class Configuration
     private $scriptList = [];
 
     /**
-     * @param string $packageName
-     * @param string $type
-     * @param string $description
-     * @param string $license
-     * @param string $packageVersion
+     * @param string      $packageName
+     * @param string      $type
+     * @param string      $license
+     * @param string      $packageVersion
+     * @param string|null $description
+     * @param array       $keywordList
+     * @param array       $authorList
+     * @param array       $providedPackageList
+     * @param array       $suggestedPackageList
+     * @param array       $supportList
+     * @param array       $autoloadList
+     * @param array       $autoloadDevList
+     * @param array       $requiredPackageList
+     * @param array       $requiredDevPackageList
+     * @param array       $scriptList
      */
     public function __construct(
         $packageName,
-        $type = null,
-        $description = null,
-        $license = null,
-        $packageVersion = null
+        $type,
+        $license,
+        $packageVersion,
+        $description,
+        array $keywordList,
+        array $authorList,
+        array $providedPackageList,
+        array $suggestedPackageList,
+        array $supportList,
+        array $autoloadList,
+        array $autoloadDevList,
+        array $requiredPackageList,
+        array $requiredDevPackageList,
+        array $scriptList
     ) {
         $this->packageName = $packageName;
-        $this->type = null === $type ? self::DEFAULT_TYPE : $type;
+        $this->type = $type;
         $this->description = $description;
-        $this->license = null === $license ? self::DEFAULT_LICENSE : $license;
-        $this->packageVersion = null === $packageVersion ? self::DEFAULT_VERSION : $packageVersion;
-    }
+        $this->license = $license;
+        $this->packageVersion = $packageVersion;
 
-    /**
-     * @param string $keyword
-     */
-    public function addKeyword($keyword)
-    {
-        $this->keywordList[] = $keyword;
-    }
-
-    /**
-     * @param Author $author
-     */
-    public function addAuthor(Author $author)
-    {
-        $this->authorList[] = $author;
-    }
-
-    /**
-     * @param Package $providedPackage
-     */
-    public function addProvidedPackage(Package $providedPackage)
-    {
-        $this->providedPackageList[] = $providedPackage;
-    }
-
-    /**
-     * @param SuggestedPackage $suggestedPackage
-     */
-    public function addSuggestedPackage(SuggestedPackage $suggestedPackage)
-    {
-        $this->suggestedPackageList[] = $suggestedPackage;
-    }
-
-    /**
-     * @param Support $support
-     */
-    public function addSupport(Support $support)
-    {
-        $this->supportList[] = $support;
-    }
-
-    /**
-     * @param Autoload $autoload
-     */
-    public function addAutoload(Autoload $autoload)
-    {
-        $this->autoloadList[] = $autoload;
-    }
-
-    /**
-     * @param Autoload $autoloadDev
-     */
-    public function addAutoloadDev(Autoload $autoloadDev)
-    {
-        $this->autoloadDevList[] = $autoloadDev;
-    }
-
-    /**
-     * @param Package $requiredPackage
-     */
-    public function addRequiredPackage(Package $requiredPackage)
-    {
-        $this->requiredPackageList[] = $requiredPackage;
-    }
-
-    /**
-     * @param Package $requiredDevPackage
-     */
-    public function addRequiredDevPackage(Package $requiredDevPackage)
-    {
-        $this->requiredDevPackageList[] = $requiredDevPackage;
-    }
-
-    /**
-     * @param Script $script
-     */
-    public function addScript(Script $script)
-    {
-        $this->scriptList[] = $script;
+        $this->keywordList = $keywordList;
+        $this->authorList = $authorList;
+        $this->providedPackageList = $providedPackageList;
+        $this->suggestedPackageList = $suggestedPackageList;
+        $this->supportList = $supportList;
+        $this->autoloadList = $autoloadList;
+        $this->autoloadDevList = $autoloadDevList;
+        $this->requiredPackageList = $requiredPackageList;
+        $this->requiredPackageList = $requiredPackageList;
+        $this->requiredDevPackageList = $requiredDevPackageList;
+        $this->scriptList = $scriptList;
     }
 
     /**
