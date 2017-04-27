@@ -107,7 +107,7 @@ class InputTransformer
     {
         if (isset($optionList[self::OPTION_AUTHOR]) && is_array($optionList[self::OPTION_AUTHOR])) {
             foreach ($optionList[self::OPTION_AUTHOR] as $key => $author) {
-                $data = $this->extractKeyValue($author);
+                $data = $this->extractDataFromValue($author);
                 $name = array_shift($data);
                 $email = array_shift($data);
                 $role = array_shift($data);
@@ -127,7 +127,7 @@ class InputTransformer
     {
         if (isset($optionList[self::OPTION_PROVIDED_PACKAGE]) && is_array($optionList[self::OPTION_PROVIDED_PACKAGE])) {
             foreach ($optionList[self::OPTION_PROVIDED_PACKAGE] as $rawValue) {
-                list ($name, $versionConstraint) = $this->extractKeyValue($rawValue);
+                list ($name, $versionConstraint) = $this->extractDataFromValue($rawValue);
                 $configuration->addProvidedPackage(new Package($name, $versionConstraint));
             }
         }
@@ -143,8 +143,11 @@ class InputTransformer
             && is_array($optionList[self::OPTION_SUGGESTED_PACKAGE])
         ) {
             foreach ($optionList[self::OPTION_SUGGESTED_PACKAGE] as $rawValue) {
-                list ($name, $description) = $this->extractKeyValue($rawValue);
-                $configuration->addSuggestedPackage(new SuggestedPackage($name, $description));
+                $data = $this->extractDataFromValue($rawValue);
+                $configuration->addSuggestedPackage(new SuggestedPackage(
+                    array_shift($data),
+                    implode(self::SEPARATOR, $data)
+                ));
             }
         }
     }
@@ -157,8 +160,8 @@ class InputTransformer
     {
         if (isset($optionList[self::OPTION_SUPPORT]) && is_array($optionList[self::OPTION_SUPPORT])) {
             foreach ($optionList[self::OPTION_SUPPORT] as $rawValue) {
-                list ($type, $url) = $this->extractKeyValue($rawValue);
-                $configuration->addSupport(new Support($type, $url));
+                $data = $this->extractDataFromValue($rawValue);
+                $configuration->addSupport(new Support(array_shift($data), implode(self::SEPARATOR, $data)));
             }
         }
     }
@@ -205,13 +208,13 @@ class InputTransformer
     {
         if (isset($optionList[self::OPTION_REQUIRE]) && is_array($optionList[self::OPTION_REQUIRE])) {
             foreach ($optionList[self::OPTION_REQUIRE] as $rawValue) {
-                list ($name, $versionConstraint) = $this->extractKeyValue($rawValue);
+                list ($name, $versionConstraint) = $this->extractDataFromValue($rawValue);
                 $configuration->addRequiredPackage(new Package($name, $versionConstraint));
             }
         }
         if (isset($optionList[self::OPTION_REQUIRE_DEV]) && is_array($optionList[self::OPTION_REQUIRE_DEV])) {
             foreach ($optionList[self::OPTION_REQUIRE_DEV] as $rawValue) {
-                list ($name, $versionConstraint) = $this->extractKeyValue($rawValue);
+                list ($name, $versionConstraint) = $this->extractDataFromValue($rawValue);
                 $configuration->addRequiredDevPackage(new Package($name, $versionConstraint));
             }
         }
@@ -225,7 +228,7 @@ class InputTransformer
     {
         if (isset($optionList[self::OPTION_SCRIPT]) && is_array($optionList[self::OPTION_SCRIPT])) {
             foreach ($optionList[self::OPTION_SCRIPT] as $rawValue) {
-                list ($name, $command) = $this->extractKeyValue($rawValue);
+                list ($name, $command) = $this->extractDataFromValue($rawValue);
                 $configuration->addScript(
                     new Script($name, $command)
                 );
@@ -238,7 +241,7 @@ class InputTransformer
      *
      * @return array
      */
-    protected function extractKeyValue($value)
+    protected function extractDataFromValue($value)
     {
         return explode(self::SEPARATOR, $value);
     }
@@ -255,7 +258,7 @@ class InputTransformer
         $list = [];
         if (isset($optionList[$optionKey]) && is_array($optionList[$optionKey])) {
             foreach ($optionList[$optionKey] as $rawValue) {
-                list ($namespace, $path) = $this->extractKeyValue($rawValue);
+                list ($namespace, $path) = $this->extractDataFromValue($rawValue);
                 $list[] = new AutoloadEntry($namespace, $path);
             }
         }
