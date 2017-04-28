@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Autoload
+class Autoload implements ConfigurationItem
 {
     const TYPE_PSR0 = 'psr-0';
     const TYPE_PSR4 = 'psr-4';
@@ -47,5 +47,17 @@ class Autoload
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return sprintf(
+            '%s#%s',
+            $this->getType(),
+            $this->getNamespace()
+        );
     }
 }

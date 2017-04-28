@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Package
+class Package implements ConfigurationItem
 {
     /** @var string */
     private $name;
@@ -31,5 +31,13 @@ class Package
     public function getVersionConstraint()
     {
         return $this->versionConstraint;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return $this->getName();
     }
 }

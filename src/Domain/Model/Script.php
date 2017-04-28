@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Script
+class Script implements ConfigurationItem
 {
     /** @var string */
     private $name;
@@ -32,5 +32,13 @@ class Script
     public function getCommand()
     {
         return $this->command;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return $this->getName();
     }
 }

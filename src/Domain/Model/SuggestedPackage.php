@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class SuggestedPackage
+class SuggestedPackage implements ConfigurationItem
 {
     /** @var string */
     private $name;
@@ -32,5 +32,13 @@ class SuggestedPackage
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return $this->getName();
     }
 }

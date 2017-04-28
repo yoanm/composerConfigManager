@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Support
+class Support implements ConfigurationItem
 {
     /** @var string */
     private $type;
@@ -32,5 +32,13 @@ class Support
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return $this->getType();
     }
 }

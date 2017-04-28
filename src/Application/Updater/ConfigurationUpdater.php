@@ -4,6 +4,7 @@ namespace Yoanm\ComposerConfigManager\Application\Updater;
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationItem;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
@@ -25,7 +26,7 @@ class ConfigurationUpdater
             $this->updateIfDefined($newConfiguration->getLicense(), $baseConfiguration->getLicense()),
             $this->updateIfDefined($newConfiguration->getPackageVersion(), $baseConfiguration->getPackageVersion()),
             $this->updateIfDefined($newConfiguration->getDescription(), $baseConfiguration->getDescription()),
-            $this->mergeValueList($newConfiguration->getKeywordList(), $baseConfiguration->getKeywordList()),
+            $this->mergeKeywordList($newConfiguration->getKeywordList(), $baseConfiguration->getKeywordList()),
             $this->updateList($newConfiguration->getAuthorList(), $baseConfiguration->getAuthorList()),
             $this->updateList(
                 $newConfiguration->getProvidedPackageList(),
@@ -46,41 +47,8 @@ class ConfigurationUpdater
                 $newConfiguration->getRequiredDevPackageList(),
                 $baseConfiguration->getRequiredDevPackageList()
             ),
-            $this->updateScriptList($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
+            $this->updateList($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
         );
-    }
-
-    /**
-     * @param object $entity
-     *
-     * @return null|string
-     */
-    public function getEntityId($entity)
-    {
-        switch (true) {
-            case $entity instanceof Author:
-                $id = $entity->getName();
-                break;
-            case $entity instanceof SuggestedPackage:
-                $id = $entity->getName();
-                break;
-            case $entity instanceof Support:
-                $id = $entity->getType();
-                break;
-            case $entity instanceof Autoload:
-                $id = $entity->getType().'#'.$entity->getNamespace();
-                break;
-            case $entity instanceof Package:
-                $id = $entity->getName();
-                break;
-            case $entity instanceof Script:
-                $id = $entity->getName();
-                break;
-            default:
-                $id = null;
-        };
-
-        return $id;
     }
 
     /**
@@ -100,7 +68,7 @@ class ConfigurationUpdater
      *
      * @return string[]
      */
-    protected function mergeValueList(array $oldList, array $newList)
+    protected function mergeKeywordList(array $oldList, array $newList)
     {
         return array_values(
             array_unique(
@@ -110,94 +78,42 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param array $newEntityList
-     * @param array $oldEntityList
+     * @param ConfigurationItem[] $newEntityList
+     * @param ConfigurationItem[] $oldEntityList
      *
-     * @return array
+     * @return ConfigurationItem[]
      */
     protected function updateList(array $newEntityList, array $oldEntityList)
     {
-        $listTmp = [];
-        $self = $this;
-        foreach ($newEntityList as $newEntity) {
-            // Search for an old entry
-            $newEntityId = $this->getEntityId($newEntity);
-            $oldEntityMatches = array_filter(
-                $oldEntityList,
-                function ($oldEntity) use ($newEntityId, $self) {
-                    return $self->getEntityId($oldEntity) == $newEntityId;
-                }
-            );
-            if (count($oldEntityMatches)) {
-                $oldEntity = array_shift($oldEntityMatches);
-                $newEntity = $this->mergeEntity($oldEntity, $newEntity);
-                $oldEntityList = array_map(
-                    function ($oldEntity) use ($newEntityId, $newEntity, $self) {
-                        return $self->getEntityId($oldEntity) == $newEntityId
-                            ? $newEntity
-                            : $oldEntity
-                        ;
-                    },
-                    $oldEntityList
-                );
-            } else {
-                $listTmp[] = $newEntity;
-            }
+        $existingEntityIdList = [];
+        foreach ($newEntityList as $entity) {
+            $existingEntityIdList[$entity->getItemId()] = true;
         }
-
-        // Merge remaining entities that have not been already merged
-        $list = [];
-        foreach (array_reverse($oldEntityList, true) as $entity) {
-            array_unshift($list, $entity);
-        }
-
-        return array_merge($list, $listTmp);
-    }
-
-    /**
-     * @param Script[] $newEntityList
-     * @param Script[] $oldEntityList
-     *
-     * @return Script[]
-     */
-    protected function updateScriptList(array $newEntityList, array $oldEntityList)
-    {
-        $mergedEntityIdList = [];
-        $self = $this;
-        $normalizedNewEntityList = [];
-        foreach ($newEntityList as $newEntity) {
-            // Search for an old entry
-            $newEntityId = $this->getEntityId($newEntity);
-            $oldEntityMatches = array_filter(
-                $oldEntityList,
-                function ($oldEntity) use ($newEntityId, $self) {
-                    return $self->getEntityId($oldEntity) == $newEntityId;
-                }
-            );
-            if (count($oldEntityMatches)) {
-                $mergedEntityIdList[$newEntityId] = true;
-            }
-            $normalizedNewEntityList[] = $newEntity;
-        }
-        // Merge remaining entities that have not been already merged
         $normalizedOldEntityList = [];
         foreach ($oldEntityList as $oldEntity) {
-            if (!array_key_exists($this->getEntityId($oldEntity), $mergedEntityIdList)) {
+            if (!array_key_exists($oldEntity->getItemId(), $existingEntityIdList)) {
                 $normalizedOldEntityList[] = $oldEntity;
             } else {
-                $oldEntityId = $this->getEntityId($oldEntity);
-                foreach ($normalizedNewEntityList as $newEntityKey => $newEntity) {
-                    if ($self->getEntityId($newEntity) == $oldEntityId) {
-                        $normalizedOldEntityList[] = $newEntity;
-                        unset($normalizedNewEntityList[$newEntityKey]);
+                // A new entity have been defined, loop over new entity list and append all entities with the same id
+                $oldEntityId = $oldEntity->getItemId();
+                foreach ($newEntityList as $newEntityKey => $newEntity) {
+                    if ($newEntity->getItemId() == $oldEntityId) {
+                        $normalizedOldEntityList[] = $this->mergeEntity($oldEntity, $newEntity);
+                        unset($newEntityList[$newEntityKey]);
                     }
                 }
             }
         }
 
-        return array_merge($normalizedOldEntityList, $normalizedNewEntityList);
+        return array_merge($normalizedOldEntityList, $newEntityList);
     }
 
+    /**
+     * @param ConfigurationItem $oldEntity
+     * @param ConfigurationItem $newEntity
+     *
+     * @return ConfigurationItem
+     */
     protected function mergeEntity($oldEntity, $newEntity)
     {
         switch (true) {
