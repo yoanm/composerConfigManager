@@ -6,7 +6,7 @@ interface DenormalizerInterface
     /**
      * @param array $list
      *
-     * @return array
+     * @return mixed
      */
     public function denormalize(array $list);
 }

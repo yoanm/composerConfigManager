@@ -125,7 +125,7 @@ class ConfigurationDenormalizer implements DenormalizerInterface
      * @param array  $configuration
      * @param string $key
      *
-     * @return mixed|null
+     * @return string|null
      */
     protected function valueOrNull(array $configuration, $key)
     {

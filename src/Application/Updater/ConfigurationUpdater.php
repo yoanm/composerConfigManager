@@ -84,10 +84,10 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param mixed $baseValue
-     * @param mixed $newValue
+     * @param string $baseValue
+     * @param string $newValue
      *
-     * @return mixed
+     * @return string
      */
     protected function updateIfDefined($newValue, $baseValue)
     {
@@ -95,10 +95,10 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param array $newList
-     * @param array $oldList
+     * @param string[] $newList
+     * @param string[] $oldList
      *
-     * @return array
+     * @return string[]
      */
     protected function mergeValueList(array $oldList, array $newList)
     {
@@ -155,10 +155,10 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param array $newEntityList
-     * @param array $oldEntityList
+     * @param Script[] $newEntityList
+     * @param Script[] $oldEntityList
      *
-     * @return array
+     * @return Script[]
      */
     protected function updateScriptList(array $newEntityList, array $oldEntityList)
     {
