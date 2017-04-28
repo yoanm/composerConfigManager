@@ -122,7 +122,7 @@ Feature: As user
   Scenario: Multiple autoload (mixing PSR-0 and PSR-4)
     Given I execute composercm create with following options:
     """
-    --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "vendor2\\Test#src2" --autoload-psr0 "vendor1\\Test2#src3"
+    --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3"
     """
     Then configuration file should contains:
     """
@@ -133,7 +133,7 @@ Feature: As user
           "vendor1\\Test2": "src3"
         },
         "psr-4": {
-          "vendor2\\Test": "src2"
+          "\\vendor2\\Test\\": "src2"
         }
       }
     }
@@ -142,7 +142,7 @@ Feature: As user
   Scenario: Multiple autoload dev (mixing PSR-0 and PSR-4)
     Given I execute composercm create with following options:
     """
-    --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3"
+    --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "\\vendor2\\Test\\#src2" --autoload-dev-psr0 "vendor1\\Test2#src3"
     """
     Then configuration file should contains:
     """
@@ -153,7 +153,7 @@ Feature: As user
           "vendor1\\Test2": "src3"
         },
         "psr-4": {
-          "vendor2\\Test": "src2"
+          "\\vendor2\\Test\\": "src2"
         }
       }
     }

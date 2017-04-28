@@ -212,11 +212,10 @@ Feature: As user
     }
     """
 
-    @yo
   Scenario: Multiple autoload (mixing PSR-0 and PSR-4)
     Given I execute composercm update with following options:
     """
-    --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "vendor2\\Test#src2" --autoload-psr0 "vendor1\\Test2#src3"
+    --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3"
     """
     Then configuration file should contains:
     """
@@ -231,7 +230,7 @@ Feature: As user
         "psr-4": {
           "\\DefaultNamespace\\DefaultSubNamespace\\": "default-psr4-path1",
           "\\DefaultNamespace\\DefaultSubNamespace2\\": "default-psr4-path2",
-          "vendor2\\Test": "src2"
+          "\\vendor2\\Test\\": "src2"
         }
       }
     }
@@ -240,7 +239,7 @@ Feature: As user
   Scenario: Update some autoload (mixing PSR-0 and PSR-4)
     Given I execute composercm update with following options:
     """
-    --autoload-psr0 "DefaultNamespace\\DefaultSubNamespace#src1" --autoload-psr4 "\\DefaultNamespace\\DefaultSubNamespace2\\#src2" --autoload-psr4 "vendor2\\Test#src4" --autoload-psr0 "vendor1\\Test2#src3"
+    --autoload-psr0 "DefaultNamespace\\DefaultSubNamespace#src1" --autoload-psr4 "\\DefaultNamespace\\DefaultSubNamespace2\\#src2" --autoload-psr4 "\\vendor2\\Test\\#src4" --autoload-psr0 "vendor1\\Test2#src3"
     """
     Then configuration file should contains:
     """
@@ -254,7 +253,7 @@ Feature: As user
         "psr-4": {
           "\\DefaultNamespace\\DefaultSubNamespace\\": "default-psr4-path1",
           "\\DefaultNamespace\\DefaultSubNamespace2\\": "src2",
-          "vendor2\\Test": "src4"
+          "\\vendor2\\Test\\": "src4"
         }
       }
     }
