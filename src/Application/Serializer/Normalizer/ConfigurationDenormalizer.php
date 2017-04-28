@@ -6,7 +6,7 @@ use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 /**
  * Class ConfigurationDenormalizer
  */
-class ConfigurationDenormalizer
+class ConfigurationDenormalizer implements DenormalizerInterface
 {
     /** @var AuthorListNormalizer */
     private $authorListNormalizer;
@@ -52,35 +52,68 @@ class ConfigurationDenormalizer
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_VERSION),
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_DESCRIPTION),
             $configuration[ConfigurationNormalizer::KEY_KEYWORDS],
-            isset($configuration[ConfigurationNormalizer::KEY_AUTHORS])
-                ? $this->authorListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_AUTHORS])
-                : []
-            ,
-            isset($configuration[ConfigurationNormalizer::KEY_PROVIDE])
-                ? $this->packageListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_PROVIDE])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_SUGGEST])
-                ? $this->suggestedPackageListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_SUGGEST])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_SUPPORT])
-                ? $this->supportListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_SUPPORT])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_AUTOLOAD])
-                ? $this->autoloadListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_AUTOLOAD])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_AUTOLOAD_DEV])
-                ? $this->autoloadListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_AUTOLOAD_DEV])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_REQUIRE])
-                ? $this->packageListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_REQUIRE])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_REQUIRE_DEV])
-                ? $this->packageListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_REQUIRE_DEV])
-                : [],
-            isset($configuration[ConfigurationNormalizer::KEY_SCRIPT])
-                ? $this->scriptListNormalizer->denormalize($configuration[ConfigurationNormalizer::KEY_SCRIPT])
-                : []
+            $this->getNormalizedOrDefault(
+                $this->authorListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_AUTHORS,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->packageListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_SUGGEST,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->suggestedPackageListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_SUPPORT,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->supportListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_AUTOLOAD,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->autoloadListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_AUTOLOAD_DEV,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->autoloadListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_REQUIRE,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->packageListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_REQUIRE_DEV,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->scriptListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_SCRIPT,
+                []
+            )
         );
+    }
+
+    /**
+     * @param DenormalizerInterface $denormalizer
+     * @param array                 $configuration
+     * @param string                $key
+     * @param mixed                 $default
+     *
+     * @return array
+     */
+    protected function getNormalizedOrDefault(DenormalizerInterface $denormalizer, array $configuration, $key, $default)
+    {
+        return isset($configuration[$key]) ? $denormalizer->denormalize($configuration[$key]) : $default;
     }
 
     /**
@@ -92,21 +125,5 @@ class ConfigurationDenormalizer
     protected function valueOrNull(array $configuration, $key)
     {
         return isset($configuration[$key]) ? $configuration[$key] : null;
-    }
-
-    /**
-     * @param array  $normalizedConfiguration
-     * @param string $value
-     * @param string $key
-     *
-     * @return array
-     */
-    protected function appendIfDefined(array $normalizedConfiguration, $value, $key)
-    {
-        if ($value) {
-            $normalizedConfiguration[$key] = $value;
-        }
-
-        return $normalizedConfiguration;
     }
 }

@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 
-class AuthorListNormalizer
+class AuthorListNormalizer implements DenormalizerInterface
 {
     const KEY_NAME = 'name';
     const KEY_EMAIL = 'email';

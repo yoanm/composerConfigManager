@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 
-class ScriptListNormalizer
+class ScriptListNormalizer implements DenormalizerInterface
 {
     /**
      * @param Script[] $scriptList

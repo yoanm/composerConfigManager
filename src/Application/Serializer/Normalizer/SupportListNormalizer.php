@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Support;
 
-class SupportListNormalizer
+class SupportListNormalizer implements DenormalizerInterface
 {
     /**
      * @param Support[] $supportList

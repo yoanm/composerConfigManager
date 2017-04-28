@@ -41,12 +41,14 @@ class UpdateConfigurationCommand extends Command
     {
         $this
             ->setDescription('Will update a composer configuration file.')
+// @codingStandardsIgnoreStart
             ->setHelp(<<<DESC
  - <info>keywords</info> will be appended to existing ones
  - <info>other plain values</info> (package name, version, ...) will replace old ones if they are already present, else they will be added
  - <info>nested values</info> (authors, autoload, script, ...) will replace old ones if they are already present, else they will be appended
 DESC
             )
+// @codingStandardsIgnoreEnd
             ->addArgument(
                 self::ARGUMENT_CONFIGURATION_DEST_FOLDER,
                 InputArgument::OPTIONAL,

@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 
-class PackageListNormalizer
+class PackageListNormalizer implements DenormalizerInterface
 {
     /**
      * @param Package[] $packageList

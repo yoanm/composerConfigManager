@@ -36,6 +36,9 @@ composercm create "vendor/package-name" [OPTIONS]
 composercm update [OPTIONS]
 ```
 
+  * Type `composercm list` to list all available command
+  * Type `composercm help COMMAND_NAME` or `composercm COMMAND_NAME -h` to display help for a specific command
+
 See below for more information regarding command line options
 
 <a name="managed-properties"></a>
@@ -54,8 +57,8 @@ See below for more information regarding command line options
   * PSR-0 / PSR-4 Autoload *Many allowed*
   * PSR-0 / PSR-4 Autoload dev *Many allowed*
   * Required packages *Many allowed*
-  * Required dev packages *Many allowed*
-  * Scripts 
+  * Required dev packages *Many allowed*
+  * Scripts
 
 <a name="full-composer-configuration"></a>
 ## Full composer configuration

@@ -51,18 +51,10 @@ class InputTransformer
     {
         return new Configuration(
             $inputList[self::KEY_PACKAGE_NAME],
-            isset($inputList[self::KEY_TYPE])
-                ? $inputList[self::KEY_TYPE]
-                : Configuration::DEFAULT_TYPE,
-            isset($inputList[self::KEY_LICENSE])
-                ? $inputList[self::KEY_LICENSE]
-                : Configuration::DEFAULT_LICENSE,
-            isset($inputList[self::KEY_PACKAGE_VERSION])
-                ? $inputList[self::KEY_PACKAGE_VERSION]
-                : Configuration::DEFAULT_VERSION,
-            isset($inputList[self::KEY_DESCRIPTION])
-                ? $inputList[self::KEY_DESCRIPTION]
-                : null,
+            $this->getValue($inputList, self::KEY_TYPE, Configuration::DEFAULT_TYPE),
+            $this->getValue($inputList, self::KEY_LICENSE, Configuration::DEFAULT_LICENSE),
+            $this->getValue($inputList, self::KEY_PACKAGE_VERSION, Configuration::DEFAULT_VERSION),
+            $this->getValue($inputList, self::KEY_DESCRIPTION, null),
             $this->extractKeywords($inputList),
             $this->extractAuthors($inputList),
             $this->extractProvidedPackages($inputList),
@@ -74,6 +66,18 @@ class InputTransformer
             $this->extractRequiredDevPackages($inputList),
             $this->extractScripts($inputList)
         );
+    }
+
+    /**
+     * @param array  $inputList
+     * @param string $key
+     * @param string $defaultValue
+     *
+     * @return string
+     */
+    protected function getValue(array $inputList, $key, $defaultValue)
+    {
+        return isset($inputList[$key]) ? $inputList[$key] : $defaultValue;
     }
 
     /**

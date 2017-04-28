@@ -55,19 +55,26 @@ class ConfigurationUpdater
      *
      * @return null|string
      */
-    public function getEntityId($entity) {
+    public function getEntityId($entity)
+    {
         switch (true) {
-            case $entity instanceof Author: $id = $entity->getName();
+            case $entity instanceof Author:
+                $id = $entity->getName();
                 break;
-            case $entity instanceof SuggestedPackage: $id = $entity->getName();
+            case $entity instanceof SuggestedPackage:
+                $id = $entity->getName();
                 break;
-            case $entity instanceof Support: $id = $entity->getType();
+            case $entity instanceof Support:
+                $id = $entity->getType();
                 break;
-            case $entity instanceof Autoload: $id = $entity->getType().'#'.$entity->getNamespace();
+            case $entity instanceof Autoload:
+                $id = $entity->getType().'#'.$entity->getNamespace();
                 break;
-            case $entity instanceof Package: $id = $entity->getName();
+            case $entity instanceof Package:
+                $id = $entity->getName();
                 break;
-            case $entity instanceof Script: $id = $entity->getName();
+            case $entity instanceof Script:
+                $id = $entity->getName();
                 break;
             default:
                 $id = null;
@@ -118,7 +125,7 @@ class ConfigurationUpdater
             $newEntityId = $this->getEntityId($newEntity);
             $oldEntityMatches = array_filter(
                 $oldEntityList,
-                function(Package $oldEntity) use ($newEntityId, $self) {
+                function (Package $oldEntity) use ($newEntityId, $self) {
                     return $self->getEntityId($oldEntity) == $newEntityId;
                 }
             );

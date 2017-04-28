@@ -57,6 +57,4 @@ class ConfigurationNormalizer implements NormalizerInterface, DenormalizerInterf
     {
         return Configuration::class == $type;
     }
-
-
 }

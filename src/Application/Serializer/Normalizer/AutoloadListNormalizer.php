@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 
-class AutoloadListNormalizer
+class AutoloadListNormalizer implements DenormalizerInterface
 {
     /**
      * @param Autoload[] $autoloadList
