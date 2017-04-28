@@ -1,15 +1,15 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\AuthorListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\AutoloadListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ConfigurationNormalizer;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\PackageListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ScriptListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\SuggestedPackageListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\SupportListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AuthorListNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AutoloadListNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\PackageListNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ScriptListNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SuggestedPackageListNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
 {

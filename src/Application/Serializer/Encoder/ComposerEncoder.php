@@ -1,5 +1,5 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Application\Serializer\Encoder;
+namespace Yoanm\ComposerConfigManager\Application\Serializer\Encoder;
 
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 

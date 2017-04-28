@@ -1,7 +1,7 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
-use Yoanm\InitRepositoryWithComposer\Domain\Model\SuggestedPackage;
+use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
 
 class SuggestedPackageListNormalizer
 {

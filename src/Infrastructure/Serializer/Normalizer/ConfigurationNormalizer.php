@@ -1,9 +1,9 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Normalizer;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class ConfigurationNormalizer implements NormalizerInterface
 {

@@ -13,7 +13,7 @@ namespace {
     use Symfony\Component\DependencyInjection\ContainerBuilder;
     use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
     use Yoanm\BehatUtilsExtension\Context\BehatContextSubscriberInterface;
-    use Yoanm\InitRepositoryWithComposer\Infrastructure\SfApplication;
+    use Yoanm\ComposerConfigManager\Infrastructure\SfApplication;
 
     /**
      * Class BaseConsoleContext
@@ -50,7 +50,7 @@ namespace {
             $loader->load('application.xml');
             $loader->load('infra.xml');
 
-            $this->application = $container->get('init_repo_with_composer.sf_app');
+            $this->application = $container->get('composer_config_manager.sf_app');
         }
 
         public static function getSubscribedEvents()

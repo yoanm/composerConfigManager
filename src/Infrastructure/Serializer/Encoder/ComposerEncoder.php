@@ -1,8 +1,8 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Encoder;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder;
 
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Encoder\ComposerEncoder as AppComposerEncoder;
+use Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder as AppComposerEncoder;
 
 class ComposerEncoder implements EncoderInterface
 {

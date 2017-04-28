@@ -1,14 +1,14 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Infrastructure\Command;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yoanm\InitRepositoryWithComposer\Application\WriteConfiguration;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
-use Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Application\WriteConfiguration;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
 class WriteConfigurationCommand extends Command
 {

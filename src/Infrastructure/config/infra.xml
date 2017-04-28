@@ -2,35 +2,35 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="init_repo_with_composer.sf_app" class="Yoanm\InitRepositoryWithComposer\Infrastructure\SfApplication">
-            <argument type="service" id="init_repo_with_composer.infra.command.write_configuration" />
+        <service id="composer_config_manager.sf_app" class="Yoanm\ComposerConfigManager\Infrastructure\SfApplication">
+            <argument type="service" id="composer_config_manager.infra.command.write_configuration" />
         </service>
 
-        <service id="init_repo_with_composer.infra.command.write_configuration" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Command\WriteConfigurationCommand">
-            <argument type="service" id="init_repo_with_composer.infra.command.transformer.input" />
-            <argument type="service" id="init_repo_with_composer.app.write_configuration" />
+        <service id="composer_config_manager.infra.command.write_configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Command\WriteConfigurationCommand">
+            <argument type="service" id="composer_config_manager.infra.command.transformer.input" />
+            <argument type="service" id="composer_config_manager.app.write_configuration" />
         </service>
 
-        <service id="init_repo_with_composer.infra.command.transformer.input" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer\InputTransformer" />
+        <service id="composer_config_manager.infra.command.transformer.input" class="Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer" />
 
-        <service id="init_repo_with_composer.infra.filesystem" class="Symfony\Component\Filesystem\Filesystem" />
+        <service id="composer_config_manager.infra.filesystem" class="Symfony\Component\Filesystem\Filesystem" />
 
-        <service id="init_repo_with_composer.infra.writer.default" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Writer\DefaultWriter">
-            <argument type="service" id="init_repo_with_composer.infra.serializer" />
-            <argument type="service" id="init_repo_with_composer.infra.filesystem" />
+        <service id="composer_config_manager.infra.writer.default" class="Yoanm\ComposerConfigManager\Infrastructure\Writer\DefaultWriter">
+            <argument type="service" id="composer_config_manager.infra.serializer" />
+            <argument type="service" id="composer_config_manager.infra.filesystem" />
         </service>
-        <service id="init_repo_with_composer.infra.encoder.composer" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Encoder\ComposerEncoder">
-            <argument type="service" id="init_repo_with_composer.app.serializer.encoder.composer" />
+        <service id="composer_config_manager.infra.encoder.composer" class="Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder">
+            <argument type="service" id="composer_config_manager.app.serializer.encoder.composer" />
         </service>
-        <service id="init_repo_with_composer.infra.normalizer.configuration" class="Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer">
-            <argument type="service" id="init_repo_with_composer.app.serializer.normalizer.configuration" />
+        <service id="composer_config_manager.infra.normalizer.configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer">
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration" />
         </service>
-        <service id="init_repo_with_composer.infra.serializer" class="Symfony\Component\Serializer\Serializer">
+        <service id="composer_config_manager.infra.serializer" class="Symfony\Component\Serializer\Serializer">
             <argument type="collection">
-                <argument type="service" id="init_repo_with_composer.infra.normalizer.configuration" />
+                <argument type="service" id="composer_config_manager.infra.normalizer.configuration" />
             </argument>
             <argument type="collection">
-                <argument type="service" id="init_repo_with_composer.infra.encoder.composer" />
+                <argument type="service" id="composer_config_manager.infra.encoder.composer" />
             </argument>
         </service>
     </services>

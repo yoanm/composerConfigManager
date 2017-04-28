@@ -1,10 +1,10 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\AutoloadListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Autoload;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\AutoloadEntry;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AutoloadListNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
+use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 
 class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
 {

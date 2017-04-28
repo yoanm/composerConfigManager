@@ -1,11 +1,11 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Infrastructure\Writer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Writer;
 
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
-use Yoanm\InitRepositoryWithComposer\Infrastructure\Writer\DefaultWriter;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Infrastructure\Writer\DefaultWriter;
 
 class DefaultWriterTest extends \PHPUnit_Framework_TestCase
 {
