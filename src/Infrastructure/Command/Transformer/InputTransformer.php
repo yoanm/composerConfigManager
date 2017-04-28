@@ -1,15 +1,15 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
-use Yoanm\InitRepositoryWithComposer\Application\WriteConfigurationRequest;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Author;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Autoload;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\AutoloadEntry;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Package;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Script;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\SuggestedPackage;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Support;
+use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
+use Yoanm\ComposerConfigManager\Domain\Model\Author;
+use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
+use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\Package;
+use Yoanm\ComposerConfigManager\Domain\Model\Script;
+use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
+use Yoanm\ComposerConfigManager\Domain\Model\Support;
 
 class InputTransformer
 {

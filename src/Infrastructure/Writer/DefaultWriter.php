@@ -1,10 +1,10 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Infrastructure\Writer;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Writer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
-use Yoanm\InitRepositoryWithComposer\Application\Writer\ConfigurationWriterInterface;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class DefaultWriter implements ConfigurationWriterInterface
 {

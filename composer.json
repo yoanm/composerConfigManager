@@ -1,5 +1,5 @@
 {
-  "name": "yoanm/init-repository-with-composer",
+  "name": "yoanm/composer-config-manager",
   "type": "project",
   "license": "MIT",
   "version": "0.0.1",
@@ -12,18 +12,18 @@
   ],
   "bin": ["bin/console"],
   "support": {
-    "issues": "https://github.com/yoanm/initPhpRepository/issues"
+    "issues": "https://github.com/yoanm/composerConfigManager/issues"
   },
   "autoload": {
     "psr-4": {
-      "Yoanm\\InitRepositoryWithComposer\\": "src/"
+      "Yoanm\\ComposerConfigManager\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Technical\\Unit\\Yoanm\\InitRepositoryWithComposer\\": "tests/Technical/Unit",
-      "Technical\\Integration\\Yoanm\\InitRepositoryWithComposer\\": "tests/Technical/Integration",
-      "Functional\\Yoanm\\InitRepositoryWithComposer\\BehatContext\\": "features/bootstrap"
+      "Technical\\Unit\\Yoanm\\ComposerConfigManager\\": "tests/Technical/Unit",
+      "Technical\\Integration\\Yoanm\\ComposerConfigManager\\": "tests/Technical/Integration",
+      "Functional\\Yoanm\\ComposerConfigManager\\BehatContext\\": "features/bootstrap"
     }
   },
   "require": {

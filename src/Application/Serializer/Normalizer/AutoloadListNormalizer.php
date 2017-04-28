@@ -1,7 +1,7 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Autoload;
+use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 
 class AutoloadListNormalizer
 {

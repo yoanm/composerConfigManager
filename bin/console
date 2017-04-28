@@ -12,5 +12,5 @@ $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../src/Infrast
 $loader->load('application.xml');
 $loader->load('infra.xml');
 
-$application = $container->get('init_repo_with_composer.sf_app');
+$application = $container->get('composer_config_manager.sf_app');
 $application->run();

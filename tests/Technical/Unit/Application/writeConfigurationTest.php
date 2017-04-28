@@ -1,11 +1,11 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\WriteConfiguration;
-use Yoanm\InitRepositoryWithComposer\Application\WriteConfigurationRequest;
-use Yoanm\InitRepositoryWithComposer\Application\Writer\ConfigurationWriterInterface;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\WriteConfiguration;
+use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class WriteConfigurationTest extends \PHPUnit_Framework_TestCase
 {

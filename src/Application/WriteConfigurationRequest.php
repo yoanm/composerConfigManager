@@ -1,7 +1,7 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Application;
+namespace Yoanm\ComposerConfigManager\Application;
 
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class WriteConfigurationRequest
 {

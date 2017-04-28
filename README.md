@@ -1,9 +1,9 @@
-# initRepositoryWithComposer
-[![Scrutinizer Build Status](https://img.shields.io/scrutinizer/build/g/yoanm/initRepositoryWithComposer.svg?label=Scrutinizer)](https://scrutinizer-ci.com/g/yoanm/initRepositoryWithComposer/?branch=master) [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/yoanm/initRepositoryWithComposer.svg?label=Code%20quality)](https://scrutinizer-ci.com/g/yoanm/initRepositoryWithComposer/?branch=master) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/yoanm/initRepositoryWithComposer.svg?label=Coverage)](https://scrutinizer-ci.com/g/yoanm/initRepositoryWithComposer/?branch=master)
+# composerConfigManager
+[![Scrutinizer Build Status](https://img.shields.io/scrutinizer/build/g/yoanm/composerConfigManager.svg?label=Scrutinizer)](https://scrutinizer-ci.com/g/yoanm/composerConfigManager/?branch=master) [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/yoanm/composerConfigManager.svg?label=Code%20quality)](https://scrutinizer-ci.com/g/yoanm/composerConfigManager/?branch=master) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/yoanm/composerConfigManager.svg?label=Coverage)](https://scrutinizer-ci.com/g/yoanm/composerConfigManager/?branch=master)
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/init-repository-with-composer.svg)](https://packagist.org/packages/yoanm/init-php-repository)
+[![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/composer-config-manager.svg)](https://packagist.org/packages/yoanm/composer-config-manager)
 
-Command to initialize composer for a repository
+Command to manage composer configuration file
 
   * [Install](#install)
   * [How to](#how-to)
@@ -15,19 +15,19 @@ Command to initialize composer for a repository
 
 ## Install
 ```bash
-composer require --global yoanm/init-repository-with-composer
+composer require --global yoanm/composer-config-manager
 ```
 
 ## How to
 
 just type the following
 ```bash
-BIN_PATH/initRepositoryWithComposer "vendor/package-name" path/to/repository/directory
+BIN_PATH/console "vendor/package-name" path/to/repository/directory
 ```
 
 In case you launch the command from the repository directory, you can simply use 
 ```bash
-BIN_PATH/initRepositoryWithComposer "vendor/package-name"
+BIN_PATH/console "vendor/package-name"
 ```
 
 See below for more information regarding command line options

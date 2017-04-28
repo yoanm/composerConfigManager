@@ -1,9 +1,9 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\AuthorListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Author;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AuthorListNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Author;
 
 class AuthorListNormalizerTest extends \PHPUnit_Framework_TestCase
 {

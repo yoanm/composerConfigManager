@@ -1,8 +1,8 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application\Serializer\Encoder;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Encoder;
 
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Encoder\ComposerEncoder;
+use Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder;
 
 class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
 {

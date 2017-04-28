@@ -1,9 +1,9 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\SupportListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Support;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Support;
 
 class SupportListNormalizerTest extends \PHPUnit_Framework_TestCase
 {

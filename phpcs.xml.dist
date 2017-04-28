@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Init Repository with composer">
+<ruleset name="Composer config manager">
     <file>src</file>
     <file>tests</file>
     <file>features/bootstrap</file>

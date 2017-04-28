@@ -1,7 +1,7 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Application\Writer;
+namespace Yoanm\ComposerConfigManager\Application\Writer;
 
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 interface ConfigurationWriterInterface
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Support;
+use Yoanm\ComposerConfigManager\Domain\Model\Support;
 
 class SupportListNormalizer
 {
