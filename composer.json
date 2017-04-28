@@ -1,6 +1,7 @@
 {
   "name": "yoanm/composer-config-manager",
   "type": "library",
+  "description": "command line to manage composer configuration file",
   "license": "MIT",
   "version": "0.0.2",
   "authors": [
@@ -10,7 +11,7 @@
       "role": "Developer"
     }
   ],
-  "bin": ["bin/console"],
+  "bin": ["bin/composercm"],
   "support": {
     "issues": "https://github.com/yoanm/composerConfigManager/issues"
   },
@@ -31,7 +32,8 @@
     "symfony/console": "~3.0",
     "symfony/dependency-injection": "^3.2",
     "symfony/serializer": "^3.2",
-    "symfony/filesystem": "^3.2"
+    "symfony/filesystem": "^3.2",
+    "symfony/config": "^3.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",

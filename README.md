@@ -15,19 +15,24 @@ Command to manage composer configuration file
 
 ## Install
 ```bash
-composer require --global yoanm/composer-config-manager
+composer global require yoanm/composer-config-manager
 ```
+ Add the following in your `.bashrc` file : 
+```bash
+export PATH=~/.composer/vendor/bin:$PATH 
+```
+
 
 ## How to
 
 just type the following
 ```bash
-BIN_PATH/console "vendor/package-name" path/to/repository/directory
+composercm "vendor/package-name" path/to/repository/directory
 ```
 
 In case you launch the command from the repository directory, you can simply use 
 ```bash
-BIN_PATH/console "vendor/package-name"
+composercm "vendor/package-name"
 ```
 
 See below for more information regarding command line options

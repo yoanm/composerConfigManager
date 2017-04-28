@@ -5,9 +5,9 @@ namespace {
     use PHPUnit\Framework\Assert;
 
     /**
-     * Class ConsoleContext
+     * Class ComposerCMContext
      */
-    class ConsoleContext extends BaseConsoleContext
+    class ComposerCMContext extends BaseConsoleContext
     {
         const DEFAULT_DESTINATION = './build';
         const DEFAULT_NAME = 'name';
@@ -18,7 +18,7 @@ namespace {
         private $currentConfiguration = null;
 
         /**
-         * @Given /^I execute console with "(?<name>[^"]+)", "(?<dest>[^"]+)" and following options:$/
+         * @Given /^I execute composercm with "(?<name>[^"]+)", "(?<dest>[^"]+)" and following options:$/
          */
         public function iExecuteConsoleWithNameDestAndOption($name = null, $dest = null, PyStringNode $options = null)
         {
@@ -38,14 +38,14 @@ namespace {
         }
 
         /**
-         * @Given /^I execute console with "(?<name>[^"]+)" and "(?<dest>[^"]+)"$/
+         * @Given /^I execute composercm with "(?<name>[^"]+)" and "(?<dest>[^"]+)"$/
          */
         public function iExecuteConsoleWithNameAndDest($name, $dest)
         {
             $this->iExecuteConsoleWithNameDestAndOption($name, $dest, null);
         }
         /**
-         * @Given /^I execute console with "(?<name>[^"]+)" and following options:$/
+         * @Given /^I execute composercm with "(?<name>[^"]+)" and following options:$/
          */
         public function iExecuteConsoleWithNameAndOption($name, PyStringNode $options)
         {
@@ -53,7 +53,7 @@ namespace {
         }
 
         /**
-         * @Given /^I execute console with "(?<name>[^"]+)"$/
+         * @Given /^I execute composercm with "(?<name>[^"]+)"$/
          */
         public function iExecuteConsoleWithName($name)
         {
@@ -61,7 +61,7 @@ namespace {
         }
 
         /**
-         * @Given /^I execute console with following options:$/
+         * @Given /^I execute composercm with following options:$/
          */
         public function iExecuteConsoleWitOption(PyStringNode $options)
         {
