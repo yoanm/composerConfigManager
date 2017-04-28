@@ -30,7 +30,7 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <file>src/Infrastructure/Command/WriteConfigurationCommand.php</file> <!-- entry point => tested with behat -->
+                <file>src/Infrastructure/Command/CreateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
                 <file>src/Infrastructure/SfApplication.php</file> <!-- tested thanks to behat tests -->
             </exclude>
         </whitelist>

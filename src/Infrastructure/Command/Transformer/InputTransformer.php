@@ -1,7 +1,6 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
-use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;

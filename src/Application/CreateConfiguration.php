@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application;
 
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
 
-class WriteConfiguration
+class CreateConfiguration
 {
     /** @var ConfigurationWriterInterface */
     private $configurationWriter;
@@ -15,7 +15,7 @@ class WriteConfiguration
     {
         $this->configurationWriter = $configurationWriter;
     }
-    public function run(WriteConfigurationRequest $request)
+    public function run(CreateConfigurationRequest $request)
     {
         $this->configurationWriter->write($request->getConfiguration(), $request->getDestinationFolder());
     }

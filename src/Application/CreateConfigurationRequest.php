@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
-class WriteConfigurationRequest
+class CreateConfigurationRequest
 {
     /** @var string */
     private $destinationFolder;

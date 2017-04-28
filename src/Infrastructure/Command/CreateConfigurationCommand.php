@@ -6,29 +6,29 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yoanm\ComposerConfigManager\Application\WriteConfiguration;
-use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
+use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
-class WriteConfigurationCommand extends Command
+class CreateConfigurationCommand extends Command
 {
-    const NAME = 'configuration:write';
+    const NAME = 'create';
     const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'destination';
 
     /** @var InputTransformer */
     private $inputTransformer;
-    /** @var WriteConfiguration */
-    private $writeConfiguration;
+    /** @var CreateConfiguration */
+    private $createConfiguration;
 
     public function __construct(
         InputTransformer $inputTransformer,
-        WriteConfiguration $writeConfiguration
+        CreateConfiguration $createConfiguration
     ) {
         parent::__construct(self::NAME);
 
         $this->inputTransformer = $inputTransformer;
-        $this->writeConfiguration = $writeConfiguration;
+        $this->createConfiguration = $createConfiguration;
     }
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class WriteConfigurationCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Will create or update a composer configuration file')
+            ->setDescription('Will create a composer configuration file')
             ->addArgument(
                 InputTransformer::KEY_PACKAGE_NAME,
                 InputArgument::REQUIRED,
@@ -161,8 +161,8 @@ class WriteConfigurationCommand extends Command
             ] + $input->getOptions()
         );
 
-        $this->writeConfiguration->run(
-            new WriteConfigurationRequest(
+        $this->createConfiguration->run(
+            new CreateConfigurationRequest(
                 $configuration,
                 $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER)
             )
