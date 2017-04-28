@@ -116,14 +116,12 @@ class ConfigurationUpdater
      */
     protected function mergeEntity($oldEntity, $newEntity)
     {
-        switch (true) {
-            case $newEntity instanceof Author && $oldEntity instanceof Author:
-                return new Author(
-                    $newEntity->getName(),
-                    $newEntity->getEmail() ? $newEntity->getEmail() : $oldEntity->getEmail(),
-                    $newEntity->getRole() ? $newEntity->getRole() : $oldEntity->getRole()
-                );
-                break;
+        if ($newEntity instanceof Author && $oldEntity instanceof Author) {
+            return new Author(
+                $newEntity->getName(),
+                $newEntity->getEmail() ? $newEntity->getEmail() : $oldEntity->getEmail(),
+                $newEntity->getRole() ? $newEntity->getRole() : $oldEntity->getRole()
+            );
         }
 
         return $newEntity;
