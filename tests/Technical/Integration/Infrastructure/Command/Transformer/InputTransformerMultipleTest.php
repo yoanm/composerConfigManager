@@ -1,7 +1,6 @@
 <?php
 namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
-use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
@@ -17,23 +16,17 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $package3Name = 'package3-name';
         $package3Version = 'package3-version';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_PROVIDED_PACKAGE => [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_PROVIDED_PACKAGE => [
                 $package1Name.InputTransformer::SEPARATOR.$package1Version,
                 $package2Name.InputTransformer::SEPARATOR.$package2Version,
                 $package3Name.InputTransformer::SEPARATOR.$package3Version,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertPackageList(
             $configuration->getProvidedPackageList(),
@@ -54,23 +47,17 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $package3Name = 'package3-name';
         $package3Description = 'package3-description';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_SUGGESTED_PACKAGE=> [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_SUGGESTED_PACKAGE=> [
                 $package1Name.InputTransformer::SEPARATOR.$package1Description,
                 $package2Name.InputTransformer::SEPARATOR.$package2Description,
                 $package3Name.InputTransformer::SEPARATOR.$package3Description,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertSuggestedPackageList(
             $configuration->getSuggestedPackageList(),
@@ -91,23 +78,17 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $support3Type = 'support3-name';
         $support3Url = 'support3-url';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_SUPPORT=> [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_SUPPORT=> [
                 $support1Type.InputTransformer::SEPARATOR.$support1Url,
                 $support2Type.InputTransformer::SEPARATOR.$support2Url,
                 $support3Type.InputTransformer::SEPARATOR.$support3Url,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertSupportList(
             $configuration->getSupportList(),
@@ -135,28 +116,22 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $autoload3Psr4Path = 'autoload3-psr4-path';
 
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_AUTOLOAD_PSR0 => [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_AUTOLOAD_PSR0 => [
                 $autoload1Psr0Namespace.InputTransformer::SEPARATOR.$autoload1Psr0Path,
                 $autoload2Psr0Namespace.InputTransformer::SEPARATOR.$autoload2Psr0Path,
                 $autoload3Psr0Namespace.InputTransformer::SEPARATOR.$autoload3Psr0Path,
             ],
-            InputTransformer::OPTION_AUTOLOAD_PSR4 => [
+            InputTransformer::KEY_AUTOLOAD_PSR4 => [
                 $autoload1Psr4Namespace.InputTransformer::SEPARATOR.$autoload1Psr4Path,
                 $autoload2Psr4Namespace.InputTransformer::SEPARATOR.$autoload2Psr4Path,
                 $autoload3Psr4Namespace.InputTransformer::SEPARATOR.$autoload3Psr4Path,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
 
         $this->assertAutoloadList(
@@ -192,28 +167,22 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $autoload3Psr4Path = 'autoload3-psr4-path';
 
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_AUTOLOAD_DEV_PSR0 => [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_AUTOLOAD_DEV_PSR0 => [
                 $autoload1Psr0Namespace.InputTransformer::SEPARATOR.$autoload1Psr0Path,
                 $autoload2Psr0Namespace.InputTransformer::SEPARATOR.$autoload2Psr0Path,
                 $autoload3Psr0Namespace.InputTransformer::SEPARATOR.$autoload3Psr0Path,
             ],
-            InputTransformer::OPTION_AUTOLOAD_DEV_PSR4 => [
+            InputTransformer::KEY_AUTOLOAD_DEV_PSR4 => [
                 $autoload1Psr4Namespace.InputTransformer::SEPARATOR.$autoload1Psr4Path,
                 $autoload2Psr4Namespace.InputTransformer::SEPARATOR.$autoload2Psr4Path,
                 $autoload3Psr4Namespace.InputTransformer::SEPARATOR.$autoload3Psr4Path,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
 
         $this->assertAutoloadList(
@@ -242,23 +211,17 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $package3Name = 'package3-name';
         $package3Version = 'package3-version';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_REQUIRE=> [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_REQUIRE=> [
                 $package1Name.InputTransformer::SEPARATOR.$package1Version,
                 $package2Name.InputTransformer::SEPARATOR.$package2Version,
                 $package3Name.InputTransformer::SEPARATOR.$package3Version,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertPackageList(
             $configuration->getRequiredPackageList(),
@@ -279,23 +242,17 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $package3Name = 'package3-name';
         $package3Version = 'package3-version';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_REQUIRE_DEV=> [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_REQUIRE_DEV=> [
                 $package1Name.InputTransformer::SEPARATOR.$package1Version,
                 $package2Name.InputTransformer::SEPARATOR.$package2Version,
                 $package3Name.InputTransformer::SEPARATOR.$package3Version,
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertPackageList(
             $configuration->getRequiredDevPackageList(),
@@ -317,13 +274,9 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $script3Name = 'script3-name';
         $script3Command = 'script1-command-2';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_SCRIPT => [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_SCRIPT => [
                 $script1Name.InputTransformer::SEPARATOR.$script1Command,
                 $script1Name.InputTransformer::SEPARATOR.$script1Command2,
                 $script2Name.InputTransformer::SEPARATOR.$script2Command,
@@ -331,10 +284,8 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
         $this->assertScriptList(
             $configuration->getScriptList(),

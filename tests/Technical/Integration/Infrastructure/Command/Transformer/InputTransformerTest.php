@@ -35,67 +35,56 @@ class InputTransformerTest extends AbstractInputTransformerTest
         $scriptName = 'script-name';
         $scriptCommand = 'script-command';
 
-        $argumentList = [
-            InputTransformer::ARGUMENT_PACKAGE_NAME => 'package-name',
-            InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER => 'destination',
-        ];
-
-        $optionList = [
-            InputTransformer::OPTION_TYPE => 'type',
-            InputTransformer::OPTION_LICENSE => 'license',
-            InputTransformer::OPTION_PACKAGE_VERSION => 'package-version',
-            InputTransformer::OPTION_DESCRIPTION => 'description',
-            InputTransformer::OPTION_KEYWORD => [$keyword],
-            InputTransformer::OPTION_AUTHOR => [
+        $inputList = [
+            InputTransformer::KEY_PACKAGE_NAME => 'package-name',
+            InputTransformer::KEY_TYPE => 'type',
+            InputTransformer::KEY_LICENSE => 'license',
+            InputTransformer::KEY_PACKAGE_VERSION => 'package-version',
+            InputTransformer::KEY_DESCRIPTION => 'description',
+            InputTransformer::KEY_KEYWORD => [$keyword],
+            InputTransformer::KEY_AUTHOR => [
                 $authorName.InputTransformer::SEPARATOR.$authorEmail.InputTransformer::SEPARATOR.$authorRole
             ],
-            InputTransformer::OPTION_PROVIDED_PACKAGE => [
+            InputTransformer::KEY_PROVIDED_PACKAGE => [
                 $providedPackageName.InputTransformer::SEPARATOR.$providedPackageVersion
             ],
-            InputTransformer::OPTION_SUGGESTED_PACKAGE => [
+            InputTransformer::KEY_SUGGESTED_PACKAGE => [
                 $suggestedPackageName.InputTransformer::SEPARATOR.$suggestedPackageDescription
             ],
-            InputTransformer::OPTION_SUPPORT => [
+            InputTransformer::KEY_SUPPORT => [
                 $supportType.InputTransformer::SEPARATOR.$supportUrl
             ],
-            InputTransformer::OPTION_AUTOLOAD_PSR0 => [
+            InputTransformer::KEY_AUTOLOAD_PSR0 => [
                 $autoloadPsr0Namespace.InputTransformer::SEPARATOR.$autoloadPsr0Path
             ],
-            InputTransformer::OPTION_AUTOLOAD_PSR4 => [
+            InputTransformer::KEY_AUTOLOAD_PSR4 => [
                 $autoloadPsr4Namespace.InputTransformer::SEPARATOR.$autoloadPsr4Path
             ],
-            InputTransformer::OPTION_AUTOLOAD_DEV_PSR0 => [
+            InputTransformer::KEY_AUTOLOAD_DEV_PSR0 => [
                 $autoloadDevPsr0Namespace.InputTransformer::SEPARATOR.$autoloadDevPsr0Path
             ],
-            InputTransformer::OPTION_AUTOLOAD_DEV_PSR4 => [
+            InputTransformer::KEY_AUTOLOAD_DEV_PSR4 => [
                 $autoloadDevPsr4Namespace.InputTransformer::SEPARATOR.$autoloadDevPsr4Path
             ],
-            InputTransformer::OPTION_REQUIRE => [
+            InputTransformer::KEY_REQUIRE => [
                 $requireName.InputTransformer::SEPARATOR.$requireVersion
             ],
-            InputTransformer::OPTION_REQUIRE_DEV => [
+            InputTransformer::KEY_REQUIRE_DEV => [
                 $requireDevName.InputTransformer::SEPARATOR.$requireDevVersion
             ],
-            InputTransformer::OPTION_SCRIPT => [
+            InputTransformer::KEY_SCRIPT => [
                 $scriptName.InputTransformer::SEPARATOR.$scriptCommand
             ],
         ];
 
-        $request = $this->transformer->fromCommandLine($argumentList, $optionList);
+        $configuration = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(WriteConfigurationRequest::class, $request);
-        $this->assertSame(
-            $argumentList[InputTransformer::ARGUMENT_CONFIGURATION_DEST_FOLDER],
-            $request->getDestinationFolder()
-        );
-
-        $configuration = $request->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $configuration);
-        $this->assertSame($argumentList[InputTransformer::ARGUMENT_PACKAGE_NAME], $configuration->getPackageName());
-        $this->assertSame($optionList[InputTransformer::OPTION_TYPE], $configuration->getType());
-        $this->assertSame($optionList[InputTransformer::OPTION_LICENSE], $configuration->getLicense());
-        $this->assertSame($optionList[InputTransformer::OPTION_PACKAGE_VERSION ], $configuration->getPackageVersion());
-        $this->assertSame($optionList[InputTransformer::OPTION_DESCRIPTION], $configuration->getDescription());
+        $this->assertSame($inputList[InputTransformer::KEY_PACKAGE_NAME], $configuration->getPackageName());
+        $this->assertSame($inputList[InputTransformer::KEY_TYPE], $configuration->getType());
+        $this->assertSame($inputList[InputTransformer::KEY_LICENSE], $configuration->getLicense());
+        $this->assertSame($inputList[InputTransformer::KEY_PACKAGE_VERSION ], $configuration->getPackageVersion());
+        $this->assertSame($inputList[InputTransformer::KEY_DESCRIPTION], $configuration->getDescription());
         $this->assertSame([$keyword], $configuration->getKeywordList());
 
         $this->assertAuthorList($configuration->getAuthorList(), [[$authorName, $authorEmail, $authorRole]]);
