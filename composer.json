@@ -1,6 +1,7 @@
 {
   "name": "yoanm/composer-config-manager",
   "type": "library",
+  "description": "command line to manage composer configuration file",
   "license": "MIT",
   "version": "0.0.2",
   "authors": [
@@ -10,7 +11,7 @@
       "role": "Developer"
     }
   ],
-  "bin": ["bin/console"],
+  "bin": ["bin/composercm"],
   "support": {
     "issues": "https://github.com/yoanm/composerConfigManager/issues"
   },

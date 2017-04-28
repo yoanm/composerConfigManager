@@ -9,4 +9,4 @@ default:
   suites:
     default:
       contexts:
-        - ConsoleContext: ~
+        - ComposerCMContext: ~
