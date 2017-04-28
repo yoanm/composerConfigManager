@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class SuggestedPackage implements ConfigurationItem
+class SuggestedPackage implements ConfigurationItemInterface
 {
     /** @var string */
     private $name;

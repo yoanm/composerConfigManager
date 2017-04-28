@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-interface ConfigurationItem
+interface ConfigurationItemInterface
 {
     /**
      * @return string

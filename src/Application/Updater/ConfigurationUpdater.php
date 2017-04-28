@@ -4,7 +4,7 @@ namespace Yoanm\ComposerConfigManager\Application\Updater;
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationItem;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationItemInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
@@ -78,10 +78,10 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param ConfigurationItem[] $newEntityList
-     * @param ConfigurationItem[] $oldEntityList
+     * @param ConfigurationItemInterface[] $newEntityList
+     * @param ConfigurationItemInterface[] $oldEntityList
      *
-     * @return ConfigurationItem[]
+     * @return ConfigurationItemInterface[]
      */
     protected function updateList(array $newEntityList, array $oldEntityList)
     {
@@ -109,10 +109,10 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param ConfigurationItem $oldEntity
-     * @param ConfigurationItem $newEntity
+     * @param ConfigurationItemInterface $oldEntity
+     * @param ConfigurationItemInterface $newEntity
      *
-     * @return ConfigurationItem
+     * @return ConfigurationItemInterface
      */
     protected function mergeEntity($oldEntity, $newEntity)
     {

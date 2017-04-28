@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Autoload implements ConfigurationItem
+class Autoload implements ConfigurationItemInterface
 {
     const TYPE_PSR0 = 'psr-0';
     const TYPE_PSR4 = 'psr-4';

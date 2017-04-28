@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Script implements ConfigurationItem
+class Script implements ConfigurationItemInterface
 {
     /** @var string */
     private $name;
