@@ -17,6 +17,11 @@ Command to manage composer configuration file
 ```bash
 composer global require yoanm/composer-config-manager
 ```
+ Add the following in your `.bashrc` file : 
+```bash
+export PATH=~/.composer/vendor/bin:$PATH 
+```
+
 
 ## How to
 
