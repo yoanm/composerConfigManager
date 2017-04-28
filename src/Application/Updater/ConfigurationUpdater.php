@@ -20,33 +20,33 @@ class ConfigurationUpdater
     public function update(Configuration $baseConfiguration, Configuration $newConfiguration)
     {
         return new Configuration(
-            $this->updateIfDefined($baseConfiguration->getPackageName(), $newConfiguration->getPackageName()),
-            $this->updateIfDefined($baseConfiguration->getType(), $newConfiguration->getType()),
-            $this->updateIfDefined($baseConfiguration->getLicense(), $newConfiguration->getLicense()),
-            $this->updateIfDefined($baseConfiguration->getPackageVersion(), $newConfiguration->getPackageVersion()),
-            $this->updateIfDefined($baseConfiguration->getDescription(), $newConfiguration->getDescription()),
-            $this->mergeValueList($baseConfiguration->getKeywordList(), $newConfiguration->getKeywordList()),
-            $this->updateList($baseConfiguration->getAuthorList(), $newConfiguration->getAuthorList()),
+            $this->updateIfDefined($newConfiguration->getPackageName(), $baseConfiguration->getPackageName()),
+            $this->updateIfDefined($newConfiguration->getType(), $baseConfiguration->getType()),
+            $this->updateIfDefined($newConfiguration->getLicense(), $baseConfiguration->getLicense()),
+            $this->updateIfDefined($newConfiguration->getPackageVersion(), $baseConfiguration->getPackageVersion()),
+            $this->updateIfDefined($newConfiguration->getDescription(), $baseConfiguration->getDescription()),
+            $this->mergeValueList($newConfiguration->getKeywordList(), $baseConfiguration->getKeywordList()),
+            $this->updateList($newConfiguration->getAuthorList(), $baseConfiguration->getAuthorList()),
             $this->updateList(
-                $baseConfiguration->getProvidedPackageList(),
-                $newConfiguration->getProvidedPackageList()
+                $newConfiguration->getProvidedPackageList(),
+                $baseConfiguration->getProvidedPackageList()
             ),
             $this->updateList(
-                $baseConfiguration->getSuggestedPackageList(),
-                $newConfiguration->getSuggestedPackageList()
+                $newConfiguration->getSuggestedPackageList(),
+                $baseConfiguration->getSuggestedPackageList()
             ),
-            $this->updateList($baseConfiguration->getSupportList(), $newConfiguration->getSupportList()),
+            $this->updateList($newConfiguration->getSupportList(), $baseConfiguration->getSupportList()),
+            $this->updateList($newConfiguration->getAutoloadList(), $baseConfiguration->getAutoloadList()),
+            $this->updateList($newConfiguration->getAutoloadDevList(), $baseConfiguration->getAutoloadDevList()),
             $this->updateList(
-                $baseConfiguration->getRequiredDevPackageList(),
-                $newConfiguration->getRequiredDevPackageList()
+                $newConfiguration->getRequiredPackageList(),
+                $baseConfiguration->getRequiredPackageList()
             ),
             $this->updateList(
-                $baseConfiguration->getRequiredDevPackageList(),
-                $newConfiguration->getRequiredDevPackageList()
+                $newConfiguration->getRequiredDevPackageList(),
+                $baseConfiguration->getRequiredDevPackageList()
             ),
-            $this->updateList($baseConfiguration->getAutoloadList(), $newConfiguration->getAutoloadList()),
-            $this->updateList($baseConfiguration->getAutoloadDevList(), $newConfiguration->getAutoloadDevList()),
-            $this->updateList($baseConfiguration->getScriptList(), $newConfiguration->getScriptList())
+            $this->updateScriptList($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
         );
     }
 
@@ -89,7 +89,7 @@ class ConfigurationUpdater
      *
      * @return mixed
      */
-    protected function updateIfDefined($baseValue, $newValue)
+    protected function updateIfDefined($newValue, $baseValue)
     {
         return $newValue ? $newValue : $baseValue;
     }
@@ -100,11 +100,11 @@ class ConfigurationUpdater
      *
      * @return array
      */
-    protected function mergeValueList(array $newList, array $oldList)
+    protected function mergeValueList(array $oldList, array $newList)
     {
         return array_values(
             array_unique(
-                array_merge($oldList, $newList)
+                array_merge($newList, $oldList)
             )
         );
     }
@@ -117,30 +117,99 @@ class ConfigurationUpdater
      */
     protected function updateList(array $newEntityList, array $oldEntityList)
     {
-        $list = [];
-        $mergedEntityIdList = [];
+        $listTmp = [];
         $self = $this;
         foreach ($newEntityList as $newEntity) {
             // Search for an old entry
             $newEntityId = $this->getEntityId($newEntity);
             $oldEntityMatches = array_filter(
                 $oldEntityList,
-                function (Package $oldEntity) use ($newEntityId, $self) {
+                function ($oldEntity) use ($newEntityId, $self) {
+                    return $self->getEntityId($oldEntity) == $newEntityId;
+                }
+            );
+            if (count($oldEntityMatches)) {
+                $oldEntity = array_shift($oldEntityMatches);
+                $newEntity = $this->mergeEntity($oldEntity, $newEntity);
+                $oldEntityList = array_map(
+                    function ($oldEntity) use ($newEntityId, $newEntity, $self) {
+                        return $self->getEntityId($oldEntity) == $newEntityId
+                            ? $newEntity
+                            : $oldEntity
+                        ;
+                    },
+                    $oldEntityList
+                );
+            } else {
+                $listTmp[] = $newEntity;
+            }
+        }
+
+        // Merge remaining entities that have not been already merged
+        $list = [];
+        foreach (array_reverse($oldEntityList, true) as $entity) {
+            array_unshift($list, $entity);
+        }
+
+        return array_merge($list, $listTmp);
+    }
+
+    /**
+     * @param array $newEntityList
+     * @param array $oldEntityList
+     *
+     * @return array
+     */
+    protected function updateScriptList(array $newEntityList, array $oldEntityList)
+    {
+        $mergedEntityIdList = [];
+        $self = $this;
+        $normalizedNewEntityList = [];
+        foreach ($newEntityList as $newEntity) {
+            // Search for an old entry
+            $newEntityId = $this->getEntityId($newEntity);
+            $oldEntityMatches = array_filter(
+                $oldEntityList,
+                function ($oldEntity) use ($newEntityId, $self) {
                     return $self->getEntityId($oldEntity) == $newEntityId;
                 }
             );
             if (count($oldEntityMatches)) {
                 $mergedEntityIdList[$newEntityId] = true;
             }
-            $list[] = $newEntity;
+            $normalizedNewEntityList[] = $newEntity;
         }
         // Merge remaining entities that have not been already merged
-        foreach ($oldEntityList as $entity) {
-            if (!array_key_exists($this->getEntityId($entity), $mergedEntityIdList)) {
-                $list[] = $entity;
+        $normalizedOldEntityList = [];
+        foreach ($oldEntityList as $oldEntity) {
+            if (!array_key_exists($this->getEntityId($oldEntity), $mergedEntityIdList)) {
+                $normalizedOldEntityList[] = $oldEntity;
+            } else {
+                $oldEntityId = $this->getEntityId($oldEntity);
+                foreach ($normalizedNewEntityList as $newEntityKey => $newEntity) {
+                    if ($self->getEntityId($newEntity) == $oldEntityId) {
+                        $normalizedOldEntityList[] = $newEntity;
+                        unset($normalizedNewEntityList[$newEntityKey]);
+                    }
+                }
             }
         }
 
-        return $list;
+        return array_merge($normalizedOldEntityList, $normalizedNewEntityList);
+    }
+
+    protected function mergeEntity($oldEntity, $newEntity)
+    {
+        switch (true) {
+            case $newEntity instanceof Author && $oldEntity instanceof Author:
+                return new Author(
+                    $newEntity->getName(),
+                    $newEntity->getEmail() ? $newEntity->getEmail() : $oldEntity->getEmail(),
+                    $newEntity->getRole() ? $newEntity->getRole() : $oldEntity->getRole()
+                );
+                break;
+        }
+
+        return $newEntity;
     }
 }

@@ -39,7 +39,7 @@ class ComposerEncoder implements EncoderInterface, DecoderInterface
      */
     public function decode($data, $format, array $context = array())
     {
-        $this->appComposerEncoder->decode($data);
+        return $this->appComposerEncoder->decode($data);
     }
 
     /**

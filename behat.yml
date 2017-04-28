@@ -9,4 +9,6 @@ default:
   suites:
     default:
       contexts:
-        - ComposerCMContext: ~
+        - DefaultContext: ~
+        - CreateContext: ~
+        - UpdateContext: ~

@@ -16,14 +16,14 @@ class ConfigurationNormalizer implements NormalizerInterface, DenormalizerInterf
 
     /**
      * @param AppConfigNormalizer $appConfigurationNormalizer
-     * @param AppConfigDenormalizer $appConfigDenormalizer
+     * @param AppConfigDenormalizer $appConfigurationDenormalizer
      */
     public function __construct(
         AppConfigNormalizer $appConfigurationNormalizer,
-        AppConfigDenormalizer $appConfigDenormalizer
+        AppConfigDenormalizer $appConfigurationDenormalizer
     ) {
         $this->appConfigurationNormalizer = $appConfigurationNormalizer;
-        $this->appConfigDenormalizer = $appConfigDenormalizer;
+        $this->appConfigurationDenormalizer = $appConfigurationDenormalizer;
     }
 
     /**

@@ -44,7 +44,6 @@ class ConfigurationDenormalizer implements DenormalizerInterface
      */
     public function denormalize(array $configuration)
     {
-
         return new Configuration(
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_NAME),
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_TYPE),
@@ -61,17 +60,23 @@ class ConfigurationDenormalizer implements DenormalizerInterface
             $this->getNormalizedOrDefault(
                 $this->packageListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_SUGGEST,
+                ConfigurationNormalizer::KEY_PROVIDE,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->suggestedPackageListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_SUPPORT,
+                ConfigurationNormalizer::KEY_SUGGEST,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->supportListNormalizer,
+                $configuration,
+                ConfigurationNormalizer::KEY_SUPPORT,
+                []
+            ),
+            $this->getNormalizedOrDefault(
+                $this->autoloadListNormalizer,
                 $configuration,
                 ConfigurationNormalizer::KEY_AUTOLOAD,
                 []
@@ -83,7 +88,7 @@ class ConfigurationDenormalizer implements DenormalizerInterface
                 []
             ),
             $this->getNormalizedOrDefault(
-                $this->autoloadListNormalizer,
+                $this->packageListNormalizer,
                 $configuration,
                 ConfigurationNormalizer::KEY_REQUIRE,
                 []

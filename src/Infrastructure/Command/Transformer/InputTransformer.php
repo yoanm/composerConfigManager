@@ -51,9 +51,9 @@ class InputTransformer
     {
         return new Configuration(
             $inputList[self::KEY_PACKAGE_NAME],
-            $this->getValue($inputList, self::KEY_TYPE, Configuration::DEFAULT_TYPE),
-            $this->getValue($inputList, self::KEY_LICENSE, Configuration::DEFAULT_LICENSE),
-            $this->getValue($inputList, self::KEY_PACKAGE_VERSION, Configuration::DEFAULT_VERSION),
+            $this->getValue($inputList, self::KEY_TYPE, null),
+            $this->getValue($inputList, self::KEY_LICENSE, null),
+            $this->getValue($inputList, self::KEY_PACKAGE_VERSION, null),
             $this->getValue($inputList, self::KEY_DESCRIPTION, null),
             $this->extractKeywords($inputList),
             $this->extractAuthors($inputList),
@@ -188,11 +188,11 @@ class InputTransformer
         $list = [];
         // PSR0
         foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_PSR0) as $namespace => $path) {
-            $list[] = new Autoload(Autoload::TYPE_PSR0, $namespace, $path);
+            $list[] = new Autoload(Autoload::TYPE_PSR0, $path, $namespace);
         }
         // PSR-4
         foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_PSR4) as $namespace => $path) {
-            $list[] = new Autoload(Autoload::TYPE_PSR4, $namespace, $path);
+            $list[] = new Autoload(Autoload::TYPE_PSR4, $path, $namespace);
         }
 
 
@@ -209,11 +209,11 @@ class InputTransformer
         $list = [];
         // PSR0
         foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_DEV_PSR0) as $namespace => $path) {
-            $list[] = new Autoload(Autoload::TYPE_PSR0, $namespace, $path);
+            $list[] = new Autoload(Autoload::TYPE_PSR0, $path, $namespace);
         }
         // PSR-4
         foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_DEV_PSR4) as $namespace => $path) {
-            $list[] = new Autoload(Autoload::TYPE_PSR4, $namespace, $path);
+            $list[] = new Autoload(Autoload::TYPE_PSR4, $path, $namespace);
         }
 
         return $list;
@@ -286,16 +286,15 @@ class InputTransformer
      * @param array  $inputList
      * @param string $optionKey
      *
-     * @return AutoloadEntry[]
+     * @return array
      */
     protected function extractAutoloadList(array $inputList, $optionKey)
     {
-        /** @var AutoloadEntry[] $list */
         $list = [];
         if (isset($inputList[$optionKey]) && is_array($inputList[$optionKey])) {
             foreach ($inputList[$optionKey] as $rawValue) {
                 list ($namespace, $path) = $this->extractDataFromValue($rawValue);
-                $list[] = new AutoloadEntry($namespace, $path);
+                $list[$namespace] = $path;
             }
         }
 

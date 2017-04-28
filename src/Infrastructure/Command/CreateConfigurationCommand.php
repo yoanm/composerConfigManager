@@ -109,19 +109,25 @@ class CreateConfigurationCommand extends Command
                 InputTransformer::KEY_AUTOLOAD_PSR0,
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'List of autoload. Ex : "namespace#path"'
+                'List of PSR-0 autoload. Ex : "namespace#path"'
+            )
+            ->addOption(
+                InputTransformer::KEY_AUTOLOAD_PSR4,
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'List of PSR-4 autoload. Ex : "namespace#path"'
             )
             ->addOption(
                 InputTransformer::KEY_AUTOLOAD_DEV_PSR0,
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'List of packages PSR-0 dev autoload. Ex : "namespace#path"'
+                'List of PSR-0 dev autoload. Ex : "namespace#path"'
             )
             ->addOption(
                 InputTransformer::KEY_AUTOLOAD_DEV_PSR4,
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'List of package PSR-4 dev autoload. Ex : "namespace#path"'
+                'List of PSR-4 dev autoload. Ex : "namespace#path"'
             )
             ->addOption(
                 InputTransformer::KEY_REQUIRE,

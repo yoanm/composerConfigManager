@@ -30,9 +30,11 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
     {
         /** @var SplFileInfo|null $file */
         $file = null;
-        $finder = $this->finder->files()
+        $finder = $this->finder
             ->in($path)
-            ->name(ConfigurationWriter::FILENAME);
+            ->files()
+            ->name(ConfigurationWriter::FILENAME)
+            ->depth(0);
 
         foreach ($finder as $match) {
             $file = $match;

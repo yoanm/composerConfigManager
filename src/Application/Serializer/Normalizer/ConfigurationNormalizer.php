@@ -19,7 +19,7 @@ class ConfigurationNormalizer
     const KEY_REQUIRE_DEV = 'require-dev';
     const KEY_AUTOLOAD = 'autoload';
     const KEY_AUTOLOAD_DEV = 'autoload-dev';
-    const KEY_SCRIPT = 'script';
+    const KEY_SCRIPT = 'scripts';
 
     /** @var AuthorListNormalizer */
     private $authorListNormalizer;
