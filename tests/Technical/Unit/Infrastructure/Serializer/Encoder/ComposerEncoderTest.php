@@ -1,9 +1,9 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Encoder;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Encoder\ComposerEncoder as AppComposerEncoder;
-use Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Encoder\ComposerEncoder;
+use Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder as AppComposerEncoder;
+use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder;
 
 class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
 {

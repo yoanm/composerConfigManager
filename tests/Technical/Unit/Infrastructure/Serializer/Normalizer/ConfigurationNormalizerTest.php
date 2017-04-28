@@ -1,10 +1,10 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Normalizer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
-use Yoanm\InitRepositoryWithComposer\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer;
 
 class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
 {

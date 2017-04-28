@@ -1,5 +1,5 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Domain\Model;
+namespace Yoanm\ComposerConfigManager\Domain\Model;
 
 class Author
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Technical\Unit\Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\InitRepositoryWithComposer\Application\Serializer\Normalizer\ScriptListNormalizer;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Script;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ScriptListNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\Script;
 
 class ScriptListNormalizerTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,10 +1,10 @@
 <?php
-namespace Technical\Integration\Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer;
+namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
-use Yoanm\InitRepositoryWithComposer\Application\WriteConfigurationRequest;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Autoload;
-use Yoanm\InitRepositoryWithComposer\Domain\Model\Configuration;
-use Yoanm\InitRepositoryWithComposer\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
+use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
 class InputTransformerMultipleTest extends AbstractInputTransformerTest
 {

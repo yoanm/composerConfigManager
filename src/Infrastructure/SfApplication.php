@@ -1,5 +1,5 @@
 <?php
-namespace Yoanm\InitRepositoryWithComposer\Infrastructure;
+namespace Yoanm\ComposerConfigManager\Infrastructure;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
