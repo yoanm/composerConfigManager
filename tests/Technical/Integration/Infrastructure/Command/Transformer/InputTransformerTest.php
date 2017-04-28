@@ -106,15 +106,15 @@ class InputTransformerTest extends AbstractInputTransformerTest
         $this->assertAutoloadList(
             $configuration->getAutoloadList(),
             [
-                Autoload::TYPE_PSR0 => [[$autoloadPsr0Namespace, $autoloadPsr0Path]],
-                Autoload::TYPE_PSR4 => [[$autoloadPsr4Namespace, $autoloadPsr4Path]],
+                [Autoload::TYPE_PSR0, $autoloadPsr0Namespace, $autoloadPsr0Path],
+                [Autoload::TYPE_PSR4, $autoloadPsr4Namespace, $autoloadPsr4Path],
             ]
         );
         $this->assertAutoloadList(
             $configuration->getAutoloadDevList(),
             [
-                Autoload::TYPE_PSR0 => [[$autoloadDevPsr0Namespace, $autoloadDevPsr0Path]],
-                Autoload::TYPE_PSR4 => [[$autoloadDevPsr4Namespace, $autoloadDevPsr4Path]],
+                [Autoload::TYPE_PSR0, $autoloadDevPsr0Namespace, $autoloadDevPsr0Path],
+                [Autoload::TYPE_PSR4, $autoloadDevPsr4Namespace, $autoloadDevPsr4Path],
             ]
         );
 

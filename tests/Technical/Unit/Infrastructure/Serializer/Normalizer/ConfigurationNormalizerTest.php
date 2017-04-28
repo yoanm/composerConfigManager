@@ -3,6 +3,7 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Serializer\N
 
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer as AppConfigDenormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer;
 
@@ -10,6 +11,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AppConfigNormalizer|ObjectProphecy */
     private $appConfigurationNormalizer;
+    /** @var AppConfigDenormalizer|ObjectProphecy */
+    private $appConfigurationDenormalizer;
     /** @var ConfigurationNormalizer */
     private $normalizer;
 
@@ -19,8 +22,10 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->appConfigurationNormalizer = $this->prophesize(AppConfigNormalizer::class);
+        $this->appConfigurationDenormalizer = $this->prophesize(AppConfigDenormalizer::class);
         $this->normalizer = new ConfigurationNormalizer(
-            $this->appConfigurationNormalizer->reveal()
+            $this->appConfigurationNormalizer->reveal(),
+            $this->appConfigurationDenormalizer->reveal()
         );
     }
 

@@ -95,17 +95,15 @@ abstract class AbstractInputTransformerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(count($expectedList), $autoloadList, 'Unexpected Autoload count');
         $this->assertContainsOnlyInstancesOf(Autoload::class, $autoloadList, 'AutoloadList contains invalid instance');
 
-        foreach ($expectedList as $expectedType => $expectedEntryList) {
-            /** @var Autoload $current */
-            $current = array_shift($autoloadList);
-            $this->assertContainsOnlyInstancesOf(AutoloadEntry::class, $current->getEntryList());
-            $this->assertSame($expectedType, $current->getType());
-            $entryList = $current->getEntryList();
-            $this->assertCount(count($expectedEntryList), $entryList);
-            foreach ($entryList as $key => $entry) {
-                $this->assertSame($expectedEntryList[$key][0], $entry->getNamespace());
-                $this->assertSame($expectedEntryList[$key][1], $entry->getPath());
+        $counter = 0;
+        foreach ($autoloadList as $key => $curent) {
+            if (isset($expectedList[$counter]) && is_array($expectedList[$counter])) {
+                $expected = $expectedList[$counter];
+                $this->assertSame($expected[0], $curent->getType());
+                $this->assertSame($expected[1], $curent->getNamespace());
+                $this->assertSame($expected[2], $curent->getPath());
             }
+            $counter++;
         }
     }
 

@@ -137,16 +137,12 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $this->assertAutoloadList(
             $configuration->getAutoloadList(),
             [
-                Autoload::TYPE_PSR0 => [
-                    [$autoload1Psr0Namespace, $autoload1Psr0Path],
-                    [$autoload2Psr0Namespace, $autoload2Psr0Path],
-                    [$autoload3Psr0Namespace, $autoload3Psr0Path],
-                ],
-                Autoload::TYPE_PSR4 => [
-                    [$autoload1Psr4Namespace, $autoload1Psr4Path],
-                    [$autoload2Psr4Namespace, $autoload2Psr4Path],
-                    [$autoload3Psr4Namespace, $autoload3Psr4Path],
-                ],
+                [Autoload::TYPE_PSR0, $autoload1Psr0Namespace, $autoload1Psr0Path],
+                [Autoload::TYPE_PSR0, $autoload2Psr0Namespace, $autoload2Psr0Path],
+                [Autoload::TYPE_PSR0, $autoload3Psr0Namespace, $autoload3Psr0Path],
+                [Autoload::TYPE_PSR4, $autoload1Psr4Namespace, $autoload1Psr4Path],
+                [Autoload::TYPE_PSR4, $autoload2Psr4Namespace, $autoload2Psr4Path],
+                [Autoload::TYPE_PSR4, $autoload3Psr4Namespace, $autoload3Psr4Path],
             ]
         );
     }
@@ -188,16 +184,12 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
         $this->assertAutoloadList(
             $configuration->getAutoloadDevList(),
             [
-                Autoload::TYPE_PSR0 => [
-                    [$autoload1Psr0Namespace, $autoload1Psr0Path],
-                    [$autoload2Psr0Namespace, $autoload2Psr0Path],
-                    [$autoload3Psr0Namespace, $autoload3Psr0Path],
-                ],
-                Autoload::TYPE_PSR4 => [
-                    [$autoload1Psr4Namespace, $autoload1Psr4Path],
-                    [$autoload2Psr4Namespace, $autoload2Psr4Path],
-                    [$autoload3Psr4Namespace, $autoload3Psr4Path],
-                ],
+                [Autoload::TYPE_PSR0, $autoload1Psr0Namespace, $autoload1Psr0Path],
+                [Autoload::TYPE_PSR0, $autoload2Psr0Namespace, $autoload2Psr0Path],
+                [Autoload::TYPE_PSR0, $autoload3Psr0Namespace, $autoload3Psr0Path],
+                [Autoload::TYPE_PSR4, $autoload1Psr4Namespace, $autoload1Psr4Path],
+                [Autoload::TYPE_PSR4, $autoload2Psr4Namespace, $autoload2Psr4Path],
+                [Autoload::TYPE_PSR4, $autoload3Psr4Namespace, $autoload3Psr4Path],
             ]
         );
     }
