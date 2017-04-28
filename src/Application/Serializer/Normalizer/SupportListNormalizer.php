@@ -12,11 +12,26 @@ class SupportListNormalizer
      */
     public function normalize(array $supportList)
     {
-        $normalizeList = [];
+        $normalizedList = [];
         foreach ($supportList as $support) {
-            $normalizeList[$support->getType()] = $support->getUrl();
+            $normalizedList[$support->getType()] = $support->getUrl();
         }
 
-        return $normalizeList;
+        return $normalizedList;
+    }
+
+    /**
+     * @param array $supportList
+     *
+     * @return Support[]
+     */
+    public function denormalize(array $supportList)
+    {
+        $denormalizedList = [];
+        foreach ($supportList as $supportType => $supportUrl) {
+            $denormalizedList[] = new Support($supportType, $supportUrl);
+        }
+
+        return $denormalizedList;
     }
 }

@@ -5,8 +5,6 @@ use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 interface ConfigurationWriterInterface
 {
-    const FILENAME = 'composer.json';
-
     /**
      * @param Configuration $configuration
      * @param string        $destinationPath

@@ -6,29 +6,33 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
-use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\UpdateConfiguration;
+use Yoanm\ComposerConfigManager\Application\UpdateConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
-class CreateConfigurationCommand extends Command
+class UpdateConfigurationCommand extends Command
 {
-    const NAME = 'create';
-    const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'destination';
+    const NAME = 'update';
+    const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'path';
 
     /** @var InputTransformer */
     private $inputTransformer;
-    /** @var CreateConfiguration */
-    private $createConfiguration;
+    /** @var UpdateConfiguration */
+    private $updateConfiguration;
+    /** @var ConfigurationLoaderInterface */
+    private $configurationLoader;
 
     public function __construct(
         InputTransformer $inputTransformer,
-        CreateConfiguration $createConfiguration
+        UpdateConfiguration $updateConfiguration,
+        ConfigurationLoaderInterface $configurationLoader
     ) {
         parent::__construct(self::NAME);
 
         $this->inputTransformer = $inputTransformer;
-        $this->createConfiguration = $createConfiguration;
+        $this->updateConfiguration = $updateConfiguration;
+        $this->configurationLoader = $configurationLoader;
     }
     /**
      * {@inheritdoc}
@@ -36,38 +40,42 @@ class CreateConfigurationCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Will create a composer configuration file')
-            ->addArgument(
-                InputTransformer::KEY_PACKAGE_NAME,
-                InputArgument::REQUIRED,
-                'Name for the composer package'
+            ->setDescription('Will update a composer configuration file.')
+            ->setHelp(<<<DESC
+ - <info>keywords</info> will be appended to existing ones
+ - <info>other plain values</info> (package name, version, ...) will replace old ones if they are already present, else they will be added
+ - <info>nested values</info> (authors, autoload, script, ...) will replace old ones if they are already present, else they will be appended
+DESC
             )
             ->addArgument(
                 self::ARGUMENT_CONFIGURATION_DEST_FOLDER,
                 InputArgument::OPTIONAL,
-                'Configuration file destination folder',
+                'Existing onfiguration file path',
                 '.'
+            )
+            ->addOption(
+                InputTransformer::KEY_PACKAGE_NAME,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Name for the composer package'
             )
             ->addOption(
                 InputTransformer::KEY_TYPE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Package type. Ex : "library" / "project"',
-                Configuration::DEFAULT_TYPE
+                'Package type. Ex : "library" / "project"'
             )
             ->addOption(
                 InputTransformer::KEY_LICENSE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Package license type',
-                Configuration::DEFAULT_LICENSE
+                'Package license type'
             )
             ->addOption(
                 InputTransformer::KEY_PACKAGE_VERSION,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Package version number. Ex : "X.Y.Z"',
-                Configuration::DEFAULT_VERSION
+                'Package version number. Ex : "X.Y.Z"'
             )
             ->addOption(
                 InputTransformer::KEY_DESCRIPTION,
@@ -109,7 +117,13 @@ class CreateConfigurationCommand extends Command
                 InputTransformer::KEY_AUTOLOAD_PSR0,
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'List of autoload. Ex : "namespace#path"'
+                'List of package PSR-0 autoload. Ex : "namespace#path"'
+            )
+            ->addOption(
+                InputTransformer::KEY_AUTOLOAD_PSR4,
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'List of package PSR-4 autoload. Ex : "namespace#path"'
             )
             ->addOption(
                 InputTransformer::KEY_AUTOLOAD_DEV_PSR0,
@@ -149,16 +163,15 @@ class CreateConfigurationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configuration = $this->inputTransformer->fromCommandLine(
-            [
-                InputTransformer::KEY_PACKAGE_NAME =>$input->getArgument(InputTransformer::KEY_PACKAGE_NAME)
-            ] + $input->getOptions()
-        );
+        $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
+        $newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions());
+        $baseConfiguration = $this->configurationLoader->fromPath($path);
 
-        $this->createConfiguration->run(
-            new CreateConfigurationRequest(
-                $configuration,
-                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER)
+        $this->updateConfiguration->run(
+            new UpdateConfigurationRequest(
+                $baseConfiguration,
+                $newConfiguration,
+                $path
             )
         );
     }

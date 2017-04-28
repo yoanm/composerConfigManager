@@ -6,8 +6,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
-class DefaultWriter implements ConfigurationWriterInterface
+class ConfigurationWriter implements ConfigurationWriterInterface
 {
+    const FILENAME = 'composer.json';
+
     /** @var SerializerInterface */
     private $serializer;
     /** @var Filesystem */

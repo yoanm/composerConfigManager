@@ -5,6 +5,11 @@ use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
 class ComposerEncoder
 {
+    /**
+     * @param mixed $data
+     *
+     * @return string
+     */
     public function encode($data)
     {
         $encodedJson = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
@@ -16,5 +21,21 @@ class ComposerEncoder
         }
 
         return $encodedJson;
+    }
+
+    /**
+     * @param string $data
+     *
+     * @return mixed
+     */
+    public function decode($data)
+    {
+        $decoded = json_decode($data, true);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new UnexpectedValueException(json_last_error_msg());
+        }
+
+        return $decoded;
     }
 }

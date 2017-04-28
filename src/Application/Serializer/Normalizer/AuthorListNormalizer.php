@@ -8,6 +8,7 @@ class AuthorListNormalizer
     const KEY_NAME = 'name';
     const KEY_EMAIL = 'email';
     const KEY_ROLE = 'role';
+
     /**
      * @param Author[] $authorList
      *
@@ -15,7 +16,7 @@ class AuthorListNormalizer
      */
     public function normalize(array $authorList)
     {
-        $normalizeList = [];
+        $normalizedList = [];
         foreach ($authorList as $author) {
             $normalizedAuthor = [self::KEY_NAME => $author->getName()];
             if ($author->getEmail()) {
@@ -24,9 +25,28 @@ class AuthorListNormalizer
             if ($author->getRole()) {
                 $normalizedAuthor[self::KEY_ROLE] = $author->getRole();
             }
-            $normalizeList[] = $normalizedAuthor;
+            $normalizedList[] = $normalizedAuthor;
         }
 
-        return $normalizeList;
+        return $normalizedList;
+    }
+
+    /**
+     * @param array $authorList
+     *
+     * @return Author[]
+     */
+    public function denormalize(array $authorList)
+    {
+        $normalizedList = [];
+        foreach ($authorList as $authorData) {
+            $normalizedList[] = new Author(
+                $authorData[self::KEY_NAME],
+                $authorData[self::KEY_EMAIL] ? $authorData[self::KEY_EMAIL] : null,
+                $authorData[self::KEY_ROLE] ? $authorData[self::KEY_ROLE] : null
+            );
+        }
+
+        return $normalizedList;
     }
 }

@@ -12,11 +12,28 @@ class ScriptListNormalizer
      */
     public function normalize(array $scriptList)
     {
-        $normalizeList = [];
+        $normalizedList = [];
         foreach ($scriptList as $script) {
-            $normalizeList[$script->getName()][] = $script->getCommand();
+            $normalizedList[$script->getName()][] = $script->getCommand();
         }
 
-        return $normalizeList;
+        return $normalizedList;
+    }
+
+    /**
+     * @param array $scriptList
+     *
+     * @return Script[]
+     */
+    public function denormalize(array $scriptList)
+    {
+        $denormalizedList = [];
+        foreach ($scriptList as $scriptName => $scriptCommandList) {
+            foreach ($scriptCommandList as $scriptCommand) {
+                $denormalizedList[] = new Script($scriptName, $scriptCommand);
+            }
+        }
+
+        return $denormalizedList;
     }
 }

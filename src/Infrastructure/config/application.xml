@@ -4,11 +4,25 @@
     <services>
 
         <service id="composer_config_manager.app.create_configuration" class="Yoanm\ComposerConfigManager\Application\CreateConfiguration">
-            <argument type="service" id="composer_config_manager.infra.writer.default" />
+            <argument type="service" id="composer_config_manager.infra.writer.configuration" />
         </service>
+        <service id="composer_config_manager.app.update_configuration" class="Yoanm\ComposerConfigManager\Application\UpdateConfiguration">
+            <argument type="service" id="composer_config_manager.infra.writer.configuration" />
+            <argument type="service" id="composer_config_manager.app.updater.configuration" />
+        </service>
+        <service id="composer_config_manager.app.updater.configuration" class="Yoanm\ComposerConfigManager\Application\Updater\ConfigurationUpdater" />
 
         <!-- Normalizers -->
         <service id="composer_config_manager.app.serializer.normalizer.configuration" class="Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer">
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.author" />
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.package" />
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.suggested_package" />
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.support" />
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.autoload" />
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.script" />
+        </service>
+
+        <service id="composer_config_manager.app.serializer.denormalizer.configuration" class="Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer">
             <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.author" />
             <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.package" />
             <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration.suggested_package" />

@@ -12,15 +12,28 @@ class AutoloadListNormalizer
      */
     public function normalize(array $autoloadList)
     {
-        $normalizeList = [];
+        $normalizedList = [];
         foreach ($autoloadList as $autoload) {
-            if (count($autoload->getEntryList())) {
-                foreach ($autoload->getEntryList() as $entry) {
-                    $normalizeList[$autoload->getType()][$entry->getNamespace()] = $entry->getPath();
-                }
+            $normalizedList[$autoload->getType()][$autoload->getNamespace()] = $autoload->getPath();
+        }
+
+        return $normalizedList;
+    }
+
+    /**
+     * @param array $autoloadList
+     *
+     * @return Autoload[]
+     */
+    public function denormalize(array $autoloadList)
+    {
+        $denormalizedList = [];
+        foreach ($autoloadList as $autoloadType => $entryList) {
+            foreach ($entryList as $namespace => $path) {
+                $denormalizedList[] = new Autoload($autoloadType, $namespace, $path);
             }
         }
 
-        return $normalizeList;
+        return $denormalizedList;
     }
 }

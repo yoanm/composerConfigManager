@@ -52,12 +52,26 @@ class ConfigurationNormalizer
 
     public function normalize(Configuration $configuration)
     {
-        $normalizedConfiguration = [
-            self::KEY_NAME => $configuration->getPackageName(),
-            self::KEY_TYPE =>$configuration->getType(),
-            self::KEY_LICENSE => $configuration->getLicense()
-        ];
+        $normalizedConfiguration = [];
 
+        // name
+        $normalizedConfiguration = $this->appendIfDefined(
+            $normalizedConfiguration,
+            $configuration->getPackageName(),
+            self::KEY_NAME
+        );
+        // type
+        $normalizedConfiguration = $this->appendIfDefined(
+            $normalizedConfiguration,
+            $configuration->getType(),
+            self::KEY_TYPE
+        );
+        // license
+        $normalizedConfiguration = $this->appendIfDefined(
+            $normalizedConfiguration,
+            $configuration->getLicense(),
+            self::KEY_LICENSE
+        );
         // package version
         $normalizedConfiguration = $this->appendIfDefined(
             $normalizedConfiguration,
