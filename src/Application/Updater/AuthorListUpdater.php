@@ -26,11 +26,7 @@ class AuthorListUpdater
                 $oldEntityId = $oldEntity->getItemId();
                 foreach ($newEntityList as $newEntityKey => $newEntity) {
                     if ($newEntity->getItemId() == $oldEntityId) {
-                        $normalizedOldEntityList[] = new Author(
-                            $newEntity->getName(),
-                            $newEntity->getEmail() ? $newEntity->getEmail() : $oldEntity->getEmail(),
-                            $newEntity->getRole() ? $newEntity->getRole() : $oldEntity->getRole()
-                        );
+                        $normalizedOldEntityList[] = $this->mergeAuthor($newEntity, $oldEntity);
                         unset($newEntityList[$newEntityKey]);
                     }
                 }
@@ -38,5 +34,19 @@ class AuthorListUpdater
         }
 
         return array_merge($normalizedOldEntityList, $newEntityList);
+    }
+
+    /**
+     * @param Author $newEntity
+     * @param Author $oldEntity
+     * @return Author
+     */
+    protected function mergeAuthor(Author $newEntity, Author $oldEntity)
+    {
+        return new Author(
+            $newEntity->getName(),
+            $newEntity->getEmail() ? $newEntity->getEmail() : $oldEntity->getEmail(),
+            $newEntity->getRole() ? $newEntity->getRole() : $oldEntity->getRole()
+        );
     }
 }

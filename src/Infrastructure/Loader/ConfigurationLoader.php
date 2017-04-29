@@ -36,9 +36,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
             ->name(ConfigurationWriter::FILENAME)
             ->depth(0);
 
-        foreach ($finder as $match) {
-            $file = $match;
-        }
+        $file = $finder->getIterator()->current();
 
         if (null === $file) {
             throw new FileNotFoundException(
