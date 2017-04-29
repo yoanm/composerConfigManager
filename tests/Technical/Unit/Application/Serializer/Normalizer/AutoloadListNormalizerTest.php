@@ -23,7 +23,6 @@ class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         $list = [];
         $type = 'type';
-        $entryList = [];
         $namespace = 'namespace';
         $path = 'path';
         $namespace2 = 'namespace2';
@@ -31,33 +30,28 @@ class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
 
         /** @var Autoload|ObjectProphecy $autoload */
         $autoload = $this->prophesize(Autoload::class);
-        /** @var AutoloadEntry|ObjectProphecy $entry */
-        $entry = $this->prophesize(AutoloadEntry::class);
-        /** @var AutoloadEntry|ObjectProphecy $entry2 */
-        $entry2 = $this->prophesize(AutoloadEntry::class);
+        /** @var Autoload|ObjectProphecy $autoload2 */
+        $autoload2 = $this->prophesize(Autoload::class);
 
         $list[] = $autoload->reveal();
-        $entryList[] = $entry->reveal();
-        $entryList[] = $entry2->reveal();
+        $list[] = $autoload2->reveal();
 
         $autoload->getType()
             ->willReturn($type)
             ->shouldBeCalled();
-
-        $autoload->getEntryList()
-            ->willReturn($entryList)
-            ->shouldBeCalled();
-
-        $entry->getNamespace()
+        $autoload->getNamespace()
             ->willReturn($namespace)
             ->shouldBeCalled();
-        $entry->getPath()
+        $autoload->getPath()
             ->willReturn($path)
             ->shouldBeCalled();
-        $entry2->getNamespace()
+        $autoload2->getType()
+            ->willReturn($type)
+            ->shouldBeCalled();
+        $autoload2->getNamespace()
             ->willReturn($namespace2)
             ->shouldBeCalled();
-        $entry2->getPath()
+        $autoload2->getPath()
             ->willReturn($path2)
             ->shouldBeCalled();
 
@@ -74,52 +68,33 @@ class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testNormalizeSkipAutoloadWithEmptyEntryList()
+    public function testDenormalize()
     {
-        $list = [];
         $type = 'type';
-        $entryList = [];
         $namespace = 'namespace';
         $path = 'path';
-
-        /** @var Autoload|ObjectProphecy $autoload */
-        $autoload = $this->prophesize(Autoload::class);
-        /** @var Autoload|ObjectProphecy $autoload2 */
-        $autoload2 = $this->prophesize(Autoload::class);
-        /** @var AutoloadEntry|ObjectProphecy $entry */
-        $entry = $this->prophesize(AutoloadEntry::class);
-
-        $list[] = $autoload->reveal();
-        $list[] = $autoload2->reveal();
-        $entryList[] = $entry->reveal();
-
-        $autoload->getType()
-            ->willReturn($type)
-            ->shouldBeCalled();
-        $autoload->getEntryList()
-            ->willReturn($entryList)
-            ->shouldBeCalled();
-
-        $entry->getNamespace()
-            ->willReturn($namespace)
-            ->shouldBeCalled();
-        $entry->getPath()
-            ->willReturn($path)
-            ->shouldBeCalled();
-
-        $autoload2->getEntryList()
-            ->willReturn([])
-            ->shouldBeCalled();
-
-        $expected = [
+        $namespace2 = 'namespace2';
+        $path2 = 'path2';
+        $list = [
             $type => [
                 $namespace => $path,
-            ]
+                $namespace2 => $path2,
+            ],
         ];
 
-        $this->assertSame(
-            $expected,
-            $this->normalizer->normalize($list)
-        );
+        $denormalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Autoload::class, $denormalizedList);
+        $this->assertCount(2, $denormalizedList);
+
+        $autoload = array_shift($denormalizedList);
+        $this->assertSame($type, $autoload->getType());
+        $this->assertSame($namespace, $autoload->getNamespace());
+        $this->assertSame($path, $autoload->getPath());
+
+        $autoload = array_shift($denormalizedList);
+        $this->assertSame($type, $autoload->getType());
+        $this->assertSame($namespace2, $autoload->getNamespace());
+        $this->assertSame($path2, $autoload->getPath());
     }
 }

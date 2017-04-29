@@ -3,7 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 
-class PackageListNormalizer
+class PackageListNormalizer implements DenormalizerInterface
 {
     /**
      * @param Package[] $packageList
@@ -12,11 +12,26 @@ class PackageListNormalizer
      */
     public function normalize(array $packageList)
     {
-        $normalizeList = [];
+        $normalizedList = [];
         foreach ($packageList as $package) {
-            $normalizeList[$package->getName()] = $package->getVersionConstraint();
+            $normalizedList[$package->getName()] = $package->getVersionConstraint();
         }
 
-        return $normalizeList;
+        return $normalizedList;
+    }
+
+    /**
+     * @param array $packageList
+     *
+     * @return Package[]
+     */
+    public function denormalize(array $packageList)
+    {
+        $normalizedList = [];
+        foreach ($packageList as $packageName => $packageVersion) {
+            $normalizedList[] = new Package($packageName, $packageVersion);
+        }
+
+        return $normalizedList;
     }
 }

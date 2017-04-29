@@ -1,24 +1,28 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Autoload
+class Autoload implements ConfigurationItemInterface
 {
     const TYPE_PSR0 = 'psr-0';
     const TYPE_PSR4 = 'psr-4';
 
     /** @var string */
     private $type;
-    /** @var AutoloadEntry[] */
-    private $entryList = [];
+    /** @var string */
+    private $namespace;
+    /** @var string */
+    private $path;
 
     /**
-     * @param string           $type
-     * @param AutoloadEntry[]  $entryList
+     * @param string $type
+     * @param string $path
+     * @param string $namespace
      */
-    public function __construct($type, array $entryList)
+    public function __construct($type, $path, $namespace)
     {
         $this->type = $type;
-        $this->entryList = $entryList;
+        $this->namespace = $namespace;
+        $this->path = $path;
     }
 
     /**
@@ -30,10 +34,30 @@ class Autoload
     }
 
     /**
-     * @return AutoloadEntry[]
+     * @return string
      */
-    public function getEntryList()
+    public function getNamespace()
     {
-        return $this->entryList;
+        return $this->namespace;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return sprintf(
+            '%s#%s',
+            $this->getType(),
+            $this->getNamespace()
+        );
     }
 }

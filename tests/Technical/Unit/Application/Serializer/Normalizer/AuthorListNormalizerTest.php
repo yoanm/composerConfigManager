@@ -54,6 +54,29 @@ class AuthorListNormalizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDenormalize()
+    {
+        $list = [];
+        $name = 'name';
+        $email = 'email';
+        $role = 'role';
+
+        $list[] = [
+            'name' => $name,
+            'email' => $email,
+            'role' => $role,
+        ];
+
+        $normalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Author::class, $normalizedList);
+        $this->assertCount(count($list), $normalizedList);
+        $author = array_shift($normalizedList);
+        $this->assertSame($name, $author->getName());
+        $this->assertSame($email, $author->getEmail());
+        $this->assertSame($role, $author->getRole());
+    }
+
     public function testNormalizeNameWithOptionalProperties()
     {
         $list = [];
@@ -70,54 +93,7 @@ class AuthorListNormalizerTest extends \PHPUnit_Framework_TestCase
         $email4 = 'email4';
         $role4 = 'role4';
 
-        /** @var Author|ObjectProphecy $author1 */
-        $author1 = $this->prophesize(Author::class);
-        /** @var Author|ObjectProphecy $author2 */
-        $author2 = $this->prophesize(Author::class);
-        /** @var Author|ObjectProphecy $author3 */
-        $author3 = $this->prophesize(Author::class);
-        /** @var Author|ObjectProphecy $author4 */
-        $author4 = $this->prophesize(Author::class);
-
-        $list[] = $author1->reveal();
-        $list[] = $author2->reveal();
-        $list[] = $author3->reveal();
-        $list[] = $author4->reveal();
-
-        $author1->getName()
-            ->willReturn($name1)
-            ->shouldBeCalled();
-        $author1->getEmail()
-            ->shouldBeCalled();
-        $author1->getRole()
-            ->shouldBeCalled();
-        $author2->getName()
-            ->willReturn($name2)
-            ->shouldBeCalled();
-        $author2->getEmail()
-            ->willReturn($email2)
-            ->shouldBeCalled();
-        $author2->getRole()
-            ->shouldBeCalled();
-        $author3->getName()
-            ->willReturn($name3)
-            ->shouldBeCalled();
-        $author3->getEmail()
-            ->shouldBeCalled();
-        $author3->getRole()
-            ->willReturn($role3)
-            ->shouldBeCalled();
-        $author4->getName()
-            ->willReturn($name4)
-            ->shouldBeCalled();
-        $author4->getEmail()
-            ->willReturn($email4)
-            ->shouldBeCalled();
-        $author4->getRole()
-            ->willReturn($role4)
-            ->shouldBeCalled();
-
-        $expected = [
+        $list = [
             [
                 AuthorListNormalizer::KEY_NAME => $name1,
             ],
@@ -136,9 +112,29 @@ class AuthorListNormalizerTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->assertSame(
-            $expected,
-            $this->normalizer->normalize($list)
-        );
+        $normalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Author::class, $normalizedList);
+        $this->assertCount(count($list), $normalizedList);
+
+        $author = array_shift($normalizedList);
+        $this->assertSame($name1, $author->getName());
+        $this->assertSame(null, $author->getEmail());
+        $this->assertSame(null, $author->getRole());
+
+        $author = array_shift($normalizedList);
+        $this->assertSame($name2, $author->getName());
+        $this->assertSame($email2, $author->getEmail());
+        $this->assertSame(null, $author->getRole());
+
+        $author = array_shift($normalizedList);
+        $this->assertSame($name3, $author->getName());
+        $this->assertSame(null, $author->getEmail());
+        $this->assertSame($role3, $author->getRole());
+
+        $author = array_shift($normalizedList);
+        $this->assertSame($name4, $author->getName());
+        $this->assertSame($email4, $author->getEmail());
+        $this->assertSame($role4, $author->getRole());
     }
 }

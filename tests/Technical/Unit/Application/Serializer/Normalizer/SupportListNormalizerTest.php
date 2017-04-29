@@ -46,4 +46,23 @@ class SupportListNormalizerTest extends \PHPUnit_Framework_TestCase
             $this->normalizer->normalize($list)
         );
     }
+
+    public function testDenormalize()
+    {
+        $type = 'type';
+        $url = 'url';
+
+        $list = [
+            $type => $url
+        ];
+
+        $denormalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Support::class, $denormalizedList);
+        $this->assertCount(count($list), $denormalizedList);
+
+        $support = array_shift($denormalizedList);
+        $this->assertSame($type, $support->getType());
+        $this->assertSame($url, $support->getUrl());
+    }
 }

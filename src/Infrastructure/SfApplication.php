@@ -7,12 +7,11 @@ use Symfony\Component\Console\Command\Command;
 class SfApplication extends Application
 {
     /**
-     * @param Command $command
+     * @param Command[] $commandList
      */
-    public function __construct(Command $command)
+    public function __construct(array $commandList = [])
     {
         parent::__construct();
-        $this->add($command);
-        $this->setDefaultCommand($command->getName(), true);
+        $this->addCommands($commandList);
     }
 }

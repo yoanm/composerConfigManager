@@ -2,6 +2,7 @@
 namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer as AppConfigDenormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer;
@@ -10,6 +11,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AppConfigNormalizer|ObjectProphecy */
     private $appConfigurationNormalizer;
+    /** @var AppConfigDenormalizer|ObjectProphecy */
+    private $appConfigurationDenormalizer;
     /** @var ConfigurationNormalizer */
     private $normalizer;
 
@@ -19,8 +22,10 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->appConfigurationNormalizer = $this->prophesize(AppConfigNormalizer::class);
+        $this->appConfigurationDenormalizer = $this->prophesize(AppConfigDenormalizer::class);
         $this->normalizer = new ConfigurationNormalizer(
-            $this->appConfigurationNormalizer->reveal()
+            $this->appConfigurationNormalizer->reveal(),
+            $this->appConfigurationDenormalizer->reveal()
         );
     }
 
@@ -40,13 +45,29 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDecode()
+    {
+        $normalizedData = ['normalized_data'];
+
+        $configuration = $this->prophesize(Configuration::class);
+
+        $this->appConfigurationDenormalizer->denormalize($normalizedData)
+            ->willReturn($configuration->reveal())
+            ->shouldBeCalled();
+
+        $this->assertSame(
+            $configuration->reveal(),
+            $this->normalizer->denormalize($normalizedData, Configuration::class)
+        );
+    }
+
     /**
-     * @dataProvider getTestSupportsEncodingData
+     * @dataProvider getTestSupportsClassData
      *
      * @param string $class
      * @param bool   $expectedResult
      */
-    public function testSupportsEncoding($class, $expectedResult)
+    public function testSupportsNormalization($class, $expectedResult)
     {
         $this->assertSame(
             $expectedResult,
@@ -55,9 +76,23 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getTestSupportsClassData
+     *
+     * @param string $class
+     * @param bool   $expectedResult
+     */
+    public function testSupportsDenormalization($class, $expectedResult)
+    {
+        $this->assertSame(
+            $expectedResult,
+            $this->normalizer->supportsDenormalization([], $class)
+        );
+    }
+
+    /**
      * @return array
      */
-    public function getTestSupportsEncodingData()
+    public function getTestSupportsClassData()
     {
         return [
             'Configuration class' => [

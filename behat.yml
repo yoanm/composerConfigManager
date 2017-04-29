@@ -3,10 +3,10 @@ default:
     - features/bootstrap/
   extensions:
     Yoanm\BehatUtilsExtension:
-      logger:
-        path: "./build/behat.log"
       event_subscriber: true
   suites:
     default:
       contexts:
-        - ComposerCMContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\DefaultContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\CreateContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\UpdateContext: ~

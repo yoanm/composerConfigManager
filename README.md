@@ -7,12 +7,11 @@ Command to manage composer configuration file
 
   * [Install](#install)
   * [How to](#how-to)
-  * [In the box](#in-the-box)
-    * [Command line arguments](#in-the-box-command-line-arguments)
-    * [Command line options](#in-the-box-command-line-options)
+  * [Managed properties](#managed-properties)
   * [Full composer configuration](#full-composer-configuration)
   * [Contributing](#contributing)
 
+<a name="install"></a>
 ## Install
 ```bash
 composer global require yoanm/composer-config-manager
@@ -22,79 +21,46 @@ composer global require yoanm/composer-config-manager
 export PATH=~/.composer/vendor/bin:$PATH 
 ```
 
-
+<a name="how-to"></a>
 ## How to
 
 just type the following
 ```bash
-composercm "vendor/package-name" path/to/repository/directory
+composercm create "vendor/package-name" path/to/repository/directory [OPTIONS]
+composercm update path/to/repository/directory [OPTIONS]
 ```
 
 In case you launch the command from the repository directory, you can simply use 
 ```bash
-composercm "vendor/package-name"
+composercm create "vendor/package-name" [OPTIONS]
+composercm update [OPTIONS]
 ```
+
+  * Type `composercm list` to list all available command
+  * Type `composercm help COMMAND_NAME` or `composercm COMMAND_NAME -h` to display help for a specific command
 
 See below for more information regarding command line options
 
-## In the box
+<a name="managed-properties"></a>
+## Managed properties
 
-<a name="in-the-box-command-line-arguments"></a>
-### Command line arguments
+  * Package name
+  * Package type *Default value is "library"*
+  * License *Default value is "MIT"*
+  * Version
+  * Description
+  * Keywords *Many allowed*
+  * Author *Many allowed*  
+  * Provided *Many allowed*
+  * Suggested *Many allowed*
+  * Support *Many allowed*
+  * PSR-0 / PSR-4 Autoload *Many allowed*
+  * PSR-0 / PSR-4 Autoload dev *Many allowed*
+  * Required packages *Many allowed*
+  * Required dev packages *Many allowed*
+  * Scripts
 
-  * `"vendor/package-name"` The package name
-  * `"path/to/repository/directory"` Path where composer.json file will be created. *(default current directory)*
-
-<a name="in-the-box-command-line-options"></a>
-### Command line options
-
-  * `--type package-type` *Default value is "library"*
-  * `--license "LICENSE_TYPE"`
-  * `--version "X.Y.Z"`
-  * `--description "package description"`
-  * `--keywords "KEYWORD1"` *Many allowed*
-  * `--author"name1#email#role"` *Many allowed*  
-  * `--provided-package "package-1#~X.Y"` *Many allowed*
-  * `--suggested-package "package-1#description1"` *Many allowed*
-  * `--support-type "type1#url1"` *Many allowed*
-  * Autoload *Many allowed*
-    
-    * `--autoload-psr0 "RootNamespace\SubNamespace#path"`
-    
-      Will append `"\\RootNamespace\\SubNamespace": "path"` under `autoload` -> `psr-0` 
-    * `--autoload-psr-4 "RootNamespace\SubNamespace#path"` 
-    
-      Will append `"\\RootNamespace\\SubNamespace\\": "path"` under `autoload` -> `psr-4` 
-
-  * Autoload dev *Many allowed*
-    
-    * `--autoload-dev-psr0 "RootNamespace\SubNamespace#path"`
-    
-      Will append `"\\RootNamespace\\SubNamespace": "path"` under `autoload-dev` -> `psr-0` 
-    * `--autoload-dev-psr-4 "RootNamespace\SubNamespace#path"` 
-    
-      Will append `"\\RootNamespace\\SubNamespace\\": "path"` under `autoload-dev` -> `psr-4` 
-
-  * `--require "vendor/package-name#~x.y"` *Many allowed*
-    
-      Will append `"vendor/package-name": "~x.y"` under `require`
-
-  * `--require-dev "vendor/package-name#~x.y"` *Many allowed*
-    
-      Will append `"vendor/package-name": "~x.y"` under `require-dev`
-  
-  * `--script "script-name#command"` *Many allowed*
-  
-      Will append `"command"` under `script` -> `script-name` 
-
-```json
-"scripts": {
-  "script-name": [
-    "command"
-  ]
-}
-```
-
+<a name="full-composer-configuration"></a>
 ## Full composer configuration
 
 ```json
@@ -158,5 +124,6 @@ See below for more information regarding command line options
 
 ```
 
+<a name="contributing"></a>
 ## Contributing
 See [contributing note](./CONTRIBUTING.md)

@@ -5,15 +5,15 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-use Yoanm\ComposerConfigManager\Infrastructure\Writer\DefaultWriter;
+use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter;
 
-class DefaultWriterTest extends \PHPUnit_Framework_TestCase
+class ConfigurationWriterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SerializerInterface|ObjectProphecy */
     private $serializer;
     /** @var Filesystem|ObjectProphecy */
     private $filesystem;
-    /** @var DefaultWriter */
+    /** @var ConfigurationWriter */
     private $writer;
 
     /**
@@ -23,7 +23,7 @@ class DefaultWriterTest extends \PHPUnit_Framework_TestCase
     {
         $this->serializer = $this->prophesize(SerializerInterface::class);
         $this->filesystem = $this->prophesize(Filesystem::class);
-        $this->writer = new DefaultWriter(
+        $this->writer = new ConfigurationWriter(
             $this->serializer->reveal(),
             $this->filesystem->reveal()
         );
@@ -38,7 +38,7 @@ class DefaultWriterTest extends \PHPUnit_Framework_TestCase
             '%s%s%s',
             $destinationPath,
             DIRECTORY_SEPARATOR,
-            DefaultWriter::FILENAME
+            ConfigurationWriter::FILENAME
         );
 
         /** @var Configuration|ObjectProphecy $configuration */

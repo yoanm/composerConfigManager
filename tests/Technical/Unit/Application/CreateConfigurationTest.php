@@ -2,17 +2,17 @@
 namespace Technical\Unit\Yoanm\ComposerConfigManager\Application;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\ComposerConfigManager\Application\WriteConfiguration;
-use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
+use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
-class WriteConfigurationTest extends \PHPUnit_Framework_TestCase
+class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ConfigurationWriterInterface|ObjectProphecy */
     private $configurationWriter;
-    /** @var WriteConfiguration */
-    private $writer;
+    /** @var CreateConfiguration */
+    private $creator;
 
     /**
      * {@inheritdoc}
@@ -20,7 +20,7 @@ class WriteConfigurationTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->configurationWriter = $this->prophesize(ConfigurationWriterInterface::class);
-        $this->writer = new WriteConfiguration(
+        $this->creator = new CreateConfiguration(
             $this->configurationWriter->reveal()
         );
     }
@@ -30,8 +30,8 @@ class WriteConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $destFolder = 'folder';
 
-        /** @var WriteConfigurationRequest|ObjectProphecy $request */
-        $request = $this->prophesize(WriteConfigurationRequest::class);
+        /** @var CreateConfigurationRequest|ObjectProphecy $request */
+        $request = $this->prophesize(CreateConfigurationRequest::class);
         /** @var Configuration|ObjectProphecy $configuration */
         $configuration = $this->prophesize(Configuration::class);
 
@@ -45,6 +45,6 @@ class WriteConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->configurationWriter->write($configuration->reveal(), $destFolder)
             ->shouldBeCalled();
 
-        $this->writer->run($request->reveal());
+        $this->creator->run($request->reveal());
     }
 }

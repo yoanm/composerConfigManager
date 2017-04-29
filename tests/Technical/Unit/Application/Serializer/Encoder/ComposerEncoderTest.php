@@ -35,6 +35,22 @@ EXPECTED
         );
     }
 
+    public function testDecode()
+    {
+        $this->assertSame(
+            [
+                'a' => 'b'
+            ],
+            $this->encoder->decode(
+                <<<EXPECTED
+{
+    "a": "b"
+}
+EXPECTED
+            )
+        );
+    }
+
     /**
      * @return array
      */
@@ -49,5 +65,22 @@ EXPECTED
         $this->setExpectedException(UnexpectedValueException::class);
 
         $this->encoder->encode([$objectA, $objectB]);
+    }
+
+    /**
+     * @return array
+     */
+    public function testDecodeHandleFailure()
+    {
+        // Add a ',' to throw a syntax error exception
+        $encoded = <<<ENCODED
+{
+    "a": "b",
+}
+ENCODED;
+
+        $this->setExpectedException(UnexpectedValueException::class);
+
+        $this->encoder->decode($encoded);
     }
 }

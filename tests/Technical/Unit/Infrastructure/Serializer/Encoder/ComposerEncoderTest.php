@@ -38,8 +38,23 @@ class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDecode()
+    {
+        $data = ['data'];
+        $encodedData = 'encoded_data';
+
+        $this->appComposerEncoder->decode($encodedData)
+            ->willReturn($data)
+            ->shouldBeCalled();
+
+        $this->assertSame(
+            $data,
+            $this->encoder->decode($encodedData, ComposerEncoder::FORMAT)
+        );
+    }
+
     /**
-     * @dataProvider getTestSupportsEncodingData
+     * @dataProvider getTestSupportsFormatData
      *
      * @param string $format
      * @param bool   $expectedResult
@@ -53,9 +68,23 @@ class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getTestSupportsFormatData
+     *
+     * @param string $format
+     * @param bool   $expectedResult
+     */
+    public function testSupportsDecoding($format, $expectedResult)
+    {
+        $this->assertSame(
+            $expectedResult,
+            $this->encoder->supportsDecoding($format)
+        );
+    }
+
+    /**
      * @return array
      */
-    public function getTestSupportsEncodingData()
+    public function getTestSupportsFormatData()
     {
         return [
             'composer' => [

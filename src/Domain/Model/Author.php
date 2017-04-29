@@ -1,7 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Domain\Model;
 
-class Author
+class Author implements ConfigurationItemInterface
 {
     /** @var string */
     private $name;
@@ -39,5 +39,13 @@ class Author
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getItemId()
+    {
+        return $this->getName();
     }
 }

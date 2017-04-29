@@ -1,7 +1,6 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
-use Yoanm\ComposerConfigManager\Application\WriteConfigurationRequest;
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
@@ -15,89 +14,82 @@ class InputTransformer
 {
     const SEPARATOR = '#';
 
-    /** Arguments */
-    const ARGUMENT_PACKAGE_NAME = 'package-name';
-    const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'destination';
-
-    /** Options */
-    const OPTION_TYPE = 'type';
-    const OPTION_LICENSE = 'license';
-    const OPTION_PACKAGE_VERSION = 'package-version';
-    const OPTION_DESCRIPTION = 'description';
-    const OPTION_KEYWORD = 'keyword';
-    const OPTION_AUTHOR = 'author';
-    const OPTION_PROVIDED_PACKAGE = 'provided-package';
-    const OPTION_SUGGESTED_PACKAGE = 'suggested-package';
-    const OPTION_SUPPORT = 'support';
-    const OPTION_AUTOLOAD_PSR0 = 'autoload-psr0';
-    const OPTION_AUTOLOAD_PSR4 = 'autoload-psr4';
-    const OPTION_AUTOLOAD_DEV_PSR0 = 'autoload-dev-psr0';
-    const OPTION_AUTOLOAD_DEV_PSR4 = 'autoload-dev-psr4';
-    const OPTION_REQUIRE = 'require';
-    const OPTION_REQUIRE_DEV = 'require-dev';
-    const OPTION_SCRIPT = 'script';
+    const KEY_PACKAGE_NAME = 'package-name';
+    const KEY_TYPE = 'type';
+    const KEY_LICENSE = 'license';
+    const KEY_PACKAGE_VERSION = 'package-version';
+    const KEY_DESCRIPTION = 'description';
+    const KEY_KEYWORD = 'keyword';
+    const KEY_AUTHOR = 'author';
+    const KEY_PROVIDED_PACKAGE = 'provided-package';
+    const KEY_SUGGESTED_PACKAGE = 'suggested-package';
+    const KEY_SUPPORT = 'support';
+    const KEY_AUTOLOAD_PSR0 = 'autoload-psr0';
+    const KEY_AUTOLOAD_PSR4 = 'autoload-psr4';
+    const KEY_AUTOLOAD_DEV_PSR0 = 'autoload-dev-psr0';
+    const KEY_AUTOLOAD_DEV_PSR4 = 'autoload-dev-psr4';
+    const KEY_REQUIRE = 'require';
+    const KEY_REQUIRE_DEV = 'require-dev';
+    const KEY_SCRIPT = 'script';
 
     /**
-     * @param array $argumentList
-     * @param array $optionList
-     *
-     * @return WriteConfigurationRequest
-     */
-    public function fromCommandLine(array $argumentList, array $optionList)
-    {
-        $configuration = $this->createConfiguration($argumentList, $optionList);
-
-        return new WriteConfigurationRequest(
-            $configuration,
-            $argumentList[self::ARGUMENT_CONFIGURATION_DEST_FOLDER]
-        );
-    }
-
-    /**
-     * @param array $argumentList
-     * @param array $optionList
+     * @param $inputList
      *
      * @return Configuration
      */
-    protected function createConfiguration(array $argumentList, array $optionList)
+    public function fromCommandLine($inputList)
+    {
+        return $this->createConfiguration($inputList);
+    }
+
+    /**
+     * @param array $inputList
+     *
+     * @return Configuration
+     */
+    protected function createConfiguration(array $inputList)
     {
         return new Configuration(
-            $argumentList[self::ARGUMENT_PACKAGE_NAME],
-            isset($optionList[self::OPTION_TYPE])
-                ? $optionList[self::OPTION_TYPE]
-                : Configuration::DEFAULT_TYPE,
-            isset($optionList[self::OPTION_LICENSE])
-                ? $optionList[self::OPTION_LICENSE]
-                : Configuration::DEFAULT_LICENSE,
-            isset($optionList[self::OPTION_PACKAGE_VERSION])
-                ? $optionList[self::OPTION_PACKAGE_VERSION]
-                : Configuration::DEFAULT_VERSION,
-            isset($optionList[self::OPTION_DESCRIPTION])
-                ? $optionList[self::OPTION_DESCRIPTION]
-                : null,
-            $this->extractKeywords($optionList),
-            $this->extractAuthors($optionList),
-            $this->extractProvidedPackages($optionList),
-            $this->extractSuggestedPackages($optionList),
-            $this->extractSupports($optionList),
-            $this->extractAutoloads($optionList),
-            $this->extractAutoloadsDev($optionList),
-            $this->extractRequiredPackages($optionList),
-            $this->extractRequiredDevPackages($optionList),
-            $this->extractScripts($optionList)
+            $inputList[self::KEY_PACKAGE_NAME],
+            $this->getValue($inputList, self::KEY_TYPE, null),
+            $this->getValue($inputList, self::KEY_LICENSE, null),
+            $this->getValue($inputList, self::KEY_PACKAGE_VERSION, null),
+            $this->getValue($inputList, self::KEY_DESCRIPTION, null),
+            $this->extractKeywords($inputList),
+            $this->extractAuthors($inputList),
+            $this->extractProvidedPackages($inputList),
+            $this->extractSuggestedPackages($inputList),
+            $this->extractSupports($inputList),
+            $this->extractAutoloads($inputList),
+            $this->extractAutoloadsDev($inputList),
+            $this->extractRequiredPackages($inputList),
+            $this->extractRequiredDevPackages($inputList),
+            $this->extractScripts($inputList)
         );
     }
 
     /**
-     * @param array $optionList
+     * @param array  $inputList
+     * @param string $key
+     * @param string $defaultValue
+     *
+     * @return string
+     */
+    protected function getValue(array $inputList, $key, $defaultValue)
+    {
+        return isset($inputList[$key]) ? $inputList[$key] : $defaultValue;
+    }
+
+    /**
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractKeywords(array $optionList)
+    protected function extractKeywords(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_KEYWORD]) && is_array($optionList[self::OPTION_KEYWORD])) {
-            foreach ($optionList[self::OPTION_KEYWORD] as $keyword) {
+        if (isset($inputList[self::KEY_KEYWORD]) && is_array($inputList[self::KEY_KEYWORD])) {
+            foreach ($inputList[self::KEY_KEYWORD] as $keyword) {
                 $list[] = $keyword;
             }
         }
@@ -106,15 +98,15 @@ class InputTransformer
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractAuthors(array $optionList)
+    protected function extractAuthors(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_AUTHOR]) && is_array($optionList[self::OPTION_AUTHOR])) {
-            foreach ($optionList[self::OPTION_AUTHOR] as $key => $author) {
+        if (isset($inputList[self::KEY_AUTHOR]) && is_array($inputList[self::KEY_AUTHOR])) {
+            foreach ($inputList[self::KEY_AUTHOR] as $key => $author) {
                 $data = $this->extractDataFromValue($author);
                 $name = array_shift($data);
                 $email = array_shift($data);
@@ -128,15 +120,15 @@ class InputTransformer
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractProvidedPackages(array $optionList)
+    protected function extractProvidedPackages(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_PROVIDED_PACKAGE]) && is_array($optionList[self::OPTION_PROVIDED_PACKAGE])) {
-            foreach ($optionList[self::OPTION_PROVIDED_PACKAGE] as $rawValue) {
+        if (isset($inputList[self::KEY_PROVIDED_PACKAGE]) && is_array($inputList[self::KEY_PROVIDED_PACKAGE])) {
+            foreach ($inputList[self::KEY_PROVIDED_PACKAGE] as $rawValue) {
                 list ($name, $versionConstraint) = $this->extractDataFromValue($rawValue);
                 $list[] = new Package($name, $versionConstraint);
             }
@@ -146,17 +138,17 @@ class InputTransformer
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractSuggestedPackages(array $optionList)
+    protected function extractSuggestedPackages(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_SUGGESTED_PACKAGE])
-            && is_array($optionList[self::OPTION_SUGGESTED_PACKAGE])
+        if (isset($inputList[self::KEY_SUGGESTED_PACKAGE])
+            && is_array($inputList[self::KEY_SUGGESTED_PACKAGE])
         ) {
-            foreach ($optionList[self::OPTION_SUGGESTED_PACKAGE] as $rawValue) {
+            foreach ($inputList[self::KEY_SUGGESTED_PACKAGE] as $rawValue) {
                 $data = $this->extractDataFromValue($rawValue);
                 $list[] = new SuggestedPackage(
                     array_shift($data),
@@ -169,15 +161,15 @@ class InputTransformer
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractSupports(array $optionList)
+    protected function extractSupports(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_SUPPORT]) && is_array($optionList[self::OPTION_SUPPORT])) {
-            foreach ($optionList[self::OPTION_SUPPORT] as $rawValue) {
+        if (isset($inputList[self::KEY_SUPPORT]) && is_array($inputList[self::KEY_SUPPORT])) {
+            foreach ($inputList[self::KEY_SUPPORT] as $rawValue) {
                 $data = $this->extractDataFromValue($rawValue);
                 $list[] = new Support(array_shift($data), implode(self::SEPARATOR, $data));
             }
@@ -187,58 +179,56 @@ class InputTransformer
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractAutoloads(array $optionList)
+    protected function extractAutoloads(array $inputList)
     {
         $list = [];
         // PSR0
-        $list[] = new Autoload(
-            Autoload::TYPE_PSR0,
-            $this->extractAutoloadList($optionList, self::OPTION_AUTOLOAD_PSR0)
-        );
+        foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_PSR0) as $namespace => $path) {
+            $list[] = new Autoload(Autoload::TYPE_PSR0, $path, $namespace);
+        }
         // PSR-4
-        $list[] = new Autoload(
-            Autoload::TYPE_PSR4,
-            $this->extractAutoloadList($optionList, self::OPTION_AUTOLOAD_PSR4)
-        );
+        foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_PSR4) as $namespace => $path) {
+            $list[] = new Autoload(Autoload::TYPE_PSR4, $path, $namespace);
+        }
+
 
         return $list;
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractAutoloadsDev(array $optionList)
+    protected function extractAutoloadsDev(array $inputList)
     {
         $list = [];
-        $list[] = new Autoload(
-            Autoload::TYPE_PSR0,
-            $this->extractAutoloadList($optionList, self::OPTION_AUTOLOAD_DEV_PSR0)
-        );
+        // PSR0
+        foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_DEV_PSR0) as $namespace => $path) {
+            $list[] = new Autoload(Autoload::TYPE_PSR0, $path, $namespace);
+        }
         // PSR-4
-        $list[] = new Autoload(
-            Autoload::TYPE_PSR4,
-            $this->extractAutoloadList($optionList, self::OPTION_AUTOLOAD_DEV_PSR4)
-        );
+        foreach ($this->extractAutoloadList($inputList, self::KEY_AUTOLOAD_DEV_PSR4) as $namespace => $path) {
+            $list[] = new Autoload(Autoload::TYPE_PSR4, $path, $namespace);
+        }
 
         return $list;
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractRequiredPackages(array $optionList)
+    protected function extractRequiredPackages(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_REQUIRE]) && is_array($optionList[self::OPTION_REQUIRE])) {
-            foreach ($optionList[self::OPTION_REQUIRE] as $rawValue) {
+        if (isset($inputList[self::KEY_REQUIRE]) && is_array($inputList[self::KEY_REQUIRE])) {
+            foreach ($inputList[self::KEY_REQUIRE] as $rawValue) {
                 list ($name, $versionConstraint) = $this->extractDataFromValue($rawValue);
                 $list[] = new Package($name, $versionConstraint);
             }
@@ -247,15 +237,15 @@ class InputTransformer
         return $list;
     }
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractRequiredDevPackages(array $optionList)
+    protected function extractRequiredDevPackages(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_REQUIRE_DEV]) && is_array($optionList[self::OPTION_REQUIRE_DEV])) {
-            foreach ($optionList[self::OPTION_REQUIRE_DEV] as $rawValue) {
+        if (isset($inputList[self::KEY_REQUIRE_DEV]) && is_array($inputList[self::KEY_REQUIRE_DEV])) {
+            foreach ($inputList[self::KEY_REQUIRE_DEV] as $rawValue) {
                 list ($name, $versionConstraint) = $this->extractDataFromValue($rawValue);
                 $list[] = new Package($name, $versionConstraint);
             }
@@ -265,15 +255,15 @@ class InputTransformer
     }
 
     /**
-     * @param array $optionList
+     * @param array $inputList
      *
      * @return array
      */
-    protected function extractScripts(array $optionList)
+    protected function extractScripts(array $inputList)
     {
         $list = [];
-        if (isset($optionList[self::OPTION_SCRIPT]) && is_array($optionList[self::OPTION_SCRIPT])) {
-            foreach ($optionList[self::OPTION_SCRIPT] as $rawValue) {
+        if (isset($inputList[self::KEY_SCRIPT]) && is_array($inputList[self::KEY_SCRIPT])) {
+            foreach ($inputList[self::KEY_SCRIPT] as $rawValue) {
                 list ($name, $command) = $this->extractDataFromValue($rawValue);
                 $list[] = new Script($name, $command);
             }
@@ -293,19 +283,18 @@ class InputTransformer
     }
 
     /**
-     * @param array  $optionList
+     * @param array  $inputList
      * @param string $optionKey
      *
-     * @return AutoloadEntry[]
+     * @return array
      */
-    protected function extractAutoloadList(array $optionList, $optionKey)
+    protected function extractAutoloadList(array $inputList, $optionKey)
     {
-        /** @var AutoloadEntry[] $list */
         $list = [];
-        if (isset($optionList[$optionKey]) && is_array($optionList[$optionKey])) {
-            foreach ($optionList[$optionKey] as $rawValue) {
+        if (isset($inputList[$optionKey]) && is_array($inputList[$optionKey])) {
+            foreach ($inputList[$optionKey] as $rawValue) {
                 list ($namespace, $path) = $this->extractDataFromValue($rawValue);
-                $list[] = new AutoloadEntry($namespace, $path);
+                $list[$namespace] = $path;
             }
         }
 
