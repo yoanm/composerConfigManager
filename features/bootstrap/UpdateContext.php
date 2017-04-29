@@ -1,38 +1,37 @@
 <?php
-namespace {
+namespace Functional\Yoanm\ComposerConfigManager\BehatContext;
 
-    use Behat\Gherkin\Node\PyStringNode;
-    use PHPUnit\Framework\Assert;
+use Behat\Gherkin\Node\PyStringNode;
+use PHPUnit\Framework\Assert;
+
+/**
+ * Class ComposerCMContext
+ */
+class UpdateContext extends ComposerCMContext
+{
+    public function iExecuteConsoleWithDestAndOption($dest = null, PyStringNode $options = null)
+    {
+        $commandArguments = sprintf(
+            'update %s',
+            $dest ? sprintf('"%s"', $dest) : DefaultContext::DEFAULT_DESTINATION
+        );
+        $this->iCreateFakeOldFileAt($dest ? $dest : DefaultContext::DEFAULT_DESTINATION);
+        $this->iExecuteComposerCMWith($commandArguments, $options);
+    }
 
     /**
-     * Class ComposerCMContext
+     * @Given /^I execute composercm update with "(?<dest>[^"]+)" and following options:$/
      */
-    class UpdateContext extends ComposerCMContext
+    public function iExecuteConsoleWithNameAndOption($dest, PyStringNode $options)
     {
-        public function iExecuteConsoleWithDestAndOption($dest = null, PyStringNode $options = null)
-        {
-            $commandArguments = sprintf(
-                'update %s',
-                $dest ? sprintf('"%s"', $dest) : \DefaultContext::DEFAULT_DESTINATION
-            );
-            $this->iCreateFakeOldFileAt($dest ? $dest : \DefaultContext::DEFAULT_DESTINATION);
-            $this->iExecuteComposerCMWith($commandArguments, $options);
-        }
+        $this->iExecuteConsoleWithDestAndOption($dest, $options);
+    }
 
-        /**
-         * @Given /^I execute composercm update with "(?<dest>[^"]+)" and following options:$/
-         */
-        public function iExecuteConsoleWithNameAndOption($dest, PyStringNode $options)
-        {
-            $this->iExecuteConsoleWithDestAndOption($dest, $options);
-        }
-
-        /**
-         * @Given /^I execute composercm update with following options:$/
-         */
-        public function iExecuteConsoleWitOption(PyStringNode $options)
-        {
-            $this->iExecuteConsoleWithDestAndOption(null, $options);
-        }
+    /**
+     * @Given /^I execute composercm update with following options:$/
+     */
+    public function iExecuteConsoleWitOption(PyStringNode $options)
+    {
+        $this->iExecuteConsoleWithDestAndOption(null, $options);
     }
 }

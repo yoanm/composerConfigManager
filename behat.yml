@@ -7,6 +7,6 @@ default:
   suites:
     default:
       contexts:
-        - DefaultContext: ~
-        - CreateContext: ~
-        - UpdateContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\DefaultContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\CreateContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\UpdateContext: ~
