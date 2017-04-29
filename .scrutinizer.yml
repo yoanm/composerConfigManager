@@ -9,7 +9,7 @@ build_failure_conditions:
     - 'issues.severity(>= MAJOR).exists'           # New major or higher severity issues
     - 'project.metric("scrutinizer.quality", < 9)' # Code Quality Rating drops below 9
     - 'project.metric("scrutinizer.test_coverage", < 0.90)' # Code Coverage drops below 90%
-    - 'project.metric_change("scrutinizer.test_coverage", < -0.02)'
+    - 'project.metric_change("scrutinizer.test_coverage", < -0.05)'
     - 'patches.label("Doc Comments").exists'       # No doc comments patches allowed
     - 'patches.label("Spacing").exists'            # No spacing patches allowed
 build:
