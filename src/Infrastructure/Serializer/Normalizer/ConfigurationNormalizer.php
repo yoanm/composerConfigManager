@@ -3,8 +3,8 @@ namespace Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer as AppConfigDenormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class ConfigurationNormalizer implements NormalizerInterface, DenormalizerInterface

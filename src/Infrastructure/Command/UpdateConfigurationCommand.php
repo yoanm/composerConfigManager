@@ -6,9 +6,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
 use Yoanm\ComposerConfigManager\Application\UpdateConfiguration;
 use Yoanm\ComposerConfigManager\Application\UpdateConfigurationRequest;
-use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
 class UpdateConfigurationCommand extends Command

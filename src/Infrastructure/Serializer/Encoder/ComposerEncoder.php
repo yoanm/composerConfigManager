@@ -3,7 +3,6 @@ namespace Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder;
 
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder as AppComposerEncoder;
 
 class ComposerEncoder implements EncoderInterface, DecoderInterface

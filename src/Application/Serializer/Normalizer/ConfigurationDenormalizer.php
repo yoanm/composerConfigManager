@@ -50,7 +50,7 @@ class ConfigurationDenormalizer implements DenormalizerInterface
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_LICENSE),
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_VERSION),
             $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_DESCRIPTION),
-            $configuration[ConfigurationNormalizer::KEY_KEYWORDS],
+            $this->extractKeywordList($configuration),
             $this->getNormalizedOrDefault(
                 $this->authorListNormalizer,
                 $configuration,
@@ -130,5 +130,17 @@ class ConfigurationDenormalizer implements DenormalizerInterface
     protected function valueOrNull(array $configuration, $key)
     {
         return isset($configuration[$key]) ? $configuration[$key] : null;
+    }
+
+    /**
+     * @param array $configuration
+     *
+     * @return array
+     */
+    protected function extractKeywordList(array $configuration)
+    {
+        return isset($configuration[ConfigurationNormalizer::KEY_KEYWORDS])
+            ? $configuration[ConfigurationNormalizer::KEY_KEYWORDS]
+            : [];
     }
 }

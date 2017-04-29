@@ -1,17 +1,30 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Application\Updater;
 
-use Yoanm\ComposerConfigManager\Domain\Model\Author;
-use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationItemInterface;
-use Yoanm\ComposerConfigManager\Domain\Model\Package;
-use Yoanm\ComposerConfigManager\Domain\Model\Script;
-use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
-use Yoanm\ComposerConfigManager\Domain\Model\Support;
 
 class ConfigurationUpdater
 {
+    /** @var PlainValueUpdater */
+    private $plainValueUpdater;
+    /** @var KeywordListUpdater */
+    private $keywordListUpdater;
+    /** @var ListUpdater */
+    private $listUpdater;
+    /** @var AuthorListUpdater */
+    private $authorListUpdater;
+
+    public function __construct(
+        PlainValueUpdater $plainValueUpdater,
+        KeywordListUpdater $keywordListUpdater,
+        ListUpdater $listUpdater,
+        AuthorListUpdater $authorListUpdater
+    ) {
+        $this->plainValueUpdater = $plainValueUpdater;
+        $this->keywordListUpdater = $keywordListUpdater;
+        $this->listUpdater = $listUpdater;
+        $this->authorListUpdater = $authorListUpdater;
+    }
     /**
      * @param Configuration $baseConfiguration
      * @param Configuration $newConfiguration
@@ -21,109 +34,54 @@ class ConfigurationUpdater
     public function update(Configuration $baseConfiguration, Configuration $newConfiguration)
     {
         return new Configuration(
-            $this->updateIfDefined($newConfiguration->getPackageName(), $baseConfiguration->getPackageName()),
-            $this->updateIfDefined($newConfiguration->getType(), $baseConfiguration->getType()),
-            $this->updateIfDefined($newConfiguration->getLicense(), $baseConfiguration->getLicense()),
-            $this->updateIfDefined($newConfiguration->getPackageVersion(), $baseConfiguration->getPackageVersion()),
-            $this->updateIfDefined($newConfiguration->getDescription(), $baseConfiguration->getDescription()),
-            $this->mergeKeywordList($newConfiguration->getKeywordList(), $baseConfiguration->getKeywordList()),
-            $this->updateList($newConfiguration->getAuthorList(), $baseConfiguration->getAuthorList()),
-            $this->updateList(
+            $this->plainValueUpdater->update(
+                $newConfiguration->getPackageName(),
+                $baseConfiguration->getPackageName()
+            ),
+            $this->plainValueUpdater->update(
+                $newConfiguration->getType(),
+                $baseConfiguration->getType()
+            ),
+            $this->plainValueUpdater->update(
+                $newConfiguration->getLicense(),
+                $baseConfiguration->getLicense()
+            ),
+            $this->plainValueUpdater->update(
+                $newConfiguration->getPackageVersion(),
+                $baseConfiguration->getPackageVersion()
+            ),
+            $this->plainValueUpdater->update(
+                $newConfiguration->getDescription(),
+                $baseConfiguration->getDescription()
+            ),
+            $this->keywordListUpdater->update(
+                $newConfiguration->getKeywordList(),
+                $baseConfiguration->getKeywordList()
+            ),
+            $this->authorListUpdater->update($newConfiguration->getAuthorList(), $baseConfiguration->getAuthorList()),
+            $this->listUpdater->update(
                 $newConfiguration->getProvidedPackageList(),
                 $baseConfiguration->getProvidedPackageList()
             ),
-            $this->updateList(
+            $this->listUpdater->update(
                 $newConfiguration->getSuggestedPackageList(),
                 $baseConfiguration->getSuggestedPackageList()
             ),
-            $this->updateList($newConfiguration->getSupportList(), $baseConfiguration->getSupportList()),
-            $this->updateList($newConfiguration->getAutoloadList(), $baseConfiguration->getAutoloadList()),
-            $this->updateList($newConfiguration->getAutoloadDevList(), $baseConfiguration->getAutoloadDevList()),
-            $this->updateList(
+            $this->listUpdater->update($newConfiguration->getSupportList(), $baseConfiguration->getSupportList()),
+            $this->listUpdater->update($newConfiguration->getAutoloadList(), $baseConfiguration->getAutoloadList()),
+            $this->listUpdater->update(
+                $newConfiguration->getAutoloadDevList(),
+                $baseConfiguration->getAutoloadDevList()
+            ),
+            $this->listUpdater->update(
                 $newConfiguration->getRequiredPackageList(),
                 $baseConfiguration->getRequiredPackageList()
             ),
-            $this->updateList(
+            $this->listUpdater->update(
                 $newConfiguration->getRequiredDevPackageList(),
                 $baseConfiguration->getRequiredDevPackageList()
             ),
-            $this->updateList($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
+            $this->listUpdater->update($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
         );
-    }
-
-    /**
-     * @param string $baseValue
-     * @param string $newValue
-     *
-     * @return string
-     */
-    protected function updateIfDefined($newValue, $baseValue)
-    {
-        return $newValue ? $newValue : $baseValue;
-    }
-
-    /**
-     * @param string[] $newList
-     * @param string[] $oldList
-     *
-     * @return string[]
-     */
-    protected function mergeKeywordList(array $oldList, array $newList)
-    {
-        return array_values(
-            array_unique(
-                array_merge($newList, $oldList)
-            )
-        );
-    }
-
-    /**
-     * @param ConfigurationItemInterface[] $newEntityList
-     * @param ConfigurationItemInterface[] $oldEntityList
-     *
-     * @return ConfigurationItemInterface[]
-     */
-    protected function updateList(array $newEntityList, array $oldEntityList)
-    {
-        $existingEntityIdList = [];
-        foreach ($newEntityList as $entity) {
-            $existingEntityIdList[$entity->getItemId()] = true;
-        }
-        $normalizedOldEntityList = [];
-        foreach ($oldEntityList as $oldEntity) {
-            if (!array_key_exists($oldEntity->getItemId(), $existingEntityIdList)) {
-                $normalizedOldEntityList[] = $oldEntity;
-            } else {
-                // A new entity have been defined, loop over new entity list and append all entities with the same id
-                $oldEntityId = $oldEntity->getItemId();
-                foreach ($newEntityList as $newEntityKey => $newEntity) {
-                    if ($newEntity->getItemId() == $oldEntityId) {
-                        $normalizedOldEntityList[] = $this->mergeEntity($oldEntity, $newEntity);
-                        unset($newEntityList[$newEntityKey]);
-                    }
-                }
-            }
-        }
-
-        return array_merge($normalizedOldEntityList, $newEntityList);
-    }
-
-    /**
-     * @param ConfigurationItemInterface $oldEntity
-     * @param ConfigurationItemInterface $newEntity
-     *
-     * @return ConfigurationItemInterface
-     */
-    protected function mergeEntity($oldEntity, $newEntity)
-    {
-        if ($newEntity instanceof Author && $oldEntity instanceof Author) {
-            return new Author(
-                $newEntity->getName(),
-                $newEntity->getEmail() ? $newEntity->getEmail() : $oldEntity->getEmail(),
-                $newEntity->getRole() ? $newEntity->getRole() : $oldEntity->getRole()
-            );
-        }
-
-        return $newEntity;
     }
 }

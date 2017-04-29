@@ -10,7 +10,19 @@
             <argument type="service" id="composer_config_manager.infra.writer.configuration" />
             <argument type="service" id="composer_config_manager.app.updater.configuration" />
         </service>
-        <service id="composer_config_manager.app.updater.configuration" class="Yoanm\ComposerConfigManager\Application\Updater\ConfigurationUpdater" />
+
+        <!-- Updater -->
+        <service id="composer_config_manager.app.updater.configuration" class="Yoanm\ComposerConfigManager\Application\Updater\ConfigurationUpdater">
+            <argument type="service" id="composer_config_manager.app.updater.plain_value" />
+            <argument type="service" id="composer_config_manager.app.updater.keyword_list" />
+            <argument type="service" id="composer_config_manager.app.updater.list" />
+            <argument type="service" id="composer_config_manager.app.updater.author_list" />
+        </service>
+
+        <service id="composer_config_manager.app.updater.plain_value" class="Yoanm\ComposerConfigManager\Application\Updater\PlainValueUpdater" />
+        <service id="composer_config_manager.app.updater.keyword_list" class="Yoanm\ComposerConfigManager\Application\Updater\KeywordListUpdater" />
+        <service id="composer_config_manager.app.updater.list" class="Yoanm\ComposerConfigManager\Application\Updater\ListUpdater" />
+        <service id="composer_config_manager.app.updater.author_list" class="Yoanm\ComposerConfigManager\Application\Updater\AuthorListUpdater" />
 
         <!-- Normalizers -->
         <service id="composer_config_manager.app.serializer.normalizer.configuration" class="Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer">

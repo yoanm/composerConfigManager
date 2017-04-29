@@ -12,7 +12,7 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
     /** @var ConfigurationWriterInterface|ObjectProphecy */
     private $configurationWriter;
     /** @var CreateConfiguration */
-    private $writer;
+    private $creator;
 
     /**
      * {@inheritdoc}
@@ -20,7 +20,7 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->configurationWriter = $this->prophesize(ConfigurationWriterInterface::class);
-        $this->writer = new CreateConfiguration(
+        $this->creator = new CreateConfiguration(
             $this->configurationWriter->reveal()
         );
     }
@@ -45,6 +45,6 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->configurationWriter->write($configuration->reveal(), $destFolder)
             ->shouldBeCalled();
 
-        $this->writer->run($request->reveal());
+        $this->creator->run($request->reveal());
     }
 }

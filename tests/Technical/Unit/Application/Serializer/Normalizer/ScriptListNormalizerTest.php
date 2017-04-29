@@ -98,4 +98,35 @@ class ScriptListNormalizerTest extends \PHPUnit_Framework_TestCase
             $this->normalizer->normalize($list)
         );
     }
+
+    public function testDenormalize()
+    {
+        $name = 'name';
+        $command = 'command';
+        $name2 = 'name2';
+        $command2 = 'command2';
+        $command3 = 'command3';
+
+        $list = [
+            $name => [$command, $command3],
+            $name2 => [$command2],
+        ];
+
+        $denormalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Script::class, $denormalizedList);
+        $this->assertCount(3, $denormalizedList);
+
+        $script = array_shift($denormalizedList);
+        $this->assertSame($name, $script->getName());
+        $this->assertSame($command, $script->getCommand());
+
+        $script = array_shift($denormalizedList);
+        $this->assertSame($name, $script->getName());
+        $this->assertSame($command3, $script->getCommand());
+
+        $script = array_shift($denormalizedList);
+        $this->assertSame($name2, $script->getName());
+        $this->assertSame($command2, $script->getCommand());
+    }
 }

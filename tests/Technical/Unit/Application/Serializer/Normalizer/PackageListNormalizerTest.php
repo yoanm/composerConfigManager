@@ -57,4 +57,29 @@ class PackageListNormalizerTest extends \PHPUnit_Framework_TestCase
             $this->normalizer->normalize($list)
         );
     }
+
+    public function testDenormalize()
+    {
+        $name = 'name';
+        $versionConstraint = 'versionConstraint';
+        $name2 = 'name2';
+        $versionConstraint2 = 'versionConstraint2';
+        $list = [
+            $name => $versionConstraint,
+            $name2 => $versionConstraint2,
+        ];
+
+        $denormalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Package::class, $denormalizedList);
+        $this->assertCount(count($list), $denormalizedList);
+
+        $package = array_shift($denormalizedList);
+        $this->assertSame($name, $package->getName());
+        $this->assertSame($versionConstraint, $package->getVersionConstraint());
+
+        $package = array_shift($denormalizedList);
+        $this->assertSame($name2, $package->getName());
+        $this->assertSame($versionConstraint2, $package->getVersionConstraint());
+    }
 }

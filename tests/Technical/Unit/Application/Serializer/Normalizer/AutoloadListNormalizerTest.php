@@ -23,7 +23,6 @@ class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         $list = [];
         $type = 'type';
-        $entryList = [];
         $namespace = 'namespace';
         $path = 'path';
         $namespace2 = 'namespace2';
@@ -67,5 +66,35 @@ class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
             $expected,
             $this->normalizer->normalize($list)
         );
+    }
+
+    public function testDenormalize()
+    {
+        $type = 'type';
+        $namespace = 'namespace';
+        $path = 'path';
+        $namespace2 = 'namespace2';
+        $path2 = 'path2';
+        $list = [
+            $type => [
+                $namespace => $path,
+                $namespace2 => $path2,
+            ],
+        ];
+
+        $denormalizedList = $this->normalizer->denormalize($list);
+
+        $this->assertContainsOnlyInstancesOf(Autoload::class, $denormalizedList);
+        $this->assertCount(2, $denormalizedList);
+
+        $autoload = array_shift($denormalizedList);
+        $this->assertSame($type, $autoload->getType());
+        $this->assertSame($namespace, $autoload->getNamespace());
+        $this->assertSame($path, $autoload->getPath());
+
+        $autoload = array_shift($denormalizedList);
+        $this->assertSame($type, $autoload->getType());
+        $this->assertSame($namespace2, $autoload->getNamespace());
+        $this->assertSame($path2, $autoload->getPath());
     }
 }

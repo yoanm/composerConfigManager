@@ -42,8 +42,8 @@ class AuthorListNormalizer implements DenormalizerInterface
         foreach ($authorList as $authorData) {
             $normalizedList[] = new Author(
                 $authorData[self::KEY_NAME],
-                $authorData[self::KEY_EMAIL] ? $authorData[self::KEY_EMAIL] : null,
-                $authorData[self::KEY_ROLE] ? $authorData[self::KEY_ROLE] : null
+                isset($authorData[self::KEY_EMAIL]) ? $authorData[self::KEY_EMAIL] : null,
+                isset($authorData[self::KEY_ROLE]) ? $authorData[self::KEY_ROLE] : null
             );
         }
 
