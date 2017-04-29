@@ -49,6 +49,7 @@ namespace {
 
         public function iCreateFakeOldFileAt($path)
         {
+            var_dump("create $path/composer.json");
             file_put_contents(
                 sprintf('%s/composer.json', $path),
                 <<<TEMPLATE

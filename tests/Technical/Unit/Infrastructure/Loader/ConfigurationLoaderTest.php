@@ -35,8 +35,6 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
         $expectedLoadedContent = 'loaded_content';
         $fileContent = 'content';
         $path = 'path';
-        /** @var \Iterator|ObjectProphecy $iterator */
-        $iterator = $this->prophesize(\Iterator::class);
         /** @var SplFileInfo|ObjectProphecy $file */
         $file = $this->prophesize(SplFileInfo::class);
 
@@ -50,18 +48,12 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->finder->reveal())
             ->shouldBeCalled();
         $this->finder->depth(0)
-            ->willReturn($this->finder->reveal())
-            ->shouldBeCalled();
-        $this->finder->getIterator()
-            ->willReturn($iterator->reveal())
+            ->willReturn([$file->reveal()]) // finder is also an iterator but it's easier to manage it like that
             ->shouldBeCalled();
         $file->getContents()
             ->willReturn($fileContent)
             ->shouldBeCalled();
 
-        $iterator->current()
-            ->willReturn($file->reveal())
-            ->shouldBeCalled();
 
         $this->serializer->deserialize($fileContent, Configuration::class, ComposerEncoder::FORMAT)
             ->willReturn($expectedLoadedContent)
@@ -76,8 +68,6 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
     public function testFromPathThrowExceptionIfFileNotFound()
     {
         $path = 'path';
-        /** @var \Iterator|ObjectProphecy $iterator */
-        $iterator = $this->prophesize(\Iterator::class);
 
         $this->finder->in($path)
             ->willReturn($this->finder->reveal())
@@ -89,22 +79,15 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->finder->reveal())
             ->shouldBeCalled();
         $this->finder->depth(0)
-            ->willReturn($this->finder->reveal())
-            ->shouldBeCalled();
-        $this->finder->getIterator()
-            ->willReturn($iterator->reveal())
-            ->shouldBeCalled();
-
-        $iterator->current()
-            ->willReturn(null)
+            ->willReturn([])
             ->shouldBeCalled();
 
         $this->setExpectedException(
             FileNotFoundException::class,
             sprintf(
-                'File %s not found in %s',
-                ConfigurationWriter::FILENAME,
-                $path
+                '%s/%s',
+                $path,
+                ConfigurationWriter::FILENAME
             )
         );
 

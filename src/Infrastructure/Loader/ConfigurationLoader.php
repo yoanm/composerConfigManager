@@ -28,15 +28,18 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
      */
     public function fromPath($path)
     {
-        /** @var SplFileInfo|null $file */
-        $file = null;
         $finder = $this->finder
             ->in($path)
             ->files()
             ->name(ConfigurationWriter::FILENAME)
             ->depth(0);
 
-        $file = $finder->getIterator()->current();
+        /** @var SplFileInfo|null $file */
+        $file = null;
+        foreach ($finder as $result) {
+            $file = $result;
+            break;
+        }
 
         if (null === $file) {
             throw new FileNotFoundException(
@@ -44,9 +47,9 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
                 0,
                 null,
                 sprintf(
-                    'File %s not found in %s',
-                    ConfigurationWriter::FILENAME,
-                    $path
+                    '%s/%s',
+                    $path,
+                    ConfigurationWriter::FILENAME
                 )
             );
         }

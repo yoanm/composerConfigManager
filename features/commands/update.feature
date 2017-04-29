@@ -20,6 +20,7 @@ Feature: As user
     }
     """
 
+    @yo
   Scenario: Basic configuration file
     Given I execute composercm update with following options:
     """
