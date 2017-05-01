@@ -43,6 +43,11 @@ composercm update [OPTIONS]
 
 See below for more information regarding command line options
 
+ * `composercm update` command will take the current composer.json file and will applied given values
+ * A `--template` option is available for `composercm create` and `composercm update` command.
+   * For `composercm create`, given values will be applied to the template
+   * For `composercm update`, given values will be applied to old file and then resulting configuration will be applied to the template. In case you want force template values over old file values, rename old file with `.old` extension, copy the template as `composer.json` and then use `composer update ./composer.json --template composer.json.old`
+
 <a name="managed-properties"></a>
 ## Managed properties
 
