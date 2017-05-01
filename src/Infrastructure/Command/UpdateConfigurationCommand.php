@@ -15,6 +15,7 @@ class UpdateConfigurationCommand extends Command
 {
     const NAME = 'update';
     const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'path';
+    const OPTION_TEMPLATE = 'template';
 
     /** @var InputTransformer */
     private $inputTransformer;
@@ -40,6 +41,7 @@ class UpdateConfigurationCommand extends Command
     protected function configure()
     {
         $this
+            ->setName(self::NAME)
             ->setDescription('Will update a composer configuration file.')
 // @codingStandardsIgnoreStart
             ->setHelp(<<<DESC
@@ -156,6 +158,12 @@ DESC
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'List of scripts for the package. Ex : "script-name#command"'
+            )
+            ->addOption(
+                self::OPTION_TEMPLATE,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path of the json template file. Will be used as default values.'
             )
         ;
     }
