@@ -170,14 +170,23 @@ class CreateConfigurationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configuration = $this->inputTransformer->fromCommandLine(
-            [
-                InputTransformer::KEY_PACKAGE_NAME =>$input->getArgument(InputTransformer::KEY_PACKAGE_NAME)
-            ] + $input->getOptions()
+        $this->createConfiguration->run(
+            new CreateConfigurationRequest(
+                $this->loadConfiguration($input),
+                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER),
+                $this->loadTemplateConfiguration($input->getOption(self::OPTION_TEMPLATE))
+            )
         );
+    }
 
+    /**
+     * @param string $templatePath
+     *
+     * @return null|Configuration
+     */
+    protected function loadTemplateConfiguration($templatePath)
+    {
         $templateConfiguration = null;
-        $templatePath = $input->getOption(self::OPTION_TEMPLATE);
         if ($templatePath) {
             if (is_dir($templatePath)) {
                 $templateConfiguration = $this->configurationLoader->fromPath($templatePath);
@@ -188,12 +197,19 @@ class CreateConfigurationCommand extends Command
             }
         }
 
-        $this->createConfiguration->run(
-            new CreateConfigurationRequest(
-                $configuration,
-                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER),
-                $templateConfiguration
-            )
+        return $templateConfiguration;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return Configuration
+     */
+    protected function loadConfiguration(InputInterface $input)
+    {
+        return $this->inputTransformer->fromCommandLine(
+            [
+                InputTransformer::KEY_PACKAGE_NAME => $input->getArgument(InputTransformer::KEY_PACKAGE_NAME)
+            ] + $input->getOptions()
         );
     }
 }
