@@ -44,9 +44,69 @@ composercm update [OPTIONS]
 See below for more information regarding command line options
 
  * `composercm update` command will take the current composer.json file and will applied given values
- * A `--template` option is available for `composercm create` and `composercm update` command.
-   * For `composercm create`, given values will be applied to the template
-   * For `composercm update`, given values will be applied to old file and then resulting configuration will be applied to the template. In case you want force template values over old file values, rename old file with `.old` extension, copy the template as `composer.json` and then use `composer update ./composer.json --template composer.json.old`
+ 
+ ### Create
+ * A `--template` option is available, given values will be applied to the template
+ * Values are appended in a default order
+   
+### Update
+ * A `--template` option is available, given values will be applied to old file and then resulting configuration will be applied to the template. In case you want force template values over old file values, rename old file with `.old` extension, copy the template as `composer.json` and then use `composer update ./composer.json --template composer.json.old`
+ * Key order are kept from old configuration file. New one are appended in a default order
+ 
+### Templates
+
+ * Multiple template could be provided. Update workflow is the following
+   * 1 - Templates between them
+     If more than one template is given, 
+     * the first first one is updated with values from the second one
+     * resulting configuration is updated with third template
+     ...
+     * resulting configuration is updated with X template
+   * 2 - Resulting configuration with existing one 
+     * **For update command only, in case at least a template was given**
+   * 3 - Resulting configuration with command line values
+     * **Could by skipped if only templates are used**
+
+### Key order
+
+ * By default key order as the one defined in composer documentation website
+ * It's possible to use the `--template` option to define key order of final configuration
+   
+   For instance, defined a template file name `key_order.json` with following content : 
+   
+ ```json
+ {
+   "name": null,
+   "type": null,
+   "license": null,
+   "version": null,
+   "description": null,
+   "keywords": [],
+   "authors": {},
+   "provide": {},
+   "suggest": {},
+   "support": {},
+   "autoload": {},
+   "autoload-dev": {},
+   "require": {},
+   "require-dev": {},
+   "scripts": {}
+ }
+ ```
+
+   Then use the following command : 
+
+ ```bash
+ composercm [create|update] [ARGS] [OPTIONS] --template key_order.json
+ ```
+
+   Resulting file will have keys ordered like in `key_order.json` file. All keys could be added in `key_order.json`, in case no value is given for a key, key will not appear in final file.
+   
+   In case you also want to provide a template with default value, use the following:
+   
+ ```bash
+ composercm [create|update] [ARGS] [OPTIONS] --template key_order.json --template default_values.json [--template another.json]
+ ```
 
 <a name="managed-properties"></a>
 ## Managed properties
@@ -58,8 +118,8 @@ See below for more information regarding command line options
   * Description
   * Keywords *Many allowed*
   * Author *Many allowed*  
-  * Provided *Many allowed*
-  * Suggested *Many allowed*
+  * Provided packages *Many allowed*
+  * Suggested packages *Many allowed*
   * Support *Many allowed*
   * PSR-0 / PSR-4 Autoload *Many allowed*
   * PSR-0 / PSR-4 Autoload dev *Many allowed*
