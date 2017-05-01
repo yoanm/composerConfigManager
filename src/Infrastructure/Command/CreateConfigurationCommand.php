@@ -161,12 +161,8 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationFileList = [];
-        $templateConfigurationFile = $this->loadTemplateConfigurationFile($input);
-        if ($templateConfigurationFile) {
-            $configurationFileList[] = $templateConfigurationFile;
-        }
-        if ($newConfigurationFile = $this->loadConfigurationFile($input, $templateConfigurationFile)) {
+        $configurationFileList = $this->loadTemplateConfigurationFileList($input);
+        if ($newConfigurationFile = $this->loadConfigurationFile($input, $configurationFileList)) {
             $configurationFileList[] = $newConfigurationFile;
         }
         $this->updateConfigurationFile->run(
@@ -179,17 +175,22 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
 
     /**
      * @param InputInterface         $input
-     * @param ConfigurationFile|null $templateConfigurationFile
+     * @param ConfigurationFile[]    $configurationFileList
      *
      * @return null|ConfigurationFile
      */
-    protected function loadConfigurationFile(InputInterface $input, ConfigurationFile $templateConfigurationFile = null)
+    protected function loadConfigurationFile(InputInterface $input, array $configurationFileList)
     {
         $packageName = $input->getArgument(InputTransformer::KEY_PACKAGE_NAME);
         if (null === $packageName) {
-            if (null === $templateConfigurationFile
-                || '' === trim($templateConfigurationFile->getConfiguration()->getPackageName())
-            ) {
+            $hasNameDefined = false;
+            foreach ($configurationFileList as $configurationFile) {
+                if ('' !== trim($configurationFile->getConfiguration()->getPackageName())) {
+                    $hasNameDefined = true;
+                    break;
+                }
+            }
+            if (false === $hasNameDefined) {
                 throw new InvalidArgumentException(
                     sprintf(
                         'A package name must be given if no template containing package name is given !',

@@ -36,7 +36,7 @@ class InputTransformer
     /**
      * @param $inputList
      *
-     * @return ConfigurationFile
+     * @return ConfigurationFile|null
      */
     public function fromCommandLine($inputList)
     {
@@ -46,10 +46,33 @@ class InputTransformer
     /**
      * @param array $inputList
      *
-     * @return ConfigurationFile
+     * @return ConfigurationFile|null
      */
     protected function createConfiguration(array $inputList)
     {
+        $defaultFileKeyList = [
+            str_replace('package-', '', self::KEY_PACKAGE_NAME),
+            self::KEY_TYPE,
+            self::KEY_LICENSE,
+            self::KEY_PACKAGE_VERSION,
+            self::KEY_DESCRIPTION,
+            self::KEY_KEYWORD,
+            self::KEY_AUTHOR,
+            self::KEY_PROVIDED_PACKAGE,
+            self::KEY_SUGGESTED_PACKAGE,
+            self::KEY_SUPPORT,
+            self::KEY_AUTOLOAD_PSR0,
+            self::KEY_AUTOLOAD_PSR4,
+            self::KEY_AUTOLOAD_DEV_PSR0,
+            self::KEY_AUTOLOAD_DEV_PSR4,
+            self::KEY_REQUIRE,
+            self::KEY_REQUIRE_DEV,
+            self::KEY_SCRIPT,
+        ];
+        $fileKeyList = array_intersect($defaultFileKeyList, array_keys($inputList));
+        if (0 === count($fileKeyList)) {
+            return null;
+        }
         return new ConfigurationFile(
             new Configuration(
                 $this->getValue($inputList, self::KEY_PACKAGE_NAME, null),
@@ -68,28 +91,7 @@ class InputTransformer
                 $this->extractRequiredDevPackages($inputList),
                 $this->extractScripts($inputList)
             ),
-            array_intersect(
-                [
-                    str_replace('package-', '', self::KEY_PACKAGE_NAME),
-                    self::KEY_TYPE,
-                    self::KEY_LICENSE,
-                    self::KEY_PACKAGE_VERSION,
-                    self::KEY_DESCRIPTION,
-                    self::KEY_KEYWORD,
-                    self::KEY_AUTHOR,
-                    self::KEY_PROVIDED_PACKAGE,
-                    self::KEY_SUGGESTED_PACKAGE,
-                    self::KEY_SUPPORT,
-                    self::KEY_AUTOLOAD_PSR0,
-                    self::KEY_AUTOLOAD_PSR4,
-                    self::KEY_AUTOLOAD_DEV_PSR0,
-                    self::KEY_AUTOLOAD_DEV_PSR4,
-                    self::KEY_REQUIRE,
-                    self::KEY_REQUIRE_DEV,
-                    self::KEY_SCRIPT,
-                ],
-                array_keys($inputList)
-            )
+            $fileKeyList
         );
     }
 

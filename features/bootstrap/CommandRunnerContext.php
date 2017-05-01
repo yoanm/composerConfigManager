@@ -34,7 +34,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
     /** @var int */
     private $exitCode;
     /** @var null|string */
-    private $templateFilePath;
+    private $templateFilePath = null;
 
     /**
      * @Given /^I will use configuration template at "(?<filePath>[^"]+)" with:$/
@@ -43,7 +43,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
     {
         $filePath = DefaultContext::getBasePath($filePath);
         @mkdir(dirname($filePath));
-        $this->templateFilePath = $filePath;
+        $this->templateFilePath[] = $filePath;
         if ($content) {
             file_put_contents($filePath, $content->getRaw());
         }
@@ -66,7 +66,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
         if (null != $this->templateFilePath) {
             $optionList['--template'] = $this->templateFilePath;
         }
-        $this->templateFilePath = null;
+        $this->templateFilePath[] = null;
 
         $optionList = array_filter($optionList, function ($value) {
             if (is_array($value)) {
