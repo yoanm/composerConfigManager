@@ -5,9 +5,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
-use Yoanm\ComposerConfigManager\Application\UpdateConfiguration;
-use Yoanm\ComposerConfigManager\Application\UpdateConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
+use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileList;
+use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileListRequest;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
 class UpdateConfigurationCommand extends AbstractTemplatableCommand
@@ -17,13 +17,13 @@ class UpdateConfigurationCommand extends AbstractTemplatableCommand
 
     /** @var InputTransformer */
     private $inputTransformer;
-    /** @var UpdateConfiguration */
+    /** @var UpdateConfigurationFileList */
     private $updateConfiguration;
 
     public function __construct(
         InputTransformer $inputTransformer,
-        UpdateConfiguration $updateConfiguration,
-        ConfigurationLoaderInterface $configurationLoader
+        UpdateConfigurationFileList $updateConfiguration,
+        ConfigurationFileLoaderInterface $configurationLoader
     ) {
         parent::__construct($configurationLoader);
 
@@ -164,16 +164,21 @@ DESC
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
-        $newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions());
-        $baseConfiguration = $this->getConfigurationLoader()->fromPath($path);
-        $templateConfiguration = $this->loadTemplateConfiguration($input);
+        $configurationFileList = [];
+        $templateConfigurationFile = $this->loadTemplateConfigurationFile($input);
+        if ($templateConfigurationFile) {
+            $configurationFileList[] = $templateConfigurationFile;
+        }
 
+        $configurationFileList[] = $this->getConfigurationFileLoader()->fromPath($path);
+
+        if ($newConfigurationFile = $this->inputTransformer->fromCommandLine($input->getOptions())) {
+            $configurationFileList[] = $newConfigurationFile;
+        }
         $this->updateConfiguration->run(
-            new UpdateConfigurationRequest(
-                $baseConfiguration,
-                $newConfiguration,
-                $path,
-                $templateConfiguration
+            new UpdateConfigurationFileListRequest(
+                $configurationFileList,
+                $path
             )
         );
     }

@@ -1,21 +1,19 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Application\Loader;
 
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-
-interface ConfigurationLoaderInterface
+interface ConfigurationFileLoaderInterface
 {
     /**
      * @param string $path
      *
-     * @return Configuration
+     * @return ConfigurationFile
      */
     public function fromPath($path);
 
     /**
      * @param string $serializedConfiguration
      *
-     * @return Configuration
+     * @return ConfigurationFile
      */
     public function fromString($serializedConfiguration);
 }

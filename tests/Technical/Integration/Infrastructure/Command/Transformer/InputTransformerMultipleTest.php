@@ -2,7 +2,7 @@
 namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
 class InputTransformerMultipleTest extends AbstractInputTransformerTest
@@ -25,11 +25,11 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
         $this->assertPackageList(
-            $configuration->getProvidedPackageList(),
+            $configurationFile->getConfiguration()->getProvidedPackageList(),
             [
                 [$package1Name, $package1Version],
                 [$package2Name, $package2Version],
@@ -56,11 +56,11 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
         $this->assertSuggestedPackageList(
-            $configuration->getSuggestedPackageList(),
+            $configurationFile->getConfiguration()->getSuggestedPackageList(),
             [
                 [$package1Name, $package1Description],
                 [$package2Name, $package2Description],
@@ -87,11 +87,11 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
         $this->assertSupportList(
-            $configuration->getSupportList(),
+            $configurationFile->getConfiguration()->getSupportList(),
             [
                 [$support1Type, $support1Url],
                 [$support2Type, $support2Url],
@@ -130,12 +130,12 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
 
         $this->assertAutoloadList(
-            $configuration->getAutoloadList(),
+            $configurationFile->getConfiguration()->getAutoloadList(),
             [
                 [Autoload::TYPE_PSR0, $autoload1Psr0Namespace, $autoload1Psr0Path],
                 [Autoload::TYPE_PSR0, $autoload2Psr0Namespace, $autoload2Psr0Path],
@@ -177,12 +177,12 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
 
         $this->assertAutoloadList(
-            $configuration->getAutoloadDevList(),
+            $configurationFile->getConfiguration()->getAutoloadDevList(),
             [
                 [Autoload::TYPE_PSR0, $autoload1Psr0Namespace, $autoload1Psr0Path],
                 [Autoload::TYPE_PSR0, $autoload2Psr0Namespace, $autoload2Psr0Path],
@@ -212,11 +212,11 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
         $this->assertPackageList(
-            $configuration->getRequiredPackageList(),
+            $configurationFile->getConfiguration()->getRequiredPackageList(),
             [
                 [$package1Name, $package1Version],
                 [$package2Name, $package2Version],
@@ -243,11 +243,11 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
         $this->assertPackageList(
-            $configuration->getRequiredDevPackageList(),
+            $configurationFile->getConfiguration()->getRequiredDevPackageList(),
             [
                 [$package1Name, $package1Version],
                 [$package2Name, $package2Version],
@@ -276,11 +276,11 @@ class InputTransformerMultipleTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
         $this->assertScriptList(
-            $configuration->getScriptList(),
+            $configurationFile->getConfiguration()->getScriptList(),
             [
                 [$script1Name, $script1Command],
                 [$script1Name, $script1Command2],

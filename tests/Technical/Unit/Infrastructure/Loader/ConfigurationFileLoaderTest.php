@@ -7,16 +7,17 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder;
-use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter;
+use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
-class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
+class ConfigurationFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Finder|ObjectProphecy */
     private $finder;
     /** @var SerializerInterface|ObjectProphecy */
     private $serializer;
-    /** @var ConfigurationLoader */
+    /** @var ConfigurationFileLoader */
     private $loader;
 
     public function setUp()
@@ -24,7 +25,7 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
         $this->finder = $this->prophesize(Finder::class);
         $this->serializer = $this->prophesize(SerializerInterface::class);
 
-        $this->loader = new ConfigurationLoader(
+        $this->loader = new ConfigurationFileLoader(
             $this->finder->reveal(),
             $this->serializer->reveal()
         );
@@ -44,7 +45,7 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
         $this->finder->files()
             ->willReturn($this->finder->reveal())
             ->shouldBeCalled();
-        $this->finder->name(ConfigurationWriter::FILENAME)
+        $this->finder->name(ConfigurationFileWriter::FILENAME)
             ->willReturn($this->finder->reveal())
             ->shouldBeCalled();
         $this->finder->depth(0)
@@ -55,7 +56,7 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled();
 
 
-        $this->serializer->deserialize($fileContent, Configuration::class, ComposerEncoder::FORMAT)
+        $this->serializer->deserialize($fileContent, ConfigurationFile::class, ComposerEncoder::FORMAT)
             ->willReturn($expectedLoadedContent)
             ->shouldBeCalled();
 
@@ -75,7 +76,7 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
         $this->finder->files()
             ->willReturn($this->finder->reveal())
             ->shouldBeCalled();
-        $this->finder->name(ConfigurationWriter::FILENAME)
+        $this->finder->name(ConfigurationFileWriter::FILENAME)
             ->willReturn($this->finder->reveal())
             ->shouldBeCalled();
         $this->finder->depth(0)
@@ -87,7 +88,7 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
             sprintf(
                 '%s/%s',
                 $path,
-                ConfigurationWriter::FILENAME
+                ConfigurationFileWriter::FILENAME
             )
         );
 
@@ -99,7 +100,7 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
         $expectedLoadedContent = 'loaded_content';
         $fileContent = 'content';
 
-        $this->serializer->deserialize($fileContent, Configuration::class, ComposerEncoder::FORMAT)
+        $this->serializer->deserialize($fileContent, ConfigurationFile::class, ComposerEncoder::FORMAT)
             ->willReturn($expectedLoadedContent)
             ->shouldBeCalled();
 

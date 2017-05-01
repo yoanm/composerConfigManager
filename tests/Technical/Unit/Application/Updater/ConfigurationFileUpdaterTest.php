@@ -3,13 +3,14 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Updater;
 
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Updater\AuthorListUpdater;
-use Yoanm\ComposerConfigManager\Application\Updater\ConfigurationUpdater;
+use Yoanm\ComposerConfigManager\Application\Updater\ConfigurationFileUpdater;
 use Yoanm\ComposerConfigManager\Application\Updater\KeywordListUpdater;
 use Yoanm\ComposerConfigManager\Application\Updater\ListUpdater;
 use Yoanm\ComposerConfigManager\Application\Updater\PlainValueUpdater;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
-class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
+class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PlainValueUpdater|ObjectProphecy */
     private $plainValueUpdater;
@@ -19,7 +20,7 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
     private $listUpdater;
     /** @var AuthorListUpdater|ObjectProphecy */
     private $authorListUpdater;
-    /** @var ConfigurationUpdater */
+    /** @var ConfigurationFileUpdater */
     private $updater;
 
     /**
@@ -32,7 +33,7 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->listUpdater = $this->prophesize(ListUpdater::class);
         $this->authorListUpdater = $this->prophesize(AuthorListUpdater::class);
 
-        $this->updater = new ConfigurationUpdater(
+        $this->updater = new ConfigurationFileUpdater(
             $this->plainValueUpdater->reveal(),
             $this->keywordListUpdater->reveal(),
             $this->listUpdater->reveal(),
@@ -58,10 +59,31 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
         $requiredDevPackageList = ['requiredDevPackageList'];
         $scriptList = ['scriptList'];
 
+        $baseKeyList = ['key_1', 'key_2'];
+        $newKeyList = ['key_1', 'key_0'];
+
+        /** @var ConfigurationFile|ObjectProphecy $baseConfigurationFile */
+        $baseConfigurationFile = $this->prophesize(ConfigurationFile::class);
+        /** @var ConfigurationFile|ObjectProphecy $newConfigurationFile */
+        $newConfigurationFile = $this->prophesize(ConfigurationFile::class);
         /** @var Configuration|ObjectProphecy $baseConfiguration */
         $baseConfiguration = $this->prophesize(Configuration::class);
         /** @var Configuration|ObjectProphecy $newConfiguration */
         $newConfiguration = $this->prophesize(Configuration::class);
+
+        $baseConfigurationFile->getConfiguration()
+            ->willReturn($baseConfiguration->reveal())
+            ->shouldBeCalled();
+        $newConfigurationFile->getConfiguration()
+            ->willReturn($newConfiguration->reveal())
+            ->shouldBeCalled();
+
+        $baseConfigurationFile->getKeyList()
+            ->willReturn($baseKeyList)
+            ->shouldBeCalled();
+        $newConfigurationFile->getKeyList()
+            ->willReturn($newKeyList)
+            ->shouldBeCalled();
 
         $this->configureEntity(
             $newConfiguration,
@@ -117,8 +139,14 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
             $scriptList
         );
 
-        $updatedConfiguration = $this->updater->update($baseConfiguration->reveal(), $newConfiguration->reveal());
+        $updatedConfigurationFile = $this->updater->update([
+            $baseConfigurationFile->reveal(),
+            $newConfigurationFile->reveal()
+        ]);
 
+        $this->assertInstanceOf(ConfigurationFile::class, $updatedConfigurationFile);
+
+        $updatedConfiguration = $updatedConfigurationFile->getConfiguration();
         $this->assertInstanceOf(Configuration::class, $updatedConfiguration);
         $this->assertSame($packageName, $updatedConfiguration->getPackageName());
         $this->assertSame($type, $updatedConfiguration->getType());
@@ -135,6 +163,11 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($requiredPackageList, $updatedConfiguration->getRequiredPackageList());
         $this->assertSame($requiredDevPackageList, $updatedConfiguration->getRequiredDevPackageList());
         $this->assertSame($scriptList, $updatedConfiguration->getScriptList());
+
+        $this->assertSame(
+            array_replace($baseKeyList, $newKeyList),
+            $updatedConfigurationFile->getKeyList()
+        );
     }
 
     /**
@@ -157,21 +190,21 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
      */
     protected function configureEntity(
         ObjectProphecy $newConfiguration,
-        $packageName,
-        $type,
-        $license,
-        $packageVersion,
-        $description,
-        array $keywordList,
-        array $authorList,
-        array $providedPackageList,
-        array $suggestedPackageList,
-        array $supportList,
-        array $autoloadList,
-        array $autoloadDevList,
-        array $requiredPackageList,
-        array $requiredDevPackageList,
-        array $scriptList
+        $packageName = null,
+        $type = null,
+        $license = null,
+        $packageVersion = null,
+        $description = null,
+        array $keywordList = [],
+        array $authorList = [],
+        array $providedPackageList = [],
+        array $suggestedPackageList = [],
+        array $supportList = [],
+        array $autoloadList = [],
+        array $autoloadDevList = [],
+        array $requiredPackageList = [],
+        array $requiredDevPackageList = [],
+        array $scriptList = []
     ) {
         $newConfiguration->getPackageName()
             ->willReturn($packageName)
