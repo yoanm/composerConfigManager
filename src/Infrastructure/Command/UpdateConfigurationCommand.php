@@ -19,8 +19,6 @@ class UpdateConfigurationCommand extends AbstractTemplatableCommand
     private $inputTransformer;
     /** @var UpdateConfiguration */
     private $updateConfiguration;
-    /** @var ConfigurationLoaderInterface */
-    private $configurationLoader;
 
     public function __construct(
         InputTransformer $inputTransformer,
@@ -31,7 +29,6 @@ class UpdateConfigurationCommand extends AbstractTemplatableCommand
 
         $this->inputTransformer = $inputTransformer;
         $this->updateConfiguration = $updateConfiguration;
-        $this->configurationLoader = $configurationLoader;
     }
     /**
      * {@inheritdoc}
@@ -168,7 +165,7 @@ DESC
     {
         $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
         $newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions());
-        $baseConfiguration = $this->configurationLoader->fromPath($path);
+        $baseConfiguration = $this->getConfigurationLoader()->fromPath($path);
         $templateConfiguration = $this->loadTemplateConfiguration($input);
 
         $this->updateConfiguration->run(

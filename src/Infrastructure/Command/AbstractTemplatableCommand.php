@@ -38,6 +38,14 @@ abstract class AbstractTemplatableCommand extends Command
     }
 
     /**
+     * @return ConfigurationLoader
+     */
+    public function getConfigurationLoader()
+    {
+        return $this->configurationLoader;
+    }
+
+    /**
      * @param InputInterface $input
      *
      * @return null|Configuration
