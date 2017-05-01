@@ -36,24 +36,28 @@ Feature: As user
     }
     """
 
-  Scenario: Multiple keywords
+  Scenario: Full configuration file
     Given I execute composercm update with following options:
     """
-    --keyword my_keyword --keyword my_keyword2
+    --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3 --keyword my_keyword --keyword my_keyword2 --author author#email#role --author name2 --author name3#email3 --provided-package name/A#url1 --provided-package name2/B#url2 --provided-package name/C#url3 --suggested-package "name/A#description 1" --suggested-package "name2/B#description 2" --suggested-package "name/C#description 3" --support "typeA#urlA" --support "typeB#urlB" --support "typeC#urlC" --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "vendor1/A#v1.3.0" --require "vendor2/B#>=2.0.0" --require "vendor1/C#~3.2" --require-dev "vendor1/A#v1.3.0" --require-dev "vendor2/B#>=2.0.0" --require-dev "vendor1/C#~3.2" --script "name1#command1" --script "name2#command1" --script "name1#command2"
     """
     Then configuration file should contains:
+    """
+    {
+      "name": "pk_namespace2\\pk_name2",
+      "type": "my_type",
+      "license": "my_license",
+      "version": "1.2.3",
+      "description": "pk description"
+    }
+    """
+    And configuration file should contains:
     """
     {
       "keywords": ["DEFAULT-KEYWORD1", "DEFAULT-KEYWORD2", "my_keyword", "my_keyword2"]
     }
     """
-
-  Scenario: Multiple authors
-    Given I execute composercm update with following options:
-    """
-    --author author#email#role --author name2 --author name3#email3
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "authors": [
@@ -82,40 +86,7 @@ Feature: As user
       ]
     }
     """
-
-  Scenario: Update some authors
-    Given I execute composercm update with following options:
-    """
-    --author default-name1#email#role --author default-name2#email2 --author name3#email3
-    """
-    Then configuration file should contains:
-    """
-    {
-      "authors": [
-        {
-          "name": "default-name1",
-          "email": "email",
-          "role": "role"
-        },
-        {
-          "name": "default-name2",
-          "email": "email2",
-          "role": "default-role2"
-        },
-        {
-          "name": "name3",
-          "email": "email3"
-        }
-      ]
-    }
-    """
-
-  Scenario: Multiple provided packages
-    Given I execute composercm update with following options:
-    """
-    --provided-package name/A#url1 --provided-package name2/B#url2 --provided-package name/C#url3
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "provide": {
@@ -127,29 +98,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update some provided packages
-    Given I execute composercm update with following options:
-    """
-    --provided-package package1#url1 --provided-package name2/B#url2
-    """
-    Then configuration file should contains:
-    """
-    {
-      "provide": {
-        "package1": "url1",
-        "package2": "default-provided-package2",
-        "name2/B": "url2"
-      }
-    }
-    """
-
-  Scenario: Multiple some suggested packages
-    Given I execute composercm update with following options:
-    """
-    --suggested-package "name/A#description 1" --suggested-package "name2/B#description 2" --suggested-package "name/C#description 3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "suggest": {
@@ -161,29 +110,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update some suggested packages
-    Given I execute composercm update with following options:
-    """
-    --suggested-package "package1#description 1" --suggested-package "name2/B#description 2"
-    """
-    Then configuration file should contains:
-    """
-    {
-      "suggest": {
-        "package1": "description 1",
-        "package2": "default-suggested-package2",
-        "name2/B": "description 2"
-      }
-    }
-    """
-
-  Scenario: Multiple supports
-    Given I execute composercm update with following options:
-    """
-    --support "typeA#urlA" --support "typeB#urlB" --support "typeC#urlC"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "support": {
@@ -195,29 +122,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update smoe supports
-    Given I execute composercm update with following options:
-    """
-    --support "type1#url1" --support "typeA#urlA"
-    """
-    Then configuration file should contains:
-    """
-    {
-      "support": {
-        "type1": "url1",
-        "type2": "default-support-type2",
-        "typeA": "urlA"
-      }
-    }
-    """
-
-  Scenario: Multiple autoload (mixing PSR-0 and PSR-4)
-    Given I execute composercm update with following options:
-    """
-    --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "autoload": {
@@ -235,36 +140,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update some autoload (mixing PSR-0 and PSR-4)
-    Given I execute composercm update with following options:
-    """
-    --autoload-psr0 "DefaultNamespace\\DefaultSubNamespace#src1" --autoload-psr4 "\\DefaultNamespace\\DefaultSubNamespace2\\#src2" --autoload-psr4 "\\vendor2\\Test\\#src4" --autoload-psr0 "vendor1\\Test2#src3"
-    """
-    Then configuration file should contains:
-    """
-    {
-      "autoload": {
-        "psr-0": {
-         "DefaultNamespace\\DefaultSubNamespace": "src1",
-         "DefaultNamespace\\DefaultSubNamespace2": "default-psr0-path2",
-         "vendor1\\Test2": "src3"
-        },
-        "psr-4": {
-          "\\DefaultNamespace\\DefaultSubNamespace\\": "default-psr4-path1",
-          "\\DefaultNamespace\\DefaultSubNamespace2\\": "src2",
-          "\\vendor2\\Test\\": "src4"
-        }
-      }
-    }
-    """
-
-  Scenario: Multiple autoload dev (mixing PSR-0 and PSR-4)
-    Given I execute composercm update with following options:
-    """
-    --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "autoload-dev": {
@@ -282,36 +158,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update some autoload dev (mixing PSR-0 and PSR-4)
-    Given I execute composercm update with following options:
-    """
-    --autoload-dev-psr0 "DefaultNamespace\\DefaultSubNamespace2#src1" --autoload-dev-psr4 "\\DefaultNamespace\\DefaultSubNamespace\\#src2" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3"
-    """
-    Then configuration file should contains:
-    """
-    {
-      "autoload-dev": {
-        "psr-0": {
-          "DefaultNamespace\\DefaultSubNamespace": "default-psr0-path1",
-          "DefaultNamespace\\DefaultSubNamespace2": "src1",
-          "vendor1\\Test2": "src3"
-        },
-        "psr-4": {
-          "\\DefaultNamespace\\DefaultSubNamespace\\": "src2",
-          "\\DefaultNamespace\\DefaultSubNamespace2\\": "default-psr4-path2",
-          "vendor2\\Test": "src2"
-        }
-      }
-    }
-    """
-
-  Scenario: Multiple require
-    Given I execute composercm update with following options:
-    """
-    --require "vendor1/A#v1.3.0" --require "vendor2/B#>=2.0.0" --require "vendor1/C#~3.2"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "require": {
@@ -322,28 +169,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update some require
-    Given I execute composercm update with following options:
-    """
-    --require "requirement1#custom" --require "vendor2/B#>=2.0.0"
-    """
-    Then configuration file should contains:
-    """
-    {
-      "require": {
-        "requirement1": "custom",
-        "vendor2/B": ">=2.0.0"
-      }
-    }
-    """
-
-  Scenario: Multiple require dev
-    Given I execute composercm update with following options:
-    """
-    --require-dev "vendor1/A#v1.3.0" --require-dev "vendor2/B#>=2.0.0" --require-dev "vendor1/C#~3.2"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "require-dev": {
@@ -354,28 +180,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Update some require dev
-    Given I execute composercm update with following options:
-    """
-    --require-dev "requirement1#custom" --require-dev "vendor2/B#>=2.0.0"
-    """
-    Then configuration file should contains:
-    """
-    {
-      "require-dev": {
-        "requirement1": "custom",
-        "vendor2/B": ">=2.0.0"
-      }
-    }
-    """
-
-  Scenario: Multiple scripts
-    Given I execute composercm update with following options:
-    """
-    --script "name1#command1" --script "name2#command1" --script "name1#command2"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "scripts": {
@@ -398,12 +203,125 @@ Feature: As user
     }
     """
 
-  Scenario: Update some scripts
+  Scenario: Full configuration file with values to update
     Given I execute composercm update with following options:
     """
-    --script "default-script-1#command1" --script "name2#command1" --script "default-script-1#command2"
+    --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3  --author default-name1#email#role --author default-name2#email2 --author name3#email3 --provided-package package1#url1 --provided-package name2/B#url2 --suggested-package "package1#description 1" --suggested-package "name2/B#description 2" --support "type1#url1" --support "typeA#urlA" --autoload-psr0 "DefaultNamespace\\DefaultSubNamespace#src1" --autoload-psr4 "\\DefaultNamespace\\DefaultSubNamespace2\\#src2" --autoload-psr4 "\\vendor2\\Test\\#src4" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "DefaultNamespace\\DefaultSubNamespace2#src1" --autoload-dev-psr4 "\\DefaultNamespace\\DefaultSubNamespace\\#src2" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "requirement1#custom" --require "vendor2/B#>=2.0.0" --require-dev "requirement1#custom" --require-dev "vendor2/B#>=2.0.0" --script "default-script-1#command1" --script "name2#command1" --script "default-script-1#command2"
     """
     Then configuration file should contains:
+    """
+    {
+      "name": "pk_namespace2\\pk_name2",
+      "type": "my_type",
+      "license": "my_license",
+      "version": "1.2.3",
+      "description": "pk description"
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "authors": [
+        {
+          "name": "default-name1",
+          "email": "email",
+          "role": "role"
+        },
+        {
+          "name": "default-name2",
+          "email": "email2",
+          "role": "default-role2"
+        },
+        {
+          "name": "name3",
+          "email": "email3"
+        }
+      ]
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "provide": {
+        "package1": "url1",
+        "package2": "default-provided-package2",
+        "name2/B": "url2"
+      }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "suggest": {
+        "package1": "description 1",
+        "package2": "default-suggested-package2",
+        "name2/B": "description 2"
+      }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "support": {
+        "type1": "url1",
+        "type2": "default-support-type2",
+        "typeA": "urlA"
+      }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "autoload": {
+        "psr-0": {
+         "DefaultNamespace\\DefaultSubNamespace": "src1",
+         "DefaultNamespace\\DefaultSubNamespace2": "default-psr0-path2",
+         "vendor1\\Test2": "src3"
+        },
+        "psr-4": {
+          "\\DefaultNamespace\\DefaultSubNamespace\\": "default-psr4-path1",
+          "\\DefaultNamespace\\DefaultSubNamespace2\\": "src2",
+          "\\vendor2\\Test\\": "src4"
+        }
+      }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "autoload-dev": {
+        "psr-0": {
+          "DefaultNamespace\\DefaultSubNamespace": "default-psr0-path1",
+          "DefaultNamespace\\DefaultSubNamespace2": "src1",
+          "vendor1\\Test2": "src3"
+        },
+        "psr-4": {
+          "\\DefaultNamespace\\DefaultSubNamespace\\": "src2",
+          "\\DefaultNamespace\\DefaultSubNamespace2\\": "default-psr4-path2",
+          "vendor2\\Test": "src2"
+        }
+      }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "require": {
+        "requirement1": "custom",
+        "vendor2/B": ">=2.0.0"
+      }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "require-dev": {
+        "requirement1": "custom",
+        "vendor2/B": ">=2.0.0"
+      }
+    }
+    """
+    And configuration file should contains:
     """
     {
       "scripts": {

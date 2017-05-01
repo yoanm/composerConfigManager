@@ -37,7 +37,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
     private $templateFilePath;
 
     /**
-     * @Given /^I will use template at "(?<filePath>[^"]+)"(?: with:)?$/
+     * @Given /^I will use configuration template at "(?<filePath>[^"]+)" with:$/
      */
     public function iExecuteConsoleWithNameDestAndOption($filePath, PyStringNode $content = null)
     {

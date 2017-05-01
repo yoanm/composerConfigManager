@@ -40,16 +40,16 @@ class ComposerCMContext implements Context
             DefaultContext::getFilePath($path),
             <<<TEMPLATE
 {
-"name": "default-name",
-"type": "default-type",
-"license": "default-license",
-"version": "default-version",
-"description": "default-description",
-"keywords": [
+  "name": "default-name",
+  "type": "default-type",
+  "license": "default-license",
+  "version": "default-version",
+  "description": "default-description",
+  "keywords": [
     "DEFAULT-KEYWORD1",
     "DEFAULT-KEYWORD2"
-],
-"authors": [
+  ],
+  "authors": [
     {
         "name": "default-name1",
         "email": "default-email1",
@@ -60,20 +60,20 @@ class ComposerCMContext implements Context
         "email": "default-email2",
         "role": "default-role2"
     }
-],
-"provide": {
+  ],
+  "provide": {
     "package1": "default-provided-package1",
     "package2": "default-provided-package2"
-},
-"suggest": {
+  },
+  "suggest": {
     "package1": "default-suggested-package1",
     "package2": "default-suggested-package2"
-},
-"support": {
+  },
+  "support": {
     "type1": "default-support-type1",
     "type2": "default-support-type2"
-},
-"autoload": {
+  },
+  "autoload": {
     "psr-0": {
         "DefaultNamespace\\\\DefaultSubNamespace": "default-psr0-path1",
         "DefaultNamespace\\\\DefaultSubNamespace2": "default-psr0-path2"
@@ -82,8 +82,8 @@ class ComposerCMContext implements Context
         "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-psr4-path1",
         "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-psr4-path2"
     }
-},
-"autoload-dev": {
+  },
+  "autoload-dev": {
     "psr-0": {
         "DefaultNamespace\\\\DefaultSubNamespace": "default-psr0-path1",
         "DefaultNamespace\\\\DefaultSubNamespace2": "default-psr0-path2"
@@ -92,14 +92,14 @@ class ComposerCMContext implements Context
         "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-psr4-path1",
         "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-psr4-path2"
     }
-},
-"require": {
+  },
+  "require": {
     "requirement1": "default-required-package1"
-},
-"require-dev": {
+  },
+  "require-dev": {
     "requirement1": "default-required-dev-package1"
-},
-"scripts": {
+  },
+  "scripts": {
     "default-script-1": [
         "default-script1-command_1",
         "default-script1-command_2"
@@ -108,7 +108,7 @@ class ComposerCMContext implements Context
         "default-script2-command_1",
         "default-script2-command_2"
     ]
-}
+  }
 }
 
 TEMPLATE

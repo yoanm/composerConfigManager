@@ -31,24 +31,27 @@ Feature: As user
     }
     """
 
-  Scenario: Multiple keywords
+  Scenario: Full configuration
     Given I execute composercm create with following options:
     """
-    --keyword my_keyword --keyword my_keyword2
+    --description "pk description" --type my_type --license my_license --package-version 1.2.3 --keyword my_keyword --keyword my_keyword2 --author author#email#role --author name2 --author name3#email3 --provided-package name/A#url1 --provided-package name2/B#url2 --provided-package name/C#url3 --suggested-package "name/A#description 1" --suggested-package "name2/B#description 2" --suggested-package "name/C#description 3" --support "type1#url1" --support "type2#url2" --support "type3#url3" --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "\\vendor2\\Test\\#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "vendor1/A#v1.3.0" --require "vendor2/B#>=2.0.0" --require "vendor1/C#~3.2" --require-dev "vendor1/A#v1.3.0" --require-dev "vendor2/B#>=2.0.0" --require-dev "vendor1/C#~3.2" --script "name1#command1" --script "name2#command1" --script "name1#command2"
     """
     Then configuration file should contains:
+    """
+    {
+      "type": "my_type",
+      "license": "my_license",
+      "version": "1.2.3",
+      "description": "pk description"
+    }
+    """
+    And configuration file should contains:
     """
     {
       "keywords": ["my_keyword", "my_keyword2"]
     }
     """
-
-  Scenario: Multiple authors
-    Given I execute composercm create with following options:
-    """
-    --author author#email#role --author name2 --author name3#email3
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "authors": [
@@ -67,13 +70,7 @@ Feature: As user
       ]
     }
     """
-
-  Scenario: Multiple provided packages
-    Given I execute composercm create with following options:
-    """
-    --provided-package name/A#url1 --provided-package name2/B#url2 --provided-package name/C#url3
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "provide": {
@@ -83,13 +80,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Multiple suggested packages
-    Given I execute composercm create with following options:
-    """
-    --suggested-package "name/A#description 1" --suggested-package "name2/B#description 2" --suggested-package "name/C#description 3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "suggest": {
@@ -99,13 +90,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Multiple supports
-    Given I execute composercm create with following options:
-    """
-    --support "type1#url1" --support "type2#url2" --support "type3#url3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "support": {
@@ -115,13 +100,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Multiple autoload (mixing PSR-0 and PSR-4)
-    Given I execute composercm create with following options:
-    """
-    --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "autoload": {
@@ -135,13 +114,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Multiple autoload dev (mixing PSR-0 and PSR-4)
-    Given I execute composercm create with following options:
-    """
-    --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "\\vendor2\\Test\\#src2" --autoload-dev-psr0 "vendor1\\Test2#src3"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "autoload-dev": {
@@ -155,14 +128,7 @@ Feature: As user
       }
     }
     """
-
-
-  Scenario: Multiple require (mixing PSR-0 and PSR-4)
-    Given I execute composercm create with following options:
-    """
-    --require "vendor1/A#v1.3.0" --require "vendor2/B#>=2.0.0" --require "vendor1/C#~3.2"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "require": {
@@ -172,13 +138,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Multiple require dev (mixing PSR-0 and PSR-4)
-    Given I execute composercm create with following options:
-    """
-    --require-dev "vendor1/A#v1.3.0" --require-dev "vendor2/B#>=2.0.0" --require-dev "vendor1/C#~3.2"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "require-dev": {
@@ -188,13 +148,7 @@ Feature: As user
       }
     }
     """
-
-  Scenario: Multiple scripts
-    Given I execute composercm create with following options:
-    """
-    --script "name1#command1" --script "name2#command1" --script "name1#command2"
-    """
-    Then configuration file should contains:
+    And configuration file should contains:
     """
     {
       "scripts": {
