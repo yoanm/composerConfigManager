@@ -85,7 +85,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
         } catch (\Exception $exception) {
             $this->lastException = $exception;
             $this->exitCode = $exception->getCode();
-            $this->output->writeln('Exception : '.$exception->getMessage());
+            var_dump('Exception : '.$exception->getMessage());
         }
     }
 

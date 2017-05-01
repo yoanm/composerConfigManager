@@ -4,23 +4,23 @@ namespace Yoanm\ComposerConfigManager\Infrastructure\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 abstract class AbstractTemplatableCommand extends Command
 {
     const OPTION_TEMPLATE = 'template';
 
-    /** @var ConfigurationLoaderInterface */
+    /** @var ConfigurationFileLoaderInterface */
     private $configurationLoader;
 
     /**
-     * @param ConfigurationLoaderInterface $configurationLoader
+     * @param ConfigurationFileLoaderInterface $configurationFileLoader
      */
-    public function __construct(ConfigurationLoaderInterface $configurationLoader)
+    public function __construct(ConfigurationFileLoaderInterface $configurationFileLoader)
     {
         parent::__construct();
-        $this->configurationLoader = $configurationLoader;
+        $this->configurationFileLoader = $configurationFileLoader;
     }
     /**
      * {@inheritdoc}
@@ -38,11 +38,11 @@ abstract class AbstractTemplatableCommand extends Command
     }
 
     /**
-     * @return ConfigurationLoaderInterface
+     * @return ConfigurationFileLoaderInterface
      */
-    public function getConfigurationLoader()
+    public function getConfigurationFileLoader()
     {
-        return $this->configurationLoader;
+        return $this->configurationFileLoader;
     }
 
     /**
@@ -50,15 +50,15 @@ abstract class AbstractTemplatableCommand extends Command
      *
      * @return null|Configuration
      */
-    protected function loadTemplateConfiguration(InputInterface $input)
+    protected function loadTemplateConfigurationFile(InputInterface $input)
     {
         $templatePath = $input->getOption(self::OPTION_TEMPLATE);
         $templateConfiguration = null;
         if ($templatePath) {
             if (is_dir($templatePath)) {
-                $templateConfiguration = $this->configurationLoader->fromPath($templatePath);
+                $templateConfiguration = $this->configurationFileLoader->fromPath($templatePath);
             } elseif (is_file($templatePath)) {
-                $templateConfiguration = $this->configurationLoader->fromString(file_get_contents($templatePath));
+                $templateConfiguration = $this->configurationFileLoader->fromString(file_get_contents($templatePath));
             } else {
                 throw new \UnexpectedValueException('Template path is nor a file or a path !');
             }

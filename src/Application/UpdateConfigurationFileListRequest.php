@@ -1,17 +1,17 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Application;
 
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
-class UpdateConfigurationRequest
+class UpdateConfigurationFileListRequest
 {
     /** @var string */
     private $destinationFolder;
-    /** @var Configuration[] */
+    /** @var ConfigurationFile[] */
     private $configurationList;
 
     /**
-     * @param Configuration[] $configurationList
+     * @param ConfigurationFile[] $configurationList
      * @param string          $destinationFolder
      */
     public function __construct(array $configurationList, $destinationFolder)
@@ -29,9 +29,9 @@ class UpdateConfigurationRequest
     }
 
     /**
-     * @return Configuration[]
+     * @return ConfigurationFile[]
      */
-    public function getConfigurationList()
+    public function getConfigurationFileList()
     {
         return $this->configurationList;
     }

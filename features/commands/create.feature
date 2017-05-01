@@ -2,6 +2,7 @@ Feature: As user
   In order to create composer configuration file
   I should be able to use the command line
 
+  @yo
   Scenario: Default
     Given I execute composercm create with "pk_namespace\\pk_name"
     Then configuration file should be:

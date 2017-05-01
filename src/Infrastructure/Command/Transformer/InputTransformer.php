@@ -5,6 +5,7 @@ use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
@@ -35,7 +36,7 @@ class InputTransformer
     /**
      * @param $inputList
      *
-     * @return Configuration
+     * @return ConfigurationFile
      */
     public function fromCommandLine($inputList)
     {
@@ -45,26 +46,50 @@ class InputTransformer
     /**
      * @param array $inputList
      *
-     * @return Configuration
+     * @return ConfigurationFile
      */
     protected function createConfiguration(array $inputList)
     {
-        return new Configuration(
-            $inputList[self::KEY_PACKAGE_NAME],
-            $this->getValue($inputList, self::KEY_TYPE, null),
-            $this->getValue($inputList, self::KEY_LICENSE, null),
-            $this->getValue($inputList, self::KEY_PACKAGE_VERSION, null),
-            $this->getValue($inputList, self::KEY_DESCRIPTION, null),
-            $this->extractKeywords($inputList),
-            $this->extractAuthors($inputList),
-            $this->extractProvidedPackages($inputList),
-            $this->extractSuggestedPackages($inputList),
-            $this->extractSupports($inputList),
-            $this->extractAutoloads($inputList),
-            $this->extractAutoloadsDev($inputList),
-            $this->extractRequiredPackages($inputList),
-            $this->extractRequiredDevPackages($inputList),
-            $this->extractScripts($inputList)
+        return new ConfigurationFile(
+            new Configuration(
+                $inputList[self::KEY_PACKAGE_NAME],
+                $this->getValue($inputList, self::KEY_TYPE, null),
+                $this->getValue($inputList, self::KEY_LICENSE, null),
+                $this->getValue($inputList, self::KEY_PACKAGE_VERSION, null),
+                $this->getValue($inputList, self::KEY_DESCRIPTION, null),
+                $this->extractKeywords($inputList),
+                $this->extractAuthors($inputList),
+                $this->extractProvidedPackages($inputList),
+                $this->extractSuggestedPackages($inputList),
+                $this->extractSupports($inputList),
+                $this->extractAutoloads($inputList),
+                $this->extractAutoloadsDev($inputList),
+                $this->extractRequiredPackages($inputList),
+                $this->extractRequiredDevPackages($inputList),
+                $this->extractScripts($inputList)
+            ),
+            array_intersect(
+                [
+                    str_replace('package-', '', self::KEY_PACKAGE_NAME),
+                    self::KEY_TYPE,
+                    self::KEY_LICENSE,
+                    self::KEY_PACKAGE_VERSION,
+                    self::KEY_DESCRIPTION,
+                    self::KEY_KEYWORD,
+                    self::KEY_AUTHOR,
+                    self::KEY_PROVIDED_PACKAGE,
+                    self::KEY_SUGGESTED_PACKAGE,
+                    self::KEY_SUPPORT,
+                    self::KEY_AUTOLOAD_PSR0,
+                    self::KEY_AUTOLOAD_PSR4,
+                    self::KEY_AUTOLOAD_DEV_PSR0,
+                    self::KEY_AUTOLOAD_DEV_PSR4,
+                    self::KEY_REQUIRE,
+                    self::KEY_REQUIRE_DEV,
+                    self::KEY_SCRIPT,
+                ],
+                array_keys($inputList)
+            )
         );
     }
 

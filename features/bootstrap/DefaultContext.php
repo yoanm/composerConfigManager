@@ -5,6 +5,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use PHPUnit\Framework\Assert;
+use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter;
 
 /**
@@ -22,7 +23,7 @@ class DefaultContext implements Context
         return sprintf(
             '%s/%s',
             self::getBasePath($path),
-            ConfigurationWriter::FILENAME
+            ConfigurationFileWriter::FILENAME
         );
     }
 
