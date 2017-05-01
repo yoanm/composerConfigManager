@@ -55,4 +55,37 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $this->creator->run($request->reveal());
     }
+
+    public function testRunWithTemplate()
+    {
+        $destFolder = 'folder';
+
+        /** @var CreateConfigurationRequest|ObjectProphecy $request */
+        $request = $this->prophesize(CreateConfigurationRequest::class);
+        /** @var Configuration|ObjectProphecy $configuration */
+        $configuration = $this->prophesize(Configuration::class);
+        /** @var Configuration|ObjectProphecy $templateConfiguration */
+        $templateConfiguration = $this->prophesize(Configuration::class);
+        /** @var Configuration|ObjectProphecy $updateConfiguration */
+        $updateConfiguration = $this->prophesize(Configuration::class);
+
+        $request->getConfiguration()
+            ->willReturn($configuration->reveal())
+            ->shouldBeCalled();
+        $request->getTemplateConfiguration()
+            ->willReturn($templateConfiguration->reveal())
+            ->shouldBeCalled();
+        $request->getDestinationFolder()
+            ->willReturn($destFolder)
+            ->shouldBeCalled();
+
+        $this->configurationUpdater->update($templateConfiguration->reveal(), $configuration->reveal())
+            ->willReturn($updateConfiguration->reveal())
+            ->shouldBeCalled();
+
+        $this->configurationWriter->write($updateConfiguration->reveal(), $destFolder)
+            ->shouldBeCalled();
+
+        $this->creator->run($request->reveal());
+    }
 }

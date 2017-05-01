@@ -93,4 +93,20 @@ class ConfigurationLoaderTest extends \PHPUnit_Framework_TestCase
 
         $this->loader->fromPath($path);
     }
+
+    public function testFromString()
+    {
+        $expectedLoadedContent = 'loaded_content';
+        $fileContent = 'content';;
+
+        $this->serializer->deserialize($fileContent, Configuration::class, ComposerEncoder::FORMAT)
+            ->willReturn($expectedLoadedContent)
+            ->shouldBeCalled();
+
+        $this->assertSame(
+            $expectedLoadedContent,
+            $this->loader->fromString($fileContent)
+        );
+    }
+
 }

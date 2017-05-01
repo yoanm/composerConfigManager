@@ -13,9 +13,9 @@ interface ConfigurationLoaderInterface
     public function fromPath($path);
 
     /**
-     * @param string $filePath
+     * @param string $serializedConfiguration
      *
      * @return Configuration
      */
-    public function fromFilePath($filePath);
+    public function fromString($serializedConfiguration);
 }

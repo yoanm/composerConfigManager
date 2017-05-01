@@ -191,7 +191,7 @@ class CreateConfigurationCommand extends Command
             if (is_dir($templatePath)) {
                 $templateConfiguration = $this->configurationLoader->fromPath($templatePath);
             } elseif (is_file($templatePath)) {
-                $templateConfiguration = $this->configurationLoader->fromFilePath($templatePath);
+                $templateConfiguration = $this->configurationLoader->fromString(file_get_contents($templatePath));
             } else {
                 throw new \UnexpectedValueException('Template path is nor a file or a path !');
             }
