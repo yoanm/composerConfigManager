@@ -2,7 +2,6 @@
 namespace Functional\Yoanm\ComposerConfigManager\BehatContext;
 
 use Behat\Gherkin\Node\PyStringNode;
-use PHPUnit\Framework\Assert;
 
 /**
  * Class ComposerCMContext
