@@ -42,18 +42,6 @@ class UpdateConfiguration
      */
     protected function getConfiguration(UpdateConfigurationRequest $request)
     {
-        $configuration = $this->configurationUpdater->update(
-            $request->getBaseConfiguration(),
-            $request->getNewConfiguration()
-        );
-
-        if ($request->getTemplateConfiguration() instanceof Configuration) {
-            $configuration = $this->configurationUpdater->update(
-                $request->getTemplateConfiguration(),
-                $configuration
-            );
-        }
-
-        return $configuration;
+        return $this->configurationUpdater->update($request->getConfigurationList());
     }
 }

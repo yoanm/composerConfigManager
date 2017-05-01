@@ -164,16 +164,21 @@ DESC
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
-        $newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions());
-        $baseConfiguration = $this->getConfigurationLoader()->fromPath($path);
+        $configurationList = [];
         $templateConfiguration = $this->loadTemplateConfiguration($input);
+        if ($templateConfiguration) {
+            $configurationList[] = $templateConfiguration;
+        }
 
+        $configurationList[] = $this->getConfigurationLoader()->fromPath($path);
+
+        if ($newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions())) {
+            $configurationList[] = $newConfiguration;
+        }
         $this->updateConfiguration->run(
             new UpdateConfigurationRequest(
-                $baseConfiguration,
-                $newConfiguration,
-                $path,
-                $templateConfiguration
+                $configurationList,
+                $path
             )
         );
     }

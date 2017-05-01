@@ -1,12 +1,13 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Infrastructure\Command;
 
+use \InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
-use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\UpdateConfiguration;
+use Yoanm\ComposerConfigManager\Application\UpdateConfigurationRequest;
 use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
@@ -18,23 +19,23 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
 
     /** @var InputTransformer */
     private $inputTransformer;
-    /** @var CreateConfiguration */
-    private $createConfiguration;
+    /** @var UpdateConfiguration */
+    private $updateConfiguration;
 
     /**
      * @param InputTransformer             $inputTransformer
-     * @param CreateConfiguration          $createConfiguration
+     * @param UpdateConfiguration          $updateConfiguration
      * @param ConfigurationLoaderInterface $configurationLoader
      */
     public function __construct(
         InputTransformer $inputTransformer,
-        CreateConfiguration $createConfiguration,
+        UpdateConfiguration $updateConfiguration,
         ConfigurationLoaderInterface $configurationLoader
     ) {
         parent::__construct($configurationLoader);
 
         $this->inputTransformer = $inputTransformer;
-        $this->createConfiguration = $createConfiguration;
+        $this->updateConfiguration = $updateConfiguration;
     }
     /**
      * {@inheritdoc}
@@ -45,15 +46,15 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
             ->setName(self::NAME)
             ->setDescription('Will create a composer configuration file')
             ->addArgument(
-                InputTransformer::KEY_PACKAGE_NAME,
-                InputArgument::REQUIRED,
-                'Name for the composer package'
-            )
-            ->addArgument(
                 self::ARGUMENT_CONFIGURATION_DEST_FOLDER,
                 InputArgument::OPTIONAL,
                 'Configuration file destination folder',
                 '.'
+            )
+            ->addArgument(
+                InputTransformer::KEY_PACKAGE_NAME,
+                InputArgument::OPTIONAL,
+                'Name for the composer package. Optionnal if a template containing package-name is given.'
             )
             ->addOption(
                 InputTransformer::KEY_TYPE,
@@ -160,25 +161,49 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->createConfiguration->run(
-            new CreateConfigurationRequest(
-                $this->loadConfiguration($input),
-                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER),
-                $this->loadTemplateConfiguration($input)
+        $configurationList = [];
+        $templateConfiguration = $this->loadTemplateConfiguration($input);
+        if ($templateConfiguration) {
+            $configurationList[] = $templateConfiguration;
+        }
+        if ($newConfiguration = $this->loadConfiguration($input, $templateConfiguration)) {
+            $configurationList[] = $newConfiguration;
+        }
+        $this->updateConfiguration->run(
+            new UpdateConfigurationRequest(
+                $configurationList,
+                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER)
             )
         );
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface     $input
+     * @param Configuration|null $templateConfiguration
      *
-     * @return Configuration
+     * @return null|Configuration
      */
-    protected function loadConfiguration(InputInterface $input)
+    protected function loadConfiguration(InputInterface $input, Configuration $templateConfiguration = null)
     {
+        $packageName = $input->getArgument(InputTransformer::KEY_PACKAGE_NAME);
+        if (null === $packageName) {
+            if (null === $templateConfiguration
+                || '' === trim($templateConfiguration->getPackageName())
+            ) {
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'A package name must be given if no template containing package name is given !',
+                        gettype($packageName)
+                    )
+                );
+            }
+
+            return null;
+        }
+
         return $this->inputTransformer->fromCommandLine(
             [
-                InputTransformer::KEY_PACKAGE_NAME => $input->getArgument(InputTransformer::KEY_PACKAGE_NAME)
+                InputTransformer::KEY_PACKAGE_NAME => $packageName
             ] + $input->getOptions()
         );
     }
