@@ -33,6 +33,21 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
     private $tester;
     /** @var int */
     private $exitCode;
+    /** @var null|string */
+    private $templateFilePath;
+
+    /**
+     * @Given /^I will use template at "(?<filePath>[^"]+)"(?: with:)?$/
+     */
+    public function iExecuteConsoleWithNameDestAndOption($filePath, PyStringNode $content = null)
+    {
+        $filePath = DefaultContext::getBasePath($filePath);
+        @mkdir(dirname($filePath));
+        $this->templateFilePath = $filePath;
+        if ($content) {
+            file_put_contents($filePath, $content->getRaw());
+        }
+    }
 
     /**
      * @param string $commandName
@@ -44,15 +59,19 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
         $input = new StringInput($commandArgs);
         $input->bind($command->getDefinition());
         $optionList = [];
-        foreach($input->getOptions() as $optionName => $optionValue) {
+        foreach ($input->getOptions() as $optionName => $optionValue) {
             $optionList['--' . $optionName] = $optionValue;
         }
+
+        if (null != $this->templateFilePath) {
+            $optionList['--template'] = $this->templateFilePath;
+        }
+        $this->templateFilePath = null;
 
         $optionList = array_filter($optionList, function ($value) {
             if (is_array($value)) {
                 return 0 < count($value);
-            }
-            else {
+            } else {
                 return 0 < strlen($value);
             }
         });

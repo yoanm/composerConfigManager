@@ -11,7 +11,7 @@ class UpdateContext extends ComposerCMContext
 {
     public function iExecuteConsoleWithDestAndOption($dest = null, PyStringNode $options = null)
     {
-        $commandArguments = $dest ? sprintf('"%s"', $dest) : '';
+        $commandArguments = DefaultContext::getBasePath($dest);
         $this->iCreateFakeOldFileAt($dest);
         $this->iExecuteComposerCMWith('update', $commandArguments, $options);
     }

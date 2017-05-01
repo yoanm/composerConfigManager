@@ -2,9 +2,8 @@ Feature: As user
   In order to create composer configuration file from a template
   I should be able to use the command line
 
-  @yo
   Scenario: Use a template file
-    Given I create a template file at "./template/template.json" with:
+    Given I will use template at "./template/template.json" with:
     """
     {
       "type": "template_type",
@@ -14,10 +13,7 @@ Feature: As user
     }
 
     """
-    When I execute composercm create with "pk_namespace\\pk_name" and following options:
-    """
-    --template ./template/template.json
-    """
+    When I execute composercm create with "pk_namespace\\pk_name"
     Then configuration file should be:
     """
     {
@@ -31,7 +27,7 @@ Feature: As user
 
   Scenario: Use a template path
     Given I have the folder "./template/test"
-    And I create a template file at "./template/test/composer.json" with:
+    And I will use template at "./template/test/composer.json" with:
     """
     {
       "type": "template_type",
@@ -57,10 +53,8 @@ Feature: As user
 
   Scenario: Use a bad template file
     Given I have no file at "./template/template.json"
-    When I execute composercm create with "pk_namespace\\pk_name" and following options:
-    """
-    --template ./template/template.json
-    """
+    And I will use template at "./template/template.json"
+    When I execute composercm create with "pk_namespace\\pk_name"
     Then composercm output should be:
     """
     {

@@ -12,14 +12,15 @@ use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter;
  */
 class DefaultContext implements Context
 {
-    const DEFAULT_DESTINATION = '.';
+    const DEFAULT_DESTINATION = './build/behat';
 
     /** @var CommandRunnerContext */
     private $commandRunnerContext;
 
     public static function getFilePath($path = null)
     {
-        return sprintf('%s/%s',
+        return sprintf(
+            '%s/%s',
             self::getBasePath($path),
             ConfigurationWriter::FILENAME
         );
@@ -44,7 +45,6 @@ class DefaultContext implements Context
     {
         $this->deleteDirectory(self::getBasePath());
         $this->iHaveAFolder('/');
-
     }
 
     /**
@@ -160,7 +160,6 @@ class DefaultContext implements Context
      */
     protected function getConfigurationFileContent($configFilePath)
     {
-        var_dump($configFilePath);
         return $this->decodeJson(file_get_contents($configFilePath));
     }
 
@@ -189,12 +188,12 @@ class DefaultContext implements Context
 
     private function deleteDirectory($dir)
     {
-        if ($handle = opendir($dir)) {
+        if ($handle = @opendir($dir)) {
             while (false !== ($file = readdir($handle))) {
                 if ('.' != $file && '..' != $file) {
                     $path = implode(DIRECTORY_SEPARATOR, [$dir, $file]);
-                    if(is_dir($path)) {
-                        if(!@rmdir($path)) {
+                    if (is_dir($path)) {
+                        if (!@rmdir($path)) {
                             // Probably not empty => remove files inside
                             $this->deleteDirectory($path.DIRECTORY_SEPARATOR);
                         }

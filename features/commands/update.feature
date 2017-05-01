@@ -3,13 +3,13 @@ Feature: As user
   I should be able to use the "update" command line
 
   Scenario: Specify location
-    Given I have the folder "./build/test"
-    When I execute composercm update with "./build/test" and following options:
+    Given I have the folder "./test"
+    When I execute composercm update with "./test" and following options:
     """
     --package-name "pk_namespace2\\pk_name2"
     """
-    Then I should have a configuration file at "./build/test"
-    Then configuration file at "./build/test" should contains:
+    Then I should have a configuration file at "./test"
+    Then configuration file at "./test" should contains:
     """
     {
       "name": "pk_namespace2\\pk_name2",
@@ -20,7 +20,6 @@ Feature: As user
     }
     """
 
-    @yo
   Scenario: Basic configuration file
     Given I execute composercm update with following options:
     """
