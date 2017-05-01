@@ -4,16 +4,16 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Writer;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
+use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
-class ConfigurationWriterTest extends \PHPUnit_Framework_TestCase
+class ConfigurationFileWriterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SerializerInterface|ObjectProphecy */
     private $serializer;
     /** @var Filesystem|ObjectProphecy */
     private $filesystem;
-    /** @var ConfigurationWriter */
+    /** @var ConfigurationFileWriter */
     private $writer;
 
     /**
@@ -23,7 +23,7 @@ class ConfigurationWriterTest extends \PHPUnit_Framework_TestCase
     {
         $this->serializer = $this->prophesize(SerializerInterface::class);
         $this->filesystem = $this->prophesize(Filesystem::class);
-        $this->writer = new ConfigurationWriter(
+        $this->writer = new ConfigurationFileWriter(
             $this->serializer->reveal(),
             $this->filesystem->reveal()
         );
@@ -38,19 +38,19 @@ class ConfigurationWriterTest extends \PHPUnit_Framework_TestCase
             '%s%s%s',
             $destinationPath,
             DIRECTORY_SEPARATOR,
-            ConfigurationWriter::FILENAME
+            ConfigurationFileWriter::FILENAME
         );
 
-        /** @var Configuration|ObjectProphecy $configuration */
-        $configuration = $this->prophesize(Configuration::class);
+        /** @var ConfigurationFile|ObjectProphecy $configurationFile */
+        $configurationFile = $this->prophesize(ConfigurationFile::class);
 
-        $data = $this->serializer->serialize($configuration->reveal(), 'composer')
+        $data = $this->serializer->serialize($configurationFile->reveal(), 'composer')
             ->willReturn($serializedData)
             ->shouldBeCalled();
 
         $this->filesystem->dumpFile($filename, $serializedData)
             ->shouldBeCalled();
 
-        $this->writer->write($configuration->reveal(), $destinationPath);
+        $this->writer->write($configurationFile->reveal(), $destinationPath);
     }
 }

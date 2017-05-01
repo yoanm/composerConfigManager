@@ -2,8 +2,9 @@
 namespace Yoanm\ComposerConfigManager\Application\Updater;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
-class ConfigurationUpdater
+class ConfigurationFileUpdater
 {
     /** @var PlainValueUpdater */
     private $plainValueUpdater;
@@ -27,30 +28,44 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Configuration[] $configurationList
+     * @param ConfigurationFile[] $configurationFileList
      *
-     * @return Configuration
+     * @return ConfigurationFile
      */
-    public function update(array $configurationList)
+    public function update(array $configurationFileList)
     {
-        $newConfiguration = array_pop($configurationList);
+        $newConfigurationFile = array_pop($configurationFileList);
 
-        while (count($configurationList) > 0) {
-            $baseConfiguration = array_pop($configurationList);
-            $newConfiguration = $this->merge($baseConfiguration, $newConfiguration);
+        while (count($configurationFileList) > 0) {
+            $baseConfigurationFile = array_pop($configurationFileList);
+            $newConfigurationFile = $this->merge($baseConfigurationFile, $newConfigurationFile);
         }
 
-        return $newConfiguration;
+        return $newConfigurationFile;
     }
 
 
     /**
-     * @param Configuration $baseConfiguration
-     * @param Configuration $newConfiguration
+     * @param ConfigurationFile $baseConfigurationFile
+     * @param ConfigurationFile $newConfigurationFile
      *
-     * @return Configuration
+     * @return ConfigurationFile
      */
-    public function merge(Configuration $baseConfiguration, Configuration $newConfiguration)
+    public function merge(ConfigurationFile $baseConfigurationFile, ConfigurationFile $newConfigurationFile)
+    {
+        return new ConfigurationFile(
+            $this->mergeConfiguration(
+                $baseConfigurationFile->getConfiguration(),
+                $newConfigurationFile->getConfiguration()
+            ),
+            $this->mergeKeyList(
+                $baseConfigurationFile->getKeyList(),
+                $newConfigurationFile->getKeyList()
+            )
+        );
+    }
+
+    protected function mergeConfiguration(Configuration $baseConfiguration, Configuration $newConfiguration)
     {
         return new Configuration(
             $this->plainValueUpdater->update(
@@ -102,5 +117,10 @@ class ConfigurationUpdater
             ),
             $this->listUpdater->update($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
         );
+    }
+
+    protected function mergeKeyList(array $baseKeyList, array $newKeyList)
+    {
+        return array_replace($baseKeyList, $newKeyList);
     }
 }

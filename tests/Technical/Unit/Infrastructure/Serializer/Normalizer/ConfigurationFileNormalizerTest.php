@@ -2,18 +2,19 @@
 namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer;
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer as AppConfigDenormalizer;
-use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer as AppConfigNormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationFileDenormalizer as AppDenormalizer;
+use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationFileNormalizer as AppNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
+use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationFileNormalizer;
 
-class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
+class ConfigurationFileNormalizerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var AppConfigNormalizer|ObjectProphecy */
-    private $appConfigurationNormalizer;
-    /** @var AppConfigDenormalizer|ObjectProphecy */
-    private $appConfigurationDenormalizer;
-    /** @var ConfigurationNormalizer */
+    /** @var AppNormalizer|ObjectProphecy */
+    private $appConfigurationFileNormalizer;
+    /** @var AppDenormalizer|ObjectProphecy */
+    private $appConfigurationFileDenormalizer;
+    /** @var ConfigurationFileNormalizer */
     private $normalizer;
 
     /**
@@ -21,11 +22,11 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->appConfigurationNormalizer = $this->prophesize(AppConfigNormalizer::class);
-        $this->appConfigurationDenormalizer = $this->prophesize(AppConfigDenormalizer::class);
-        $this->normalizer = new ConfigurationNormalizer(
-            $this->appConfigurationNormalizer->reveal(),
-            $this->appConfigurationDenormalizer->reveal()
+        $this->appConfigurationFileNormalizer = $this->prophesize(AppNormalizer::class);
+        $this->appConfigurationFileDenormalizer = $this->prophesize(AppDenormalizer::class);
+        $this->normalizer = new ConfigurationFileNormalizer(
+            $this->appConfigurationFileNormalizer->reveal(),
+            $this->appConfigurationFileDenormalizer->reveal()
         );
     }
 
@@ -33,15 +34,16 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         $normalizedData = 'normalized_data';
 
-        $configuration = $this->prophesize(Configuration::class);
+        /** @var ConfigurationFile|ObjectProphecy $configurationFile */
+        $configurationFile = $this->prophesize(ConfigurationFile::class);
 
-        $this->appConfigurationNormalizer->normalize($configuration->reveal())
+        $this->appConfigurationFileNormalizer->normalize($configurationFile->reveal())
             ->willReturn($normalizedData)
             ->shouldBeCalled();
 
         $this->assertSame(
             $normalizedData,
-            $this->normalizer->normalize($configuration->reveal())
+            $this->normalizer->normalize($configurationFile->reveal())
         );
     }
 
@@ -49,14 +51,15 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         $normalizedData = ['normalized_data'];
 
-        $configuration = $this->prophesize(Configuration::class);
+        /** @var ConfigurationFile|ObjectProphecy $configurationFile */
+        $configurationFile = $this->prophesize(ConfigurationFile::class);
 
-        $this->appConfigurationDenormalizer->denormalize($normalizedData)
-            ->willReturn($configuration->reveal())
+        $this->appConfigurationFileDenormalizer->denormalize($normalizedData)
+            ->willReturn($configurationFile->reveal())
             ->shouldBeCalled();
 
         $this->assertSame(
-            $configuration->reveal(),
+            $configurationFile->reveal(),
             $this->normalizer->denormalize($normalizedData, Configuration::class)
         );
     }
@@ -96,7 +99,7 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Configuration class' => [
-                'class' => Configuration::class,
+                'class' => ConfigurationFile::class,
                 'expectedResult' => true
             ],
             'other' => [

@@ -3,10 +3,10 @@ namespace Yoanm\ComposerConfigManager\Infrastructure\Writer;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
-use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationFileWriterInterface;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
-class ConfigurationWriter implements ConfigurationWriterInterface
+class ConfigurationFileWriter implements ConfigurationFileWriterInterface
 {
     const FILENAME = 'composer.json';
 
@@ -28,9 +28,9 @@ class ConfigurationWriter implements ConfigurationWriterInterface
     /**
      * {@inheritdoc}
      */
-    public function write(Configuration $configuration, $destinationPath)
+    public function write(ConfigurationFile $configurationFile, $destinationPath)
     {
-        $data = $this->serializer->serialize($configuration, 'composer');
+        $data = $this->serializer->serialize($configurationFile, 'composer');
 
         $filename = sprintf(
             '%s%s%s',

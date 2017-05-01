@@ -32,9 +32,8 @@
             <exclude>
                 <file>src/Infrastructure/Command/AbstractTemplatableCommand.php</file> <!-- abstract entry point => tested with behat -->
                 <file>src/Infrastructure/Command/CreateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
-                <file>src/Application/CreateConfigurationRequest.php</file> <!-- DTO => tested with behat -->
                 <file>src/Infrastructure/Command/UpdateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
-                <file>src/Application/UpdateConfigurationRequest.php</file> <!-- DTO => tested with behat -->
+                <file>src/Application/UpdateConfigurationFileListRequest.php</file> <!-- DTO => tested with behat -->
                 <file>src/Infrastructure/SfApplication.php</file> <!-- tested thanks to behat tests -->
             </exclude>
         </whitelist>

@@ -11,13 +11,13 @@
 
         <service id="composer_config_manager.infra.command.create_configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Command\CreateConfigurationCommand">
             <argument type="service" id="composer_config_manager.infra.command.transformer.input" />
-            <argument type="service" id="composer_config_manager.app.update_configuration" />
-            <argument type="service" id="composer_config_manager.infra.loader.configuration" />
+            <argument type="service" id="composer_config_manager.app.update_configuration_file_list" />
+            <argument type="service" id="composer_config_manager.infra.loader.configuration_file" />
         </service>
         <service id="composer_config_manager.infra.command.update_configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Command\UpdateConfigurationCommand">
             <argument type="service" id="composer_config_manager.infra.command.transformer.input" />
-            <argument type="service" id="composer_config_manager.app.update_configuration" />
-            <argument type="service" id="composer_config_manager.infra.loader.configuration" />
+            <argument type="service" id="composer_config_manager.app.update_configuration_file_list" />
+            <argument type="service" id="composer_config_manager.infra.loader.configuration_file" />
         </service>
 
         <service id="composer_config_manager.infra.command.transformer.input" class="Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer" />
@@ -25,24 +25,24 @@
         <service id="composer_config_manager.infra.filesystem" class="Symfony\Component\Filesystem\Filesystem" />
         <service id="composer_config_manager.infra.finder" class="Symfony\Component\Finder\Finder" />
 
-        <service id="composer_config_manager.infra.writer.configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter">
-            <argument type="service" id="composer_config_manager.infra.serializer.configuration" />
+        <service id="composer_config_manager.infra.writer.configuration_file" class="Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter">
+            <argument type="service" id="composer_config_manager.infra.serializer.configuration_file" />
             <argument type="service" id="composer_config_manager.infra.filesystem" />
         </service>
-        <service id="composer_config_manager.infra.loader.configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationLoader">
+        <service id="composer_config_manager.infra.loader.configuration_file" class="Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationFileLoader">
             <argument type="service" id="composer_config_manager.infra.finder" />
-            <argument type="service" id="composer_config_manager.infra.serializer.configuration" />
+            <argument type="service" id="composer_config_manager.infra.serializer.configuration_file" />
         </service>
         <service id="composer_config_manager.infra.encoder.composer" class="Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder">
             <argument type="service" id="composer_config_manager.app.serializer.encoder.composer" />
         </service>
-        <service id="composer_config_manager.infra.normalizer.configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationNormalizer">
-            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration" />
-            <argument type="service" id="composer_config_manager.app.serializer.denormalizer.configuration" />
+        <service id="composer_config_manager.infra.normalizer.configuration_file" class="Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationFileNormalizer">
+            <argument type="service" id="composer_config_manager.app.serializer.normalizer.configuration_file" />
+            <argument type="service" id="composer_config_manager.app.serializer.denormalizer.configuration_file" />
         </service>
-        <service id="composer_config_manager.infra.serializer.configuration" class="Symfony\Component\Serializer\Serializer">
+        <service id="composer_config_manager.infra.serializer.configuration_file" class="Symfony\Component\Serializer\Serializer">
             <argument type="collection">
-                <argument type="service" id="composer_config_manager.infra.normalizer.configuration" />
+                <argument type="service" id="composer_config_manager.infra.normalizer.configuration_file" />
             </argument>
             <argument type="collection">
                 <argument type="service" id="composer_config_manager.infra.encoder.composer" />

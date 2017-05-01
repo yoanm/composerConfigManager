@@ -3,6 +3,7 @@ namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Comma
 
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
 class InputTransformerTest extends AbstractInputTransformerTest
@@ -76,9 +77,10 @@ class InputTransformerTest extends AbstractInputTransformerTest
             ],
         ];
 
-        $configuration = $this->transformer->fromCommandLine($inputList);
+        $configurationFile = $this->transformer->fromCommandLine($inputList);
 
-        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertInstanceOf(ConfigurationFile::class, $configurationFile);
+        $configuration = $configurationFile->getConfiguration();
         $this->assertSame($inputList[InputTransformer::KEY_PACKAGE_NAME], $configuration->getPackageName());
         $this->assertSame($inputList[InputTransformer::KEY_TYPE], $configuration->getType());
         $this->assertSame($inputList[InputTransformer::KEY_LICENSE], $configuration->getLicense());

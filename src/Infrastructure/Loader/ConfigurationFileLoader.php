@@ -5,12 +5,12 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
-use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder;
-use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationWriter;
+use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
-class ConfigurationLoader implements ConfigurationLoaderInterface
+class ConfigurationFileLoader implements ConfigurationFileLoaderInterface
 {
     /** @var Finder */
     private $finder;
@@ -31,7 +31,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
         $finder = $this->finder
             ->in($path)
             ->files()
-            ->name(ConfigurationWriter::FILENAME)
+            ->name(ConfigurationFileWriter::FILENAME)
             ->depth(0);
 
         /** @var SplFileInfo|null $file */
@@ -49,7 +49,7 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
                 sprintf(
                     '%s/%s',
                     trim($path, '/'),
-                    ConfigurationWriter::FILENAME
+                    ConfigurationFileWriter::FILENAME
                 )
             );
         }
@@ -62,6 +62,10 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
      */
     public function fromString($serializedConfiguration)
     {
-        return $this->serializer->deserialize($serializedConfiguration, Configuration::class, ComposerEncoder::FORMAT);
+        return $this->serializer->deserialize(
+            $serializedConfiguration,
+            ConfigurationFile::class,
+            ComposerEncoder::FORMAT
+        );
     }
 }
