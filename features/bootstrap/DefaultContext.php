@@ -64,14 +64,6 @@ class DefaultContext implements Context
     }
 
     /**
-     * @Then /^composercm output should be:$/
-     */
-    public function composerCMOutputShouldBe(PyStringNode $output)
-    {
-        var_dump($this->commandRunnerContext->getCommandTester()->getDisplay());
-    }
-
-    /**
      * @Then /^configuration file (?:at "(?<path>[^"]+)" )?should be:$/
      */
     public function configurationFileShouldBe($path = null, PyStringNode $inputs = null)
