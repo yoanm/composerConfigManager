@@ -9,7 +9,7 @@ Feature: As user
     --package-name "pk_namespace2\\pk_name2"
     """
     Then I should have a configuration file at "./test"
-    Then configuration file at "./test" should contains:
+    And configuration file at "./test" should contains:
     """
     {
       "name": "pk_namespace2\\pk_name2",
@@ -25,7 +25,27 @@ Feature: As user
     """
     --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3
     """
-    Then configuration file should contains:
+    Then configuration file key order should be:
+    """
+    [
+      "require",
+      "scripts",
+      "name",
+      "support",
+      "description",
+      "authors",
+      "require-dev",
+      "provide",
+      "autoload-dev",
+      "suggest",
+      "version",
+      "autoload",
+      "type",
+      "license",
+      "keywords"
+    ]
+    """
+    And configuration file should contains:
     """
     {
       "name": "pk_namespace2\\pk_name2",
@@ -39,7 +59,7 @@ Feature: As user
   Scenario: Full configuration file
     Given I execute composercm update with following options:
     """
-    --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3 --keyword my_keyword --keyword my_keyword2 --author author#email#role --author name2 --author name3#email3 --provided-package name/A#url1 --provided-package name2/B#url2 --provided-package name/C#url3 --suggested-package "name/A#description 1" --suggested-package "name2/B#description 2" --suggested-package "name/C#description 3" --support "typeA#urlA" --support "typeB#urlB" --support "typeC#urlC" --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "vendor1/A#v1.3.0" --require "vendor2/B#>=2.0.0" --require "vendor1/C#~3.2" --require-dev "vendor1/A#v1.3.0" --require-dev "vendor2/B#>=2.0.0" --require-dev "vendor1/C#~3.2" --script "name1#command1" --script "name2#command1" --script "name1#command2"
+    --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3 --keyword my_keyword --keyword my_keyword2 --author author#email#role --author name2 --author name3#email3 --provide name/A#url1 --provide name2/B#url2 --provide name/C#url3 --suggest "name/A#description 1" --suggest "name2/B#description 2" --suggest "name/C#description 3" --support "typeA#urlA" --support "typeB#urlB" --support "typeC#urlC" --autoload-psr0 "vendor1\\Test#src1" --autoload-psr4 "\\vendor2\\Test\\#src2" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "vendor1\\Test#src1" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "vendor1/A#v1.3.0" --require "vendor2/B#>=2.0.0" --require "vendor1/C#~3.2" --require-dev "vendor1/A#v1.3.0" --require-dev "vendor2/B#>=2.0.0" --require-dev "vendor1/C#~3.2" --script "name1#command1" --script "name2#command1" --script "name1#command2"
     """
     Then configuration file should contains:
     """
@@ -206,7 +226,7 @@ Feature: As user
   Scenario: Full configuration file with values to update
     Given I execute composercm update with following options:
     """
-    --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3  --author default-name1#email#role --author default-name2#email2 --author name3#email3 --provided-package package1#url1 --provided-package name2/B#url2 --suggested-package "package1#description 1" --suggested-package "name2/B#description 2" --support "type1#url1" --support "typeA#urlA" --autoload-psr0 "DefaultNamespace\\DefaultSubNamespace#src1" --autoload-psr4 "\\DefaultNamespace\\DefaultSubNamespace2\\#src2" --autoload-psr4 "\\vendor2\\Test\\#src4" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "DefaultNamespace\\DefaultSubNamespace2#src1" --autoload-dev-psr4 "\\DefaultNamespace\\DefaultSubNamespace\\#src2" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "requirement1#custom" --require "vendor2/B#>=2.0.0" --require-dev "requirement1#custom" --require-dev "vendor2/B#>=2.0.0" --script "default-script-1#command1" --script "name2#command1" --script "default-script-1#command2"
+    --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3  --author default-name1#email#role --author default-name2#email2 --author name3#email3 --provide package1#url1 --provide name2/B#url2 --suggest "package1#description 1" --suggest "name2/B#description 2" --support "type1#url1" --support "typeA#urlA" --autoload-psr0 "DefaultNamespace\\DefaultSubNamespace#src1" --autoload-psr4 "\\DefaultNamespace\\DefaultSubNamespace2\\#src2" --autoload-psr4 "\\vendor2\\Test\\#src4" --autoload-psr0 "vendor1\\Test2#src3" --autoload-dev-psr0 "DefaultNamespace\\DefaultSubNamespace2#src1" --autoload-dev-psr4 "\\DefaultNamespace\\DefaultSubNamespace\\#src2" --autoload-dev-psr4 "vendor2\\Test#src2" --autoload-dev-psr0 "vendor1\\Test2#src3" --require "requirement1#custom" --require "vendor2/B#>=2.0.0" --require-dev "requirement1#custom" --require-dev "vendor2/B#>=2.0.0" --script "default-script-1#command1" --script "name2#command1" --script "default-script-1#command2"
     """
     Then configuration file should contains:
     """

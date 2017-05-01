@@ -164,11 +164,7 @@ DESC
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
-        $configurationFileList = [];
-        $templateConfigurationFile = $this->loadTemplateConfigurationFile($input);
-        if ($templateConfigurationFile) {
-            $configurationFileList[] = $templateConfigurationFile;
-        }
+        $configurationFileList = $this->loadTemplateConfigurationFileList($input);
 
         $configurationFileList[] = $this->getConfigurationFileLoader()->fromPath($path);
 

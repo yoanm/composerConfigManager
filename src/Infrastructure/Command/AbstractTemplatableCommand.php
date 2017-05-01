@@ -32,7 +32,7 @@ abstract class AbstractTemplatableCommand extends Command
             ->addOption(
                 self::OPTION_TEMPLATE,
                 null,
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Path of the json template file. Will be used as default values.'
             )
         ;
@@ -49,22 +49,26 @@ abstract class AbstractTemplatableCommand extends Command
     /**
      * @param InputInterface $input
      *
-     * @return null|ConfigurationFile
+     * @return ConfigurationFile[]
      */
-    protected function loadTemplateConfigurationFile(InputInterface $input)
+    protected function loadTemplateConfigurationFileList(InputInterface $input)
     {
-        $templatePath = $input->getOption(self::OPTION_TEMPLATE);
-        $templateConfiguration = null;
-        if ($templatePath) {
-            if (is_dir($templatePath)) {
-                $templateConfiguration = $this->configurationFileLoader->fromPath($templatePath);
-            } elseif (is_file($templatePath)) {
-                $templateConfiguration = $this->configurationFileLoader->fromString(file_get_contents($templatePath));
-            } else {
-                throw new \UnexpectedValueException('Template path is nor a file or a path !');
+        $templatePathList = $input->getOption(self::OPTION_TEMPLATE);
+        $templateConfigurationList = [];
+        if (count($templatePathList)) {
+            foreach ($templatePathList as $templatePath) {
+                if (is_dir($templatePath)) {
+                    $templateConfigurationList[] = $this->configurationFileLoader->fromPath($templatePath);
+                } elseif (is_file($templatePath)) {
+                    $templateConfigurationList[] = $this->configurationFileLoader->fromString(
+                        file_get_contents($templatePath)
+                    );
+                } else {
+                    throw new \UnexpectedValueException('Template path is nor a file or a path !');
+                }
             }
         }
 
-        return $templateConfiguration;
+        return $templateConfigurationList;
     }
 }

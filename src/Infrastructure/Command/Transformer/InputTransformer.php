@@ -22,8 +22,8 @@ class InputTransformer
     const KEY_DESCRIPTION = 'description';
     const KEY_KEYWORD = 'keyword';
     const KEY_AUTHOR = 'author';
-    const KEY_PROVIDED_PACKAGE = 'provided-package';
-    const KEY_SUGGESTED_PACKAGE = 'suggested-package';
+    const KEY_PROVIDED_PACKAGE = 'provide';
+    const KEY_SUGGESTED_PACKAGE = 'suggest';
     const KEY_SUPPORT = 'support';
     const KEY_AUTOLOAD_PSR0 = 'autoload-psr0';
     const KEY_AUTOLOAD_PSR4 = 'autoload-psr4';
@@ -36,20 +36,69 @@ class InputTransformer
     /**
      * @param $inputList
      *
-     * @return ConfigurationFile
+     * @return ConfigurationFile|null
      */
     public function fromCommandLine($inputList)
     {
-        return $this->createConfiguration($inputList);
+        return $this->createConfigurationFile($inputList);
     }
 
     /**
      * @param array $inputList
      *
-     * @return ConfigurationFile
+     * @return ConfigurationFile|null
      */
-    protected function createConfiguration(array $inputList)
+    protected function createConfigurationFile(array $inputList)
     {
+        $defaultKeyList = [
+            self::KEY_PACKAGE_NAME,
+            self::KEY_DESCRIPTION,
+            self::KEY_PACKAGE_VERSION,
+            self::KEY_TYPE,
+            self::KEY_KEYWORD,
+            self::KEY_LICENSE,
+            self::KEY_AUTHOR,
+            self::KEY_SUPPORT,
+            self::KEY_REQUIRE,
+            self::KEY_REQUIRE_DEV,
+            self::KEY_PROVIDED_PACKAGE,
+            self::KEY_SUGGESTED_PACKAGE,
+            self::KEY_AUTOLOAD_PSR0,
+            self::KEY_AUTOLOAD_PSR4,
+            self::KEY_AUTOLOAD_DEV_PSR0,
+            self::KEY_AUTOLOAD_DEV_PSR4,
+            self::KEY_SCRIPT,
+        ];
+        $defaultNormalizedFileKeyList = [
+            'name' => [self::KEY_PACKAGE_NAME],
+            'description' => [self::KEY_DESCRIPTION],
+            'version' => [self::KEY_PACKAGE_VERSION],
+            'type' => [self::KEY_TYPE],
+            'keywords' => [self::KEY_KEYWORD],
+            'license' => [self::KEY_LICENSE],
+            'authors' => [self::KEY_AUTHOR],
+            'support' => [self::KEY_SUPPORT],
+            'require' => [self::KEY_REQUIRE],
+            'require-dev' => [self::KEY_REQUIRE_DEV],
+            'provide' => [self::KEY_PROVIDED_PACKAGE],
+            'suggest' => [self::KEY_SUGGESTED_PACKAGE],
+            'autoload' => [self::KEY_AUTOLOAD_PSR0, self::KEY_AUTOLOAD_PSR4],
+            'autoload-dev' => [self::KEY_AUTOLOAD_DEV_PSR0, self::KEY_AUTOLOAD_DEV_PSR4],
+            'scripts' => [self::KEY_SCRIPT],
+        ];
+        if (0 === count(array_intersect($defaultKeyList, array_keys($inputList)))) {
+            return null;
+        }
+        $fileKeyList = [];
+        foreach ($defaultNormalizedFileKeyList as $fileKey => $inputKeyList) {
+            foreach ($inputKeyList as $inputKey) {
+                if (isset($inputList[$inputKey])) {
+                    $fileKeyList[] = $fileKey;
+                    break;
+                }
+            }
+        }
+
         return new ConfigurationFile(
             new Configuration(
                 $this->getValue($inputList, self::KEY_PACKAGE_NAME, null),
@@ -68,28 +117,7 @@ class InputTransformer
                 $this->extractRequiredDevPackages($inputList),
                 $this->extractScripts($inputList)
             ),
-            array_intersect(
-                [
-                    str_replace('package-', '', self::KEY_PACKAGE_NAME),
-                    self::KEY_TYPE,
-                    self::KEY_LICENSE,
-                    self::KEY_PACKAGE_VERSION,
-                    self::KEY_DESCRIPTION,
-                    self::KEY_KEYWORD,
-                    self::KEY_AUTHOR,
-                    self::KEY_PROVIDED_PACKAGE,
-                    self::KEY_SUGGESTED_PACKAGE,
-                    self::KEY_SUPPORT,
-                    self::KEY_AUTOLOAD_PSR0,
-                    self::KEY_AUTOLOAD_PSR4,
-                    self::KEY_AUTOLOAD_DEV_PSR0,
-                    self::KEY_AUTOLOAD_DEV_PSR4,
-                    self::KEY_REQUIRE,
-                    self::KEY_REQUIRE_DEV,
-                    self::KEY_SCRIPT,
-                ],
-                array_keys($inputList)
-            )
+            $fileKeyList
         );
     }
 
