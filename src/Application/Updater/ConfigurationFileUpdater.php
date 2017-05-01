@@ -35,8 +35,8 @@ class ConfigurationFileUpdater
     public function update(array $configurationFileList)
     {
         $newConfigurationFile = array_pop($configurationFileList);
-        while (count($configurationFileList) > 0) {
-            $newConfigurationFile = $this->merge(array_pop($configurationFileList), $newConfigurationFile);
+        while (($baseConfiguration = array_pop($configurationFileList)) instanceof ConfigurationFile) {
+            $newConfigurationFile = $this->merge($baseConfiguration, $newConfigurationFile);
         }
 
         return $newConfigurationFile;
