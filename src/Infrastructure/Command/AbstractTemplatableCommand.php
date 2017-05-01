@@ -6,13 +6,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
 abstract class AbstractTemplatableCommand extends Command
 {
     const OPTION_TEMPLATE = 'template';
 
     /** @var ConfigurationFileLoaderInterface */
-    private $configurationLoader;
+    private $configurationFileLoader;
 
     /**
      * @param ConfigurationFileLoaderInterface $configurationFileLoader
@@ -48,7 +49,7 @@ abstract class AbstractTemplatableCommand extends Command
     /**
      * @param InputInterface $input
      *
-     * @return null|Configuration
+     * @return null|ConfigurationFile
      */
     protected function loadTemplateConfigurationFile(InputInterface $input)
     {
