@@ -174,8 +174,8 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
     }
 
     /**
-     * @param InputInterface         $input
-     * @param ConfigurationFile[]    $configurationFileList
+     * @param InputInterface      $input
+     * @param ConfigurationFile[] $configurationFileList
      *
      * @return null|ConfigurationFile
      */
