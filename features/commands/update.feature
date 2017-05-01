@@ -9,7 +9,7 @@ Feature: As user
     --package-name "pk_namespace2\\pk_name2"
     """
     Then I should have a configuration file at "./test"
-    Then configuration file at "./test" should contains:
+    And configuration file at "./test" should contains:
     """
     {
       "name": "pk_namespace2\\pk_name2",
@@ -25,7 +25,27 @@ Feature: As user
     """
     --package-name "pk_namespace2\\pk_name2" --description "pk description" --type my_type --license my_license --package-version 1.2.3
     """
-    Then configuration file should contains:
+    Then configuration file key order should be:
+    """
+    [
+      "require",
+      "scripts",
+      "name",
+      "support",
+      "description",
+      "authors",
+      "require-dev",
+      "provide",
+      "autoload-dev",
+      "suggest",
+      "version",
+      "autoload",
+      "type",
+      "license",
+      "keywords"
+    ]
+    """
+    And configuration file should contains:
     """
     {
       "name": "pk_namespace2\\pk_name2",

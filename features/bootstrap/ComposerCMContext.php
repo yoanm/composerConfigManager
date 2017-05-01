@@ -40,15 +40,25 @@ class ComposerCMContext implements Context
             DefaultContext::getFilePath($path),
             <<<TEMPLATE
 {
+  "require": {
+    "requirement1": "default-required-package1"
+  },
+  "scripts": {
+    "default-script-1": [
+        "default-script1-command_1",
+        "default-script1-command_2"
+    ],
+    "default-script-2": [
+        "default-script2-command_1",
+        "default-script2-command_2"
+    ]
+  },
   "name": "default-name",
-  "type": "default-type",
-  "license": "default-license",
-  "version": "default-version",
+  "support": {
+    "type1": "default-support-type1",
+    "type2": "default-support-type2"
+  },
   "description": "default-description",
-  "keywords": [
-    "DEFAULT-KEYWORD1",
-    "DEFAULT-KEYWORD2"
-  ],
   "authors": [
     {
         "name": "default-name1",
@@ -61,27 +71,12 @@ class ComposerCMContext implements Context
         "role": "default-role2"
     }
   ],
+  "require-dev": {
+    "requirement1": "default-required-dev-package1"
+  },
   "provide": {
     "package1": "default-provided-package1",
     "package2": "default-provided-package2"
-  },
-  "suggest": {
-    "package1": "default-suggested-package1",
-    "package2": "default-suggested-package2"
-  },
-  "support": {
-    "type1": "default-support-type1",
-    "type2": "default-support-type2"
-  },
-  "autoload": {
-    "psr-0": {
-        "DefaultNamespace\\\\DefaultSubNamespace": "default-psr0-path1",
-        "DefaultNamespace\\\\DefaultSubNamespace2": "default-psr0-path2"
-    },
-    "psr-4": {
-        "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-psr4-path1",
-        "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-psr4-path2"
-    }
   },
   "autoload-dev": {
     "psr-0": {
@@ -93,22 +88,27 @@ class ComposerCMContext implements Context
         "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-psr4-path2"
     }
   },
-  "require": {
-    "requirement1": "default-required-package1"
+  "suggest": {
+    "package1": "default-suggested-package1",
+    "package2": "default-suggested-package2"
   },
-  "require-dev": {
-    "requirement1": "default-required-dev-package1"
+  "version": "default-version",
+  "autoload": {
+    "psr-0": {
+        "DefaultNamespace\\\\DefaultSubNamespace": "default-psr0-path1",
+        "DefaultNamespace\\\\DefaultSubNamespace2": "default-psr0-path2"
+    },
+    "psr-4": {
+        "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-psr4-path1",
+        "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-psr4-path2"
+    }
   },
-  "scripts": {
-    "default-script-1": [
-        "default-script1-command_1",
-        "default-script1-command_2"
-    ],
-    "default-script-2": [
-        "default-script2-command_1",
-        "default-script2-command_2"
-    ]
-  }
+  "type": "default-type",
+  "license": "default-license",
+  "keywords": [
+    "DEFAULT-KEYWORD1",
+    "DEFAULT-KEYWORD2"
+  ]
 }
 
 TEMPLATE
