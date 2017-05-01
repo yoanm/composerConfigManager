@@ -1,6 +1,8 @@
 # composerConfigManager
 [![Scrutinizer Build Status](https://img.shields.io/scrutinizer/build/g/yoanm/composerConfigManager.svg?label=Scrutinizer)](https://scrutinizer-ci.com/g/yoanm/composerConfigManager/?branch=master) [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/yoanm/composerConfigManager.svg?label=Code%20quality)](https://scrutinizer-ci.com/g/yoanm/composerConfigManager/?branch=master) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/yoanm/composerConfigManager.svg?label=Coverage)](https://scrutinizer-ci.com/g/yoanm/composerConfigManager/?branch=master)
 
+[![Travis Build Status](https://img.shields.io/travis/yoanm/composerConfigManager/master.svg?label=travis)](https://travis-ci.org/yoanm/composerConfigManager) [![PHP Versions](https://img.shields.io/badge/php-5.5%20%2F%205.6%20%2F%207.0-8892BF.svg)](https://php.net/)
+
 [![Latest Stable Version](https://img.shields.io/packagist/v/yoanm/composer-config-manager.svg)](https://packagist.org/packages/yoanm/composer-config-manager)
 
 Command to manage composer configuration file
