@@ -22,8 +22,8 @@ class InputTransformer
     const KEY_DESCRIPTION = 'description';
     const KEY_KEYWORD = 'keyword';
     const KEY_AUTHOR = 'author';
-    const KEY_PROVIDED_PACKAGE = 'provided-package';
-    const KEY_SUGGESTED_PACKAGE = 'suggested-package';
+    const KEY_PROVIDED_PACKAGE = 'provide';
+    const KEY_SUGGESTED_PACKAGE = 'suggest';
     const KEY_SUPPORT = 'support';
     const KEY_AUTOLOAD_PSR0 = 'autoload-psr0';
     const KEY_AUTOLOAD_PSR4 = 'autoload-psr4';
@@ -50,30 +50,52 @@ class InputTransformer
      */
     protected function createConfigurationFile(array $inputList)
     {
-        $defaultNormalizedFileKeyList = [
-            str_replace('package-', '', self::KEY_PACKAGE_NAME) => self::KEY_PACKAGE_NAME,
-            self::KEY_DESCRIPTION => self::KEY_DESCRIPTION,
-            str_replace('package-', '', self::KEY_PACKAGE_VERSION) => self::KEY_PACKAGE_VERSION,
-            self::KEY_TYPE => self::KEY_TYPE,
-            sprintf('%ss', self::KEY_KEYWORD) => self::KEY_KEYWORD,
-            self::KEY_LICENSE => self::KEY_LICENSE,
-            sprintf('%ss', self::KEY_AUTHOR) => self::KEY_AUTHOR,
-            self::KEY_SUPPORT => self::KEY_SUPPORT,
-            self::KEY_REQUIRE => self::KEY_REQUIRE,
-            self::KEY_REQUIRE_DEV => self::KEY_REQUIRE_DEV,
-            str_replace('d-package', '', self::KEY_PROVIDED_PACKAGE) => self::KEY_PROVIDED_PACKAGE,
-            str_replace('ed-package', '', self::KEY_SUGGESTED_PACKAGE) => self::KEY_SUGGESTED_PACKAGE,
-            str_replace('-pr0', '', self::KEY_AUTOLOAD_PSR0) => self::KEY_AUTOLOAD_PSR0,
-            str_replace('-prs0', '', self::KEY_AUTOLOAD_DEV_PSR0) => self::KEY_AUTOLOAD_DEV_PSR0,
-            sprintf('%ss', self::KEY_SCRIPT) => self::KEY_SCRIPT,
+        $defaultKeyList = [
+            self::KEY_PACKAGE_NAME,
+            self::KEY_DESCRIPTION,
+            self::KEY_PACKAGE_VERSION,
+            self::KEY_TYPE,
+            self::KEY_KEYWORD,
+            self::KEY_LICENSE,
+            self::KEY_AUTHOR,
+            self::KEY_SUPPORT,
+            self::KEY_REQUIRE,
+            self::KEY_REQUIRE_DEV,
+            self::KEY_PROVIDED_PACKAGE,
+            self::KEY_SUGGESTED_PACKAGE,
+            self::KEY_AUTOLOAD_PSR0,
+            self::KEY_AUTOLOAD_PSR4,
+            self::KEY_AUTOLOAD_DEV_PSR0,
+            self::KEY_AUTOLOAD_DEV_PSR4,
+            self::KEY_SCRIPT,
         ];
-        if (0 === count(array_intersect(array_values($defaultNormalizedFileKeyList), array_keys($inputList)))) {
+        $defaultNormalizedFileKeyList = [
+            'name' => [self::KEY_PACKAGE_NAME],
+            'description' => [self::KEY_DESCRIPTION],
+            'version' => [self::KEY_PACKAGE_VERSION],
+            'type' => [self::KEY_TYPE],
+            'keywords' => [self::KEY_KEYWORD],
+            'license' => [self::KEY_LICENSE],
+            'authors' => [self::KEY_AUTHOR],
+            'support' => [self::KEY_SUPPORT],
+            'require' => [self::KEY_REQUIRE],
+            'require-dev' => [self::KEY_REQUIRE_DEV],
+            'provide' => [self::KEY_PROVIDED_PACKAGE],
+            'suggest' => [self::KEY_SUGGESTED_PACKAGE],
+            'autoload' => [self::KEY_AUTOLOAD_PSR0, self::KEY_AUTOLOAD_PSR4],
+            'autoload-dev' => [self::KEY_AUTOLOAD_DEV_PSR0, self::KEY_AUTOLOAD_DEV_PSR4],
+            'scripts' => [self::KEY_SCRIPT],
+        ];
+        if (0 === count(array_intersect($defaultKeyList, array_keys($inputList)))) {
             return null;
         }
         $fileKeyList = [];
-        foreach ($defaultNormalizedFileKeyList as $fileKey => $inputKey) {
-            if (isset($inputList[$inputKey])) {
-                $fileKeyList[] = $fileKey;
+        foreach ($defaultNormalizedFileKeyList as $fileKey => $inputKeyList) {
+            foreach ($inputKeyList as $inputKey) {
+                if (isset($inputList[$inputKey])) {
+                    $fileKeyList[] = $fileKey;
+                    break;
+                }
             }
         }
 
