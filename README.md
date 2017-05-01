@@ -47,8 +47,8 @@ See below for more information regarding command line options
 ## Managed properties
 
   * Package name
-  * Package type *Default value is "library"*
-  * License *Default value is "MIT"*
+  * Package type
+  * License
   * Version
   * Description
   * Keywords *Many allowed*
