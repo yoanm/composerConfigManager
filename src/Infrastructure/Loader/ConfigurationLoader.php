@@ -48,12 +48,20 @@ class ConfigurationLoader implements ConfigurationLoaderInterface
                 null,
                 sprintf(
                     '%s/%s',
-                    $path,
+                    trim($path, '/'),
                     ConfigurationWriter::FILENAME
                 )
             );
         }
 
-        return $this->serializer->deserialize($file->getContents(), Configuration::class, ComposerEncoder::FORMAT);
+        return $this->fromString($file->getContents());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fromString($serializedConfiguration)
+    {
+        return $this->serializer->deserialize($serializedConfiguration, Configuration::class, ComposerEncoder::FORMAT);
     }
 }
