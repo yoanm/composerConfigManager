@@ -22,6 +22,10 @@ class UpdateConfiguration
         $this->configurationWriter = $configurationWriter;
         $this->configurationUpdater = $configurationUpdater;
     }
+
+    /**
+     * @param UpdateConfigurationRequest $request
+     */
     public function run(UpdateConfigurationRequest $request)
     {
         $this->configurationWriter->write(

@@ -11,4 +11,11 @@ interface ConfigurationLoaderInterface
      * @return Configuration
      */
     public function fromPath($path);
+
+    /**
+     * @param string $filePath
+     *
+     * @return Configuration
+     */
+    public function fromFilePath($filePath);
 }

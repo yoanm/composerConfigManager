@@ -7,10 +7,7 @@ Feature: As user
     Then configuration file should be:
     """
     {
-      "name": "pk_namespace\\pk_name",
-      "type": "library",
-      "license": "MIT",
-      "version": "0.0.1"
+      "name": "pk_namespace\\pk_name"
     }
     """
 

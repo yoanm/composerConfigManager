@@ -10,3 +10,4 @@ default:
         - Functional\Yoanm\ComposerConfigManager\BehatContext\DefaultContext: ~
         - Functional\Yoanm\ComposerConfigManager\BehatContext\CreateContext: ~
         - Functional\Yoanm\ComposerConfigManager\BehatContext\UpdateContext: ~
+        - Functional\Yoanm\ComposerConfigManager\BehatContext\TemplateContext: ~

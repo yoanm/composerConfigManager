@@ -4,6 +4,7 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application;
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
 use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\Updater\ConfigurationUpdater;
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
@@ -11,6 +12,8 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ConfigurationWriterInterface|ObjectProphecy */
     private $configurationWriter;
+    /** @var ConfigurationUpdater|ObjectProphecy */
+    private $configurationUpdater;
     /** @var CreateConfiguration */
     private $creator;
 
@@ -20,8 +23,10 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->configurationWriter = $this->prophesize(ConfigurationWriterInterface::class);
+        $this->configurationUpdater = $this->prophesize(ConfigurationUpdater::class);
         $this->creator = new CreateConfiguration(
-            $this->configurationWriter->reveal()
+            $this->configurationWriter->reveal(),
+            $this->configurationUpdater->reveal()
         );
     }
 
@@ -37,6 +42,9 @@ class CreateConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $request->getConfiguration()
             ->willReturn($configuration->reveal())
+            ->shouldBeCalled();
+        $request->getTemplateConfiguration()
+            ->willReturn(null)
             ->shouldBeCalled();
         $request->getDestinationFolder()
             ->willReturn($destFolder)
