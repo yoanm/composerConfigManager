@@ -7,9 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
 use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
-use Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationLoader;
 
 class CreateConfigurationCommand extends AbstractTemplatableCommand
 {
@@ -22,14 +22,14 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
     private $createConfiguration;
 
     /**
-     * @param InputTransformer    $inputTransformer
-     * @param CreateConfiguration $createConfiguration
-     * @param ConfigurationLoader $configurationLoader
+     * @param InputTransformer             $inputTransformer
+     * @param CreateConfiguration          $createConfiguration
+     * @param ConfigurationLoaderInterface $configurationLoader
      */
     public function __construct(
         InputTransformer $inputTransformer,
         CreateConfiguration $createConfiguration,
-        ConfigurationLoader $configurationLoader
+        ConfigurationLoaderInterface $configurationLoader
     ) {
         parent::__construct($configurationLoader);
 

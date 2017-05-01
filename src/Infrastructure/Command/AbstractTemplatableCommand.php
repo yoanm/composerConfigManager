@@ -4,20 +4,20 @@ namespace Yoanm\ComposerConfigManager\Infrastructure\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationLoaderInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
-use Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationLoader;
 
 abstract class AbstractTemplatableCommand extends Command
 {
     const OPTION_TEMPLATE = 'template';
 
-    /** @var ConfigurationLoader */
+    /** @var ConfigurationLoaderInterface */
     private $configurationLoader;
 
     /**
-     * @param ConfigurationLoader $configurationLoader
+     * @param ConfigurationLoaderInterface $configurationLoader
      */
-    public function __construct(ConfigurationLoader $configurationLoader)
+    public function __construct(ConfigurationLoaderInterface $configurationLoader)
     {
         parent::__construct();
         $this->configurationLoader = $configurationLoader;
@@ -38,7 +38,7 @@ abstract class AbstractTemplatableCommand extends Command
     }
 
     /**
-     * @return ConfigurationLoader
+     * @return ConfigurationLoaderInterface
      */
     public function getConfigurationLoader()
     {

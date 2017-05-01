@@ -285,7 +285,7 @@ Feature: As user
     }
     """
 
-  Scenario: Full configuration file with values to update (from old file and from template
+  Scenario: Full configuration file with values to update (from old file and from template)
     Given I will use configuration template at "./template/template.json" with:
     """
     {
