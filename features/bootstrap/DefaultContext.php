@@ -73,6 +73,14 @@ class DefaultContext implements Context
     }
 
     /**
+     * @Then /^configuration file key order (?:at "(?<path>[^"]+)" )?should be:$/
+     */
+    public function configurationFileKeyOrderShouldBe($path = null, PyStringNode $inputs = null)
+    {
+        $this->configFileKeyOrderShouldBe($this->decodeJson($inputs->getRaw()), $path);
+    }
+
+    /**
      * @Then /^configuration file (?:at "(?<path>[^"]+)" )?should contains:$/
      */
     public function configurationFileShouldContains($path = null, PyStringNode $inputs = null)
@@ -115,6 +123,23 @@ class DefaultContext implements Context
                     "Configuration file content not expected !\n Expected: %s\nActual: %s",
                     json_encode($expected, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
                     json_encode($currentConfiguration, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+                )
+            );
+        }
+    }
+
+    protected function configFileKeyOrderShouldBe(array $expected, $path)
+    {
+        $currentConfiguration = $this->getConfigurationFileContent(self::getFilepath($path));
+        $actual = array_keys($currentConfiguration);
+        try {
+            Assert::assertSame($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $exception) {
+            throw new \Exception(
+                sprintf(
+                    "Configuration file keys not expected !\n Expected: %s\nActual: %s",
+                    json_encode($expected),
+                    json_encode($actual)
                 )
             );
         }

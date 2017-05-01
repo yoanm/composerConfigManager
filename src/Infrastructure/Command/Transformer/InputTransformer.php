@@ -40,7 +40,7 @@ class InputTransformer
      */
     public function fromCommandLine($inputList)
     {
-        return $this->createConfiguration($inputList);
+        return $this->createConfigurationFile($inputList);
     }
 
     /**
@@ -48,31 +48,35 @@ class InputTransformer
      *
      * @return ConfigurationFile|null
      */
-    protected function createConfiguration(array $inputList)
+    protected function createConfigurationFile(array $inputList)
     {
-        $defaultFileKeyList = [
-            str_replace('package-', '', self::KEY_PACKAGE_NAME),
-            self::KEY_TYPE,
-            self::KEY_LICENSE,
-            self::KEY_PACKAGE_VERSION,
-            self::KEY_DESCRIPTION,
-            self::KEY_KEYWORD,
-            self::KEY_AUTHOR,
-            self::KEY_PROVIDED_PACKAGE,
-            self::KEY_SUGGESTED_PACKAGE,
-            self::KEY_SUPPORT,
-            self::KEY_AUTOLOAD_PSR0,
-            self::KEY_AUTOLOAD_PSR4,
-            self::KEY_AUTOLOAD_DEV_PSR0,
-            self::KEY_AUTOLOAD_DEV_PSR4,
-            self::KEY_REQUIRE,
-            self::KEY_REQUIRE_DEV,
-            self::KEY_SCRIPT,
+        $defaultNormalizedFileKeyList = [
+            str_replace('package-', '', self::KEY_PACKAGE_NAME) => self::KEY_PACKAGE_NAME,
+            self::KEY_DESCRIPTION => self::KEY_DESCRIPTION,
+            str_replace('package-', '', self::KEY_PACKAGE_VERSION) => self::KEY_PACKAGE_VERSION,
+            self::KEY_TYPE => self::KEY_TYPE,
+            sprintf('%ss', self::KEY_KEYWORD) => self::KEY_KEYWORD,
+            self::KEY_LICENSE => self::KEY_LICENSE,
+            sprintf('%ss', self::KEY_AUTHOR) => self::KEY_AUTHOR,
+            self::KEY_SUPPORT => self::KEY_SUPPORT,
+            self::KEY_REQUIRE => self::KEY_REQUIRE,
+            self::KEY_REQUIRE_DEV => self::KEY_REQUIRE_DEV,
+            str_replace('d-package', '', self::KEY_PROVIDED_PACKAGE) => self::KEY_PROVIDED_PACKAGE,
+            str_replace('ed-package', '', self::KEY_SUGGESTED_PACKAGE) => self::KEY_SUGGESTED_PACKAGE,
+            str_replace('-pr0', '', self::KEY_AUTOLOAD_PSR0) => self::KEY_AUTOLOAD_PSR0,
+            str_replace('-prs0', '', self::KEY_AUTOLOAD_DEV_PSR0) => self::KEY_AUTOLOAD_DEV_PSR0,
+            sprintf('%ss', self::KEY_SCRIPT) => self::KEY_SCRIPT,
         ];
-        $fileKeyList = array_intersect($defaultFileKeyList, array_keys($inputList));
-        if (0 === count($fileKeyList)) {
+        if (0 === count(array_intersect(array_values($defaultNormalizedFileKeyList), array_keys($inputList)))) {
             return null;
         }
+        $fileKeyList = [];
+        foreach ($defaultNormalizedFileKeyList as $fileKey => $inputKey) {
+            if (isset($inputList[$inputKey])) {
+                $fileKeyList[] = $fileKey;
+            }
+        }
+
         return new ConfigurationFile(
             new Configuration(
                 $this->getValue($inputList, self::KEY_PACKAGE_NAME, null),

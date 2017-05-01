@@ -165,7 +165,7 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($scriptList, $updatedConfiguration->getScriptList());
 
         $this->assertSame(
-            array_replace($baseKeyList, $newKeyList),
+            ['key_1', 'key_2', 'key_0'],
             $updatedConfigurationFile->getKeyList()
         );
     }

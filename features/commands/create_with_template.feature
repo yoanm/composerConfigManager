@@ -3,7 +3,26 @@ Feature: As user
   I should be able to use the command line
 
   Scenario: Full configuration
-    Given I will use configuration template at "./template/template.json" with:
+    Given I will use configuration template at "./template/key_order.json" with:
+    """
+    {
+      "require": {},
+      "scripts": {},
+      "name": null,
+      "support": {},
+      "description": null,
+      "authors": [],
+      "require-dev": {},
+      "provide": {},
+      "autoload-dev": {},
+      "suggest": {},
+      "version": null,
+      "autoload": {},
+      "type": null
+    }
+
+    """
+    And I will use configuration template at "./template/template.json" with:
     """
     {
       "name": "default-template-name",
@@ -79,7 +98,27 @@ Feature: As user
 
     """
     When I execute composercm create with "vendor/name"
-    Then configuration file should contains:
+    Then configuration file key order should be:
+    """
+    [
+      "require",
+      "scripts",
+      "name",
+      "support",
+      "description",
+      "authors",
+      "require-dev",
+      "provide",
+      "autoload-dev",
+      "suggest",
+      "version",
+      "autoload",
+      "type",
+      "license",
+      "keywords"
+    ]
+    """
+    And configuration file should contains:
     """
     {
       "name": "vendor/name",

@@ -206,7 +206,7 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
         }
 
         if (0 === count($inputList)) {
-            return $null;
+            return null;
         }
 
         return $this->inputTransformer->fromCommandLine($inputList);

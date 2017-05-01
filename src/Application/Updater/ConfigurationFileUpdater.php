@@ -35,10 +35,8 @@ class ConfigurationFileUpdater
     public function update(array $configurationFileList)
     {
         $newConfigurationFile = array_pop($configurationFileList);
-
         while (count($configurationFileList) > 0) {
-            $baseConfigurationFile = array_pop($configurationFileList);
-            $newConfigurationFile = $this->merge($baseConfigurationFile, $newConfigurationFile);
+            $newConfigurationFile = $this->merge(array_pop($configurationFileList), $newConfigurationFile);
         }
 
         return $newConfigurationFile;
@@ -121,6 +119,6 @@ class ConfigurationFileUpdater
 
     protected function mergeKeyList(array $baseKeyList, array $newKeyList)
     {
-        return array_replace($baseKeyList, $newKeyList);
+        return array_values(array_unique(array_merge($baseKeyList, $newKeyList)));
     }
 }

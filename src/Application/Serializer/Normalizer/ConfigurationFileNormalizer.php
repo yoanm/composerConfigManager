@@ -24,7 +24,7 @@ class ConfigurationFileNormalizer
             }
         }
         //append remaining keys
-        return array_replace(
+        return array_merge(
             $orderedNormalizedConfiguration,
             $normalizedConfiguration
         );
