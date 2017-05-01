@@ -117,7 +117,7 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
             $scriptList
         );
 
-        $updatedConfiguration = $this->updater->update($baseConfiguration->reveal(), $newConfiguration->reveal());
+        $updatedConfiguration = $this->updater->update([$baseConfiguration->reveal(), $newConfiguration->reveal()]);
 
         $this->assertInstanceOf(Configuration::class, $updatedConfiguration);
         $this->assertSame($packageName, $updatedConfiguration->getPackageName());
@@ -157,21 +157,21 @@ class ConfigurationUpdaterTest extends \PHPUnit_Framework_TestCase
      */
     protected function configureEntity(
         ObjectProphecy $newConfiguration,
-        $packageName,
-        $type,
-        $license,
-        $packageVersion,
-        $description,
-        array $keywordList,
-        array $authorList,
-        array $providedPackageList,
-        array $suggestedPackageList,
-        array $supportList,
-        array $autoloadList,
-        array $autoloadDevList,
-        array $requiredPackageList,
-        array $requiredDevPackageList,
-        array $scriptList
+        $packageName = null,
+        $type = null,
+        $license = null,
+        $packageVersion = null,
+        $description = null,
+        array $keywordList = [],
+        array $authorList = [],
+        array $providedPackageList = [],
+        array $suggestedPackageList = [],
+        array $supportList = [],
+        array $autoloadList = [],
+        array $autoloadDevList = [],
+        array $requiredPackageList = [],
+        array $requiredDevPackageList = [],
+        array $scriptList = []
     ) {
         $newConfiguration->getPackageName()
             ->willReturn($packageName)

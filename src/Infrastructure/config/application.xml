@@ -3,10 +3,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <service id="composer_config_manager.app.create_configuration" class="Yoanm\ComposerConfigManager\Application\CreateConfiguration">
-            <argument type="service" id="composer_config_manager.infra.writer.configuration" />
-            <argument type="service" id="composer_config_manager.app.updater.configuration" />
-        </service>
+
         <service id="composer_config_manager.app.update_configuration" class="Yoanm\ComposerConfigManager\Application\UpdateConfiguration">
             <argument type="service" id="composer_config_manager.infra.writer.configuration" />
             <argument type="service" id="composer_config_manager.app.updater.configuration" />

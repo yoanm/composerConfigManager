@@ -25,13 +25,32 @@ class ConfigurationUpdater
         $this->listUpdater = $listUpdater;
         $this->authorListUpdater = $authorListUpdater;
     }
+
+    /**
+     * @param Configuration[] $configurationList
+     *
+     * @return Configuration
+     */
+    public function update(array $configurationList)
+    {
+        $newConfiguration = array_pop($configurationList);
+
+        while (count($configurationList) > 0) {
+            $baseConfiguration = array_pop($configurationList);
+            $newConfiguration = $this->merge($baseConfiguration, $newConfiguration);
+        }
+
+        return $newConfiguration;
+    }
+
+
     /**
      * @param Configuration $baseConfiguration
      * @param Configuration $newConfiguration
      *
      * @return Configuration
      */
-    public function update(Configuration $baseConfiguration, Configuration $newConfiguration)
+    public function merge(Configuration $baseConfiguration, Configuration $newConfiguration)
     {
         return new Configuration(
             $this->plainValueUpdater->update(

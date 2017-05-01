@@ -39,7 +39,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
     /**
      * @Given /^I will use configuration template at "(?<filePath>[^"]+)" with:$/
      */
-    public function iExecuteConsoleWithNameDestAndOption($filePath, PyStringNode $content = null)
+    public function iWillUseConfigurationTemplateAtWith($filePath, PyStringNode $content = null)
     {
         $filePath = DefaultContext::getBasePath($filePath);
         @mkdir(dirname($filePath));
@@ -85,6 +85,7 @@ class CommandRunnerContext implements Context, BehatContextSubscriberInterface
         } catch (\Exception $exception) {
             $this->lastException = $exception;
             $this->exitCode = $exception->getCode();
+            $this->output->writeln('Exception : '.$exception->getMessage());
         }
     }
 
