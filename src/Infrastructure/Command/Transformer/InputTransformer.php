@@ -52,7 +52,7 @@ class InputTransformer
     {
         return new ConfigurationFile(
             new Configuration(
-                $inputList[self::KEY_PACKAGE_NAME],
+                $this->getValue($inputList, self::KEY_PACKAGE_NAME, null),
                 $this->getValue($inputList, self::KEY_TYPE, null),
                 $this->getValue($inputList, self::KEY_LICENSE, null),
                 $this->getValue($inputList, self::KEY_PACKAGE_VERSION, null),
