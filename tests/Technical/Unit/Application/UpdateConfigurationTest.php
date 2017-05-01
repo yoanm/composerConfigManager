@@ -43,24 +43,24 @@ class UpdateConfigurationTest extends \PHPUnit_Framework_TestCase
         $updatedConfiguration = $this->prophesize(Configuration::class);
         /** @var UpdateConfigurationRequest|ObjectProphecy $request */
         $request = $this->prophesize(UpdateConfigurationRequest::class);
+        /** @var Configuration|ObjectProphecy $lastUpdateConfiguration */
+        $lastUpdateConfiguration = $this->prophesize(Configuration::class);
+        $configurationList = [
+            $baseConfiguration->reveal(),
+            $newConfiguration->reveal()
+        ];
 
-        $request->getBaseConfiguration()
-            ->willReturn($baseConfiguration->reveal())
-            ->shouldBeCalled();
-        $request->getNewConfiguration()
-            ->willReturn($newConfiguration->reveal())
+        $request->getConfigurationList()
+            ->willReturn($configurationList)
             ->shouldBeCalled();
         $request->getDestinationFolder()
             ->willReturn($destPath)
             ->shouldBeCalled();
-        $request->getTemplateConfiguration()
-            ->willReturn(null)
-            ->shouldBeCalled();
 
-        $this->configurationUpdater->update($baseConfiguration->reveal(), $newConfiguration->reveal())
-            ->willReturn($updatedConfiguration->reveal())
+        $this->configurationUpdater->update($configurationList)
+            ->willReturn($lastUpdateConfiguration->reveal())
             ->shouldBeCalled();
-        $this->configurationWriter->write($updatedConfiguration->reveal(), $destPath)
+        $this->configurationWriter->write($lastUpdateConfiguration->reveal(), $destPath)
             ->shouldBeCalled();
 
         $this->updater->run($request->reveal());
@@ -81,24 +81,19 @@ class UpdateConfigurationTest extends \PHPUnit_Framework_TestCase
         $templateConfiguration = $this->prophesize(Configuration::class);
         /** @var Configuration|ObjectProphecy $lastUpdateConfiguration */
         $lastUpdateConfiguration = $this->prophesize(Configuration::class);
+        $configurationList = [
+            $templateConfiguration->reveal(),
+            $baseConfiguration->reveal(),
+            $newConfiguration->reveal()
+        ];
 
-        $request->getBaseConfiguration()
-            ->willReturn($baseConfiguration->reveal())
-            ->shouldBeCalled();
-        $request->getNewConfiguration()
-            ->willReturn($newConfiguration->reveal())
+        $request->getConfigurationList()
+            ->willReturn($configurationList)
             ->shouldBeCalled();
         $request->getDestinationFolder()
             ->willReturn($destPath)
             ->shouldBeCalled();
-        $request->getTemplateConfiguration()
-            ->willReturn($templateConfiguration)
-            ->shouldBeCalled();
-
-        $this->configurationUpdater->update($baseConfiguration->reveal(), $newConfiguration->reveal())
-            ->willReturn($updatedConfiguration->reveal())
-            ->shouldBeCalled();
-        $this->configurationUpdater->update($templateConfiguration->reveal(), $updatedConfiguration->reveal())
+        $this->configurationUpdater->update($configurationList)
             ->willReturn($lastUpdateConfiguration->reveal())
             ->shouldBeCalled();
         $this->configurationWriter->write($lastUpdateConfiguration->reveal(), $destPath)

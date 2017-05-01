@@ -7,29 +7,17 @@ class UpdateConfigurationRequest
 {
     /** @var string */
     private $destinationFolder;
-    /** @var Configuration */
-    private $newConfiguration;
-    /** @var Configuration */
-    private $baseConfiguration;
-    /** @var Configuration */
-    private $templateConfiguration;
+    /** @var Configuration[] */
+    private $configurationList;
 
     /**
-     * @param Configuration      $baseConfiguration
-     * @param Configuration      $newConfiguration
-     * @param string             $destinationFolder
-     * @param Configuration|null $templateConfiguration
+     * @param Configuration[] $configurationList
+     * @param string          $destinationFolder
      */
-    public function __construct(
-        Configuration $baseConfiguration,
-        Configuration $newConfiguration,
-        $destinationFolder,
-        Configuration $templateConfiguration = null
-    ) {
-        $this->baseConfiguration = $baseConfiguration;
-        $this->newConfiguration = $newConfiguration;
+    public function __construct(array $configurationList, $destinationFolder)
+    {
         $this->destinationFolder = $destinationFolder;
-        $this->templateConfiguration = $templateConfiguration;
+        $this->configurationList = $configurationList;
     }
 
     /**
@@ -41,26 +29,10 @@ class UpdateConfigurationRequest
     }
 
     /**
-     * @return Configuration
+     * @return Configuration[]
      */
-    public function getNewConfiguration()
+    public function getConfigurationList()
     {
-        return $this->newConfiguration;
-    }
-
-    /**
-     * @return Configuration
-     */
-    public function getBaseConfiguration()
-    {
-        return $this->baseConfiguration;
-    }
-
-    /**
-     * @return Configuration
-     */
-    public function getTemplateConfiguration()
-    {
-        return $this->templateConfiguration;
+        return $this->configurationList;
     }
 }

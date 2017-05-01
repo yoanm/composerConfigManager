@@ -11,7 +11,7 @@
 
         <service id="composer_config_manager.infra.command.create_configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Command\CreateConfigurationCommand">
             <argument type="service" id="composer_config_manager.infra.command.transformer.input" />
-            <argument type="service" id="composer_config_manager.app.create_configuration" />
+            <argument type="service" id="composer_config_manager.app.update_configuration" />
             <argument type="service" id="composer_config_manager.infra.loader.configuration" />
         </service>
         <service id="composer_config_manager.infra.command.update_configuration" class="Yoanm\ComposerConfigManager\Infrastructure\Command\UpdateConfigurationCommand">

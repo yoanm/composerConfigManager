@@ -17,8 +17,8 @@ class CreateContext extends ComposerCMContext
     {
         $commandArguments = sprintf(
             '"%s" "%s"',
-            $name ? $name : self::DEFAULT_NAME,
-            DefaultContext::getBasePath($dest)
+            DefaultContext::getBasePath($dest),
+            $name ? $name : self::DEFAULT_NAME
         );
         $this->iCleanPath($dest);
         $this->iExecuteComposerCMWith('create', $commandArguments, $options);
