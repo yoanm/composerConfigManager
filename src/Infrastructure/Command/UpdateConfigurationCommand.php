@@ -11,11 +11,10 @@ use Yoanm\ComposerConfigManager\Application\UpdateConfiguration;
 use Yoanm\ComposerConfigManager\Application\UpdateConfigurationRequest;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
-class UpdateConfigurationCommand extends Command
+class UpdateConfigurationCommand extends AbstractTemplatableCommand
 {
     const NAME = 'update';
     const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'path';
-    const OPTION_TEMPLATE = 'template';
 
     /** @var InputTransformer */
     private $inputTransformer;
@@ -29,7 +28,7 @@ class UpdateConfigurationCommand extends Command
         UpdateConfiguration $updateConfiguration,
         ConfigurationLoaderInterface $configurationLoader
     ) {
-        parent::__construct(self::NAME);
+        parent::__construct($configurationLoader);
 
         $this->inputTransformer = $inputTransformer;
         $this->updateConfiguration = $updateConfiguration;
@@ -159,13 +158,8 @@ DESC
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'List of scripts for the package. Ex : "script-name#command"'
             )
-            ->addOption(
-                self::OPTION_TEMPLATE,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Path of the json template file. Will be used as default values.'
-            )
         ;
+        parent::configure();
     }
 
     /**
@@ -176,12 +170,14 @@ DESC
         $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
         $newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions());
         $baseConfiguration = $this->configurationLoader->fromPath($path);
+        $templateConfiguration = $this->loadTemplateConfiguration($input);
 
         $this->updateConfiguration->run(
             new UpdateConfigurationRequest(
                 $baseConfiguration,
                 $newConfiguration,
-                $path
+                $path,
+                $templateConfiguration
             )
         );
     }

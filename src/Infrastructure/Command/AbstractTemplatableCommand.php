@@ -2,6 +2,7 @@
 namespace Yoanm\ComposerConfigManager\Infrastructure\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationLoader;
@@ -37,12 +38,13 @@ abstract class AbstractTemplatableCommand extends Command
     }
 
     /**
-     * @param string $templatePath
+     * @param InputInterface $input
      *
      * @return null|Configuration
      */
-    protected function loadTemplateConfiguration($templatePath)
+    protected function loadTemplateConfiguration(InputInterface $input)
     {
+        $templatePath = $input->getOption(self::OPTION_TEMPLATE);
         $templateConfiguration = null;
         if ($templatePath) {
             if (is_dir($templatePath)) {

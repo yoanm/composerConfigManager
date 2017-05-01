@@ -1,5 +1,5 @@
 Feature: As user
-  In order to create composer configuration file
+  In order to update composer configuration file
   I should be able to use the "update" command line
 
   Scenario: Specify location

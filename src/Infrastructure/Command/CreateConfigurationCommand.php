@@ -164,7 +164,7 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
             new CreateConfigurationRequest(
                 $this->loadConfiguration($input),
                 $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER),
-                $this->loadTemplateConfiguration($input->getOption(self::OPTION_TEMPLATE))
+                $this->loadTemplateConfiguration($input)
             )
         );
     }
