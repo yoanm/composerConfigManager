@@ -43,40 +43,6 @@ class UpdateConfigurationTest extends \PHPUnit_Framework_TestCase
         $updatedConfiguration = $this->prophesize(Configuration::class);
         /** @var UpdateConfigurationRequest|ObjectProphecy $request */
         $request = $this->prophesize(UpdateConfigurationRequest::class);
-        /** @var Configuration|ObjectProphecy $lastUpdateConfiguration */
-        $lastUpdateConfiguration = $this->prophesize(Configuration::class);
-        $configurationList = [
-            $baseConfiguration->reveal(),
-            $newConfiguration->reveal()
-        ];
-
-        $request->getConfigurationList()
-            ->willReturn($configurationList)
-            ->shouldBeCalled();
-        $request->getDestinationFolder()
-            ->willReturn($destPath)
-            ->shouldBeCalled();
-
-        $this->configurationUpdater->update($configurationList)
-            ->willReturn($lastUpdateConfiguration->reveal())
-            ->shouldBeCalled();
-        $this->configurationWriter->write($lastUpdateConfiguration->reveal(), $destPath)
-            ->shouldBeCalled();
-
-        $this->updater->run($request->reveal());
-    }
-
-    public function testRunWithTemplate()
-    {
-        $destPath = 'path';
-        /** @var Configuration|ObjectProphecy $baseConfiguration */
-        $baseConfiguration = $this->prophesize(Configuration::class);
-        /** @var Configuration|ObjectProphecy $newConfiguration */
-        $newConfiguration = $this->prophesize(Configuration::class);
-        /** @var Configuration|ObjectProphecy $updatedConfiguration */
-        $updatedConfiguration = $this->prophesize(Configuration::class);
-        /** @var UpdateConfigurationRequest|ObjectProphecy $request */
-        $request = $this->prophesize(UpdateConfigurationRequest::class);
         /** @var Configuration|ObjectProphecy $templateConfiguration */
         $templateConfiguration = $this->prophesize(Configuration::class);
         /** @var Configuration|ObjectProphecy $lastUpdateConfiguration */
