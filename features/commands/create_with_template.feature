@@ -17,62 +17,62 @@ Feature: As user
       ],
       "authors": [
         {
-            "name": "default-template-name1",
-            "email": "default-template-email1",
-            "role": "default-template-role1"
+          "name": "default-template-name1",
+          "email": "default-template-email1",
+          "role": "default-template-role1"
         },
         {
-            "name": "default-template-name2",
-            "email": "default-template-email2",
-            "role": "default-template-role2"
+          "name": "default-template-name2",
+          "email": "default-template-email2",
+          "role": "default-template-role2"
         }
       ],
       "provide": {
-        "package1": "default-template-provided-package1",
-        "package2": "default-template-provided-package2"
+        "template-package1": "default-template-provided-package1",
+        "template-package2": "default-template-provided-package2"
       },
       "suggest": {
-        "package1": "default-template-suggested-package1",
-        "package2": "default-template-suggested-package2"
+        "template-package1": "default-template-suggested-package1",
+        "template-package2": "default-template-suggested-package2"
       },
       "support": {
-        "type1": "default-template-support-type1",
-        "type2": "default-template-support-type2"
+        "template-type1": "default-template-support-type1",
+        "template-type2": "default-template-support-type2"
       },
       "autoload": {
         "psr-0": {
-            "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-            "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
         },
         "psr-4": {
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
         }
       },
       "autoload-dev": {
         "psr-0": {
-            "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-            "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
         },
         "psr-4": {
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
         }
       },
       "require": {
-        "requirement1": "default-template-required-package1"
+        "template-requirement1": "default-template-required-package1"
       },
       "require-dev": {
-        "requirement1": "default-template-required-dev-package1"
+        "template-requirement1": "default-template-required-dev-package1"
       },
       "scripts": {
-        "default-script-1": [
-            "default-script1-command_1",
-            "default-script1-command_2"
+        "default-template-script-1": [
+          "default-template-script1-command_1",
+          "default-template-script1-command_2"
         ],
-        "default-script-2": [
-            "default-script2-command_1",
-            "default-script2-command_2"
+        "default-template-script-2": [
+          "default-template-script2-command_1",
+          "default-template-script2-command_2"
         ]
       }
     }
@@ -121,8 +121,8 @@ Feature: As user
     {
 
       "provide": {
-        "package1": "default-template-provided-package1",
-        "package2": "default-template-provided-package2"
+        "template-package1": "default-template-provided-package1",
+        "template-package2": "default-template-provided-package2"
       }
     }
     """
@@ -131,8 +131,8 @@ Feature: As user
     {
 
       "suggest": {
-        "package1": "default-template-suggested-package1",
-        "package2": "default-template-suggested-package2"
+        "template-package1": "default-template-suggested-package1",
+        "template-package2": "default-template-suggested-package2"
       }
     }
     """
@@ -141,8 +141,8 @@ Feature: As user
     {
 
       "support": {
-        "type1": "default-template-support-type1",
-        "type2": "default-template-support-type2"
+        "template-type1": "default-template-support-type1",
+        "template-type2": "default-template-support-type2"
       }
     }
     """
@@ -152,12 +152,12 @@ Feature: As user
 
       "autoload": {
         "psr-0": {
-          "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-          "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
         },
         "psr-4": {
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
         }
       }
     }
@@ -168,12 +168,12 @@ Feature: As user
 
       "autoload-dev": {
         "psr-0": {
-          "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-          "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
         },
         "psr-4": {
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
         }
       }
     }
@@ -183,7 +183,7 @@ Feature: As user
     {
 
       "require": {
-        "requirement1": "default-template-required-package1"
+        "template-requirement1": "default-template-required-package1"
       }
     }
     """
@@ -192,7 +192,7 @@ Feature: As user
     {
 
       "require-dev": {
-        "requirement1": "default-template-required-dev-package1"
+        "template-requirement1": "default-template-required-dev-package1"
       }
     }
     """
@@ -200,13 +200,13 @@ Feature: As user
     """
     {
       "scripts": {
-        "default-script-1": [
-            "default-script1-command_1",
-            "default-script1-command_2"
+        "default-template-script-1": [
+            "default-template-script1-command_1",
+            "default-template-script1-command_2"
         ],
-        "default-script-2": [
-            "default-script2-command_1",
-            "default-script2-command_2"
+        "default-template-script-2": [
+            "default-template-script2-command_1",
+            "default-template-script2-command_2"
         ]
       }
     }
@@ -238,51 +238,51 @@ Feature: As user
         }
       ],
       "provide": {
-        "package1": "default-template-provided-package1",
-        "package2": "default-template-provided-package2"
+        "template-package1": "default-template-provided-package1",
+        "template-package2": "default-template-provided-package2"
       },
       "suggest": {
-        "package1": "default-template-suggested-package1",
-        "package2": "default-template-suggested-package2"
+        "template-package1": "default-template-suggested-package1",
+        "template-package2": "default-template-suggested-package2"
       },
       "support": {
-        "type1": "default-template-support-type1",
-        "type2": "default-template-support-type2"
+        "template-type1": "default-template-support-type1",
+        "template-type2": "default-template-support-type2"
       },
       "autoload": {
         "psr-0": {
-            "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-            "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
+            "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+            "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
         },
         "psr-4": {
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
+            "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+            "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
         }
       },
       "autoload-dev": {
         "psr-0": {
-            "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-            "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
+            "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+            "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2"
         },
         "psr-4": {
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-            "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
+            "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+            "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2"
         }
       },
       "require": {
-        "requirement1": "default-template-required-package1"
+        "template-requirement1": "default-template-required-package1"
       },
       "require-dev": {
-        "requirement1": "default-template-required-dev-package1"
+        "template-requirement1": "default-template-required-dev-package1"
       },
       "scripts": {
-        "default-script-1": [
-            "default-script1-command_1",
-            "default-script1-command_2"
+        "default-template-script-1": [
+            "default-template-script1-command_1",
+            "default-template-script1-command_2"
         ],
-        "default-script-2": [
-            "default-script2-command_1",
-            "default-script2-command_2"
+        "default-template-script-2": [
+            "default-template-script2-command_1",
+            "default-template-script2-command_2"
         ]
       }
     }
@@ -338,8 +338,8 @@ Feature: As user
     {
 
       "provide": {
-        "package1": "default-template-provided-package1",
-        "package2": "default-template-provided-package2",
+        "template-package1": "default-template-provided-package1",
+        "template-package2": "default-template-provided-package2",
         "name/A": "url1",
         "name2/B": "url2",
         "name/C": "url3"
@@ -351,8 +351,8 @@ Feature: As user
     {
 
       "suggest": {
-        "package1": "default-template-suggested-package1",
-        "package2": "default-template-suggested-package2",
+        "template-package1": "default-template-suggested-package1",
+        "template-package2": "default-template-suggested-package2",
         "name/A": "description 1",
         "name2/B": "description 2",
         "name/C": "description 3"
@@ -364,8 +364,8 @@ Feature: As user
     {
 
       "support": {
-        "type1": "default-template-support-type1",
-        "type2": "default-template-support-type2",
+        "template-type1": "default-template-support-type1",
+        "template-type2": "default-template-support-type2",
         "typeA": "urlA",
         "typeB": "urlB",
         "typeC": "urlC"
@@ -378,14 +378,14 @@ Feature: As user
 
       "autoload": {
         "psr-0": {
-          "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-          "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2",
           "vendor1\\Test": "src1",
           "vendor1\\Test2": "src3"
         },
         "psr-4": {
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2",
           "\\vendor2\\Test\\": "src2"
         }
       }
@@ -397,14 +397,14 @@ Feature: As user
 
       "autoload-dev": {
         "psr-0": {
-          "DefaultNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
-          "DefaultNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace": "default-template-psr0-path1",
+          "DefaultTemplateNamespace\\\\DefaultSubNamespace2": "default-template-psr0-path2",
           "vendor1\\Test": "src1",
           "vendor1\\Test2": "src3"
         },
         "psr-4": {
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
-          "\\\\DefaultNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace\\\\": "default-template-psr4-path1",
+          "\\\\DefaultTemplateNamespace\\\\DefaultSubNamespace2\\\\": "default-template-psr4-path2",
           "vendor2\\Test": "src2"
         }
       }
@@ -415,7 +415,7 @@ Feature: As user
     {
 
       "require": {
-        "requirement1": "default-template-required-package1",
+        "template-requirement1": "default-template-required-package1",
         "vendor1/A": "v1.3.0",
         "vendor2/B": ">=2.0.0",
         "vendor1/C": "~3.2"
@@ -427,7 +427,7 @@ Feature: As user
     {
 
       "require-dev": {
-        "requirement1": "default-template-required-dev-package1",
+        "template-requirement1": "default-template-required-dev-package1",
         "vendor1/A": "v1.3.0",
         "vendor2/B": ">=2.0.0",
         "vendor1/C": "~3.2"
@@ -438,13 +438,13 @@ Feature: As user
     """
     {
       "scripts": {
-        "default-script-1": [
-            "default-script1-command_1",
-            "default-script1-command_2"
+        "default-template-script-1": [
+            "default-template-script1-command_1",
+            "default-template-script1-command_2"
         ],
-        "default-script-2": [
-            "default-script2-command_1",
-            "default-script2-command_2"
+        "default-template-script-2": [
+            "default-template-script2-command_1",
+            "default-template-script2-command_2"
         ],
         "name1": [
           "command1",

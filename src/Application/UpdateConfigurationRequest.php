@@ -11,20 +11,25 @@ class UpdateConfigurationRequest
     private $newConfiguration;
     /** @var Configuration */
     private $baseConfiguration;
+    /** @var Configuration */
+    private $templateConfiguration;
 
     /**
-     * @param Configuration $baseConfiguration
-     * @param Configuration $newConfiguration
-     * @param string        $destinationFolder
+     * @param Configuration      $baseConfiguration
+     * @param Configuration      $newConfiguration
+     * @param string             $destinationFolder
+     * @param Configuration|null $templateConfiguration
      */
     public function __construct(
         Configuration $baseConfiguration,
         Configuration $newConfiguration,
-        $destinationFolder
+        $destinationFolder,
+        Configuration $templateConfiguration = null
     ) {
         $this->baseConfiguration = $baseConfiguration;
         $this->newConfiguration = $newConfiguration;
         $this->destinationFolder = $destinationFolder;
+        $this->templateConfiguration = $templateConfiguration;
     }
 
     /**
@@ -49,5 +54,13 @@ class UpdateConfigurationRequest
     public function getBaseConfiguration()
     {
         return $this->baseConfiguration;
+    }
+
+    /**
+     * @return Configuration
+     */
+    public function getTemplateConfiguration()
+    {
+        return $this->templateConfiguration;
     }
 }

@@ -13,8 +13,9 @@ class CreateConfigurationRequest
     private $templateConfiguration;
 
     /**
-     * @param Configuration $configuration
-     * @param string        $destinationFolder
+     * @param Configuration      $configuration
+     * @param string             $destinationFolder
+     * @param Configuration|null $templateConfiguration
      */
     public function __construct(
         Configuration $configuration,

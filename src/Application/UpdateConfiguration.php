@@ -3,6 +3,7 @@ namespace Yoanm\ComposerConfigManager\Application;
 
 use Yoanm\ComposerConfigManager\Application\Updater\ConfigurationUpdater;
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationWriterInterface;
+use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 
 class UpdateConfiguration
 {
@@ -29,11 +30,30 @@ class UpdateConfiguration
     public function run(UpdateConfigurationRequest $request)
     {
         $this->configurationWriter->write(
-            $this->configurationUpdater->update(
-                $request->getBaseConfiguration(),
-                $request->getNewConfiguration()
-            ),
+            $this->getConfiguration($request),
             $request->getDestinationFolder()
         );
+    }
+
+    /**
+     * @param UpdateConfigurationRequest $request
+     *
+     * @return Configuration
+     */
+    protected function getConfiguration(UpdateConfigurationRequest $request)
+    {
+        $configuration = $this->configurationUpdater->update(
+            $request->getBaseConfiguration(),
+            $request->getNewConfiguration()
+        );
+
+        if ($request->getTemplateConfiguration() instanceof Configuration) {
+            $configuration = $this->configurationUpdater->update(
+                $request->getTemplateConfiguration(),
+                $configuration
+            );
+        }
+
+        return $configuration;
     }
 }

@@ -29,13 +29,28 @@ class CreateConfiguration
      */
     public function run(CreateConfigurationRequest $request)
     {
+        $this->configurationWriter->write(
+            $this->getConfiguration($request),
+            $request->getDestinationFolder()
+        );
+    }
+
+    /**
+     * @param CreateConfigurationRequest $request
+     *
+     * @return Configuration
+     */
+    protected function getConfiguration(CreateConfigurationRequest $request)
+    {
         $configuration = $request->getConfiguration();
+
         if ($request->getTemplateConfiguration() instanceof Configuration) {
             $configuration = $this->configurationUpdater->update(
                 $request->getTemplateConfiguration(),
                 $configuration
             );
         }
-        $this->configurationWriter->write($configuration, $request->getDestinationFolder());
+
+        return $configuration;
     }
 }

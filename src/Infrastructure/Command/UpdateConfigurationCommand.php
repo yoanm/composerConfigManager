@@ -1,7 +1,6 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Infrastructure\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,7 +10,7 @@ use Yoanm\ComposerConfigManager\Application\UpdateConfiguration;
 use Yoanm\ComposerConfigManager\Application\UpdateConfigurationRequest;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
 
-class UpdateConfigurationCommand extends Command
+class UpdateConfigurationCommand extends AbstractTemplatableCommand
 {
     const NAME = 'update';
     const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'path';
@@ -20,19 +19,16 @@ class UpdateConfigurationCommand extends Command
     private $inputTransformer;
     /** @var UpdateConfiguration */
     private $updateConfiguration;
-    /** @var ConfigurationLoaderInterface */
-    private $configurationLoader;
 
     public function __construct(
         InputTransformer $inputTransformer,
         UpdateConfiguration $updateConfiguration,
         ConfigurationLoaderInterface $configurationLoader
     ) {
-        parent::__construct(self::NAME);
+        parent::__construct($configurationLoader);
 
         $this->inputTransformer = $inputTransformer;
         $this->updateConfiguration = $updateConfiguration;
-        $this->configurationLoader = $configurationLoader;
     }
     /**
      * {@inheritdoc}
@@ -40,6 +36,7 @@ class UpdateConfigurationCommand extends Command
     protected function configure()
     {
         $this
+            ->setName(self::NAME)
             ->setDescription('Will update a composer configuration file.')
 // @codingStandardsIgnoreStart
             ->setHelp(<<<DESC
@@ -158,6 +155,7 @@ DESC
                 'List of scripts for the package. Ex : "script-name#command"'
             )
         ;
+        parent::configure();
     }
 
     /**
@@ -167,13 +165,15 @@ DESC
     {
         $path = $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER);
         $newConfiguration = $this->inputTransformer->fromCommandLine($input->getOptions());
-        $baseConfiguration = $this->configurationLoader->fromPath($path);
+        $baseConfiguration = $this->getConfigurationLoader()->fromPath($path);
+        $templateConfiguration = $this->loadTemplateConfiguration($input);
 
         $this->updateConfiguration->run(
             new UpdateConfigurationRequest(
                 $baseConfiguration,
                 $newConfiguration,
-                $path
+                $path,
+                $templateConfiguration
             )
         );
     }

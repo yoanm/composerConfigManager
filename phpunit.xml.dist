@@ -30,6 +30,7 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
+                <file>src/Infrastructure/Command/AbstractTemplatableCommand.php</file> <!-- abstract entry point => tested with behat -->
                 <file>src/Infrastructure/Command/CreateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
                 <file>src/Application/CreateConfigurationRequest.php</file> <!-- DTO => tested with behat -->
                 <file>src/Infrastructure/Command/UpdateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
