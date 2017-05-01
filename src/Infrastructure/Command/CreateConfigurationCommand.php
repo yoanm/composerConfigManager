@@ -202,6 +202,7 @@ class CreateConfigurationCommand extends Command
 
     /**
      * @param InputInterface $input
+     *
      * @return Configuration
      */
     protected function loadConfiguration(InputInterface $input)

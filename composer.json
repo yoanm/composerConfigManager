@@ -69,7 +69,7 @@
     "behat": [
       "rm -Rf build/behat",
       "mkdir -p build/behat",
-      "cd build/behat && ../../vendor/bin/behat --no-snippets --colors --format pretty --config ../../behat.yml"
+      "./vendor/bin/behat --no-snippets --colors --format progress"
     ],
     "cs": [
       "./vendor/bin/phpcs"
