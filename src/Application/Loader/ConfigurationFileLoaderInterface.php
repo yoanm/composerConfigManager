@@ -1,6 +1,8 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Application\Loader;
 
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
+
 interface ConfigurationFileLoaderInterface
 {
     /**

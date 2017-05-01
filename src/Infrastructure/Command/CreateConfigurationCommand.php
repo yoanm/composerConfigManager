@@ -182,6 +182,7 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
     protected function loadConfigurationFile(InputInterface $input, array $configurationFileList)
     {
         $packageName = $input->getArgument(InputTransformer::KEY_PACKAGE_NAME);
+        $inputList = $input->getOptions();
         if (null === $packageName) {
             $hasNameDefined = false;
             foreach ($configurationFileList as $configurationFile) {
@@ -198,14 +199,16 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
                     )
                 );
             }
-
-            return null;
+        } else {
+            $inputList = [
+                InputTransformer::KEY_PACKAGE_NAME => $packageName
+            ] + $inputList;
         }
 
-        return $this->inputTransformer->fromCommandLine(
-            [
-                InputTransformer::KEY_PACKAGE_NAME => $packageName
-            ] + $input->getOptions()
-        );
+        if (0 === count($inputList)) {
+            return $null;
+        }
+
+        return $this->inputTransformer->fromCommandLine($inputList);
     }
 }
