@@ -192,7 +192,7 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
             ) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        'A package name must be given if',
+                        'A package name must be given if no template containing package name is given !',
                         gettype($packageName)
                     )
                 );
