@@ -3,10 +3,6 @@ namespace Yoanm\ComposerConfigManager\Domain\Model;
 
 class Configuration
 {
-    const DEFAULT_TYPE = 'library';
-    const DEFAULT_LICENSE = 'MIT';
-    const DEFAULT_VERSION = '0.0.1';
-
     /** @var string */
     private $packageName;
     /** @var string */

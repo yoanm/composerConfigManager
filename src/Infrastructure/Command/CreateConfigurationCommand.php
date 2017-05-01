@@ -6,29 +6,41 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\SplFileInfo;
 use Yoanm\ComposerConfigManager\Application\CreateConfiguration;
 use Yoanm\ComposerConfigManager\Application\CreateConfigurationRequest;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationLoader;
 
 class CreateConfigurationCommand extends Command
 {
     const NAME = 'create';
     const ARGUMENT_CONFIGURATION_DEST_FOLDER = 'destination';
+    const OPTION_TEMPLATE = 'template';
 
     /** @var InputTransformer */
     private $inputTransformer;
     /** @var CreateConfiguration */
     private $createConfiguration;
+    /** @var ConfigurationLoader */
+    private $configurationLoader;
 
+    /**
+     * @param InputTransformer    $inputTransformer
+     * @param CreateConfiguration $createConfiguration
+     * @param ConfigurationLoader $configurationLoader
+     */
     public function __construct(
         InputTransformer $inputTransformer,
-        CreateConfiguration $createConfiguration
+        CreateConfiguration $createConfiguration,
+        ConfigurationLoader $configurationLoader
     ) {
         parent::__construct(self::NAME);
 
         $this->inputTransformer = $inputTransformer;
         $this->createConfiguration = $createConfiguration;
+        $this->configurationLoader = $configurationLoader;
     }
     /**
      * {@inheritdoc}
@@ -52,22 +64,19 @@ class CreateConfigurationCommand extends Command
                 InputTransformer::KEY_TYPE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Package type. Ex : "library" / "project"',
-                Configuration::DEFAULT_TYPE
+                'Package type. Ex : "library" / "project"'
             )
             ->addOption(
                 InputTransformer::KEY_LICENSE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Package license type',
-                Configuration::DEFAULT_LICENSE
+                'Package license type'
             )
             ->addOption(
                 InputTransformer::KEY_PACKAGE_VERSION,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Package version number. Ex : "X.Y.Z"',
-                Configuration::DEFAULT_VERSION
+                'Package version number. Ex : "X.Y.Z"'
             )
             ->addOption(
                 InputTransformer::KEY_DESCRIPTION,
@@ -147,6 +156,12 @@ class CreateConfigurationCommand extends Command
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'List of scripts for the package. Ex : "script-name#command"'
             )
+            ->addOption(
+                self::OPTION_TEMPLATE,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path of the json template file. Will be used as default values.'
+            )
         ;
     }
 
@@ -155,17 +170,47 @@ class CreateConfigurationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configuration = $this->inputTransformer->fromCommandLine(
-            [
-                InputTransformer::KEY_PACKAGE_NAME =>$input->getArgument(InputTransformer::KEY_PACKAGE_NAME)
-            ] + $input->getOptions()
-        );
-
         $this->createConfiguration->run(
             new CreateConfigurationRequest(
-                $configuration,
-                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER)
+                $this->loadConfiguration($input),
+                $input->getArgument(self::ARGUMENT_CONFIGURATION_DEST_FOLDER),
+                $this->loadTemplateConfiguration($input->getOption(self::OPTION_TEMPLATE))
             )
+        );
+    }
+
+    /**
+     * @param string $templatePath
+     *
+     * @return null|Configuration
+     */
+    protected function loadTemplateConfiguration($templatePath)
+    {
+        $templateConfiguration = null;
+        if ($templatePath) {
+            if (is_dir($templatePath)) {
+                $templateConfiguration = $this->configurationLoader->fromPath($templatePath);
+            } elseif (is_file($templatePath)) {
+                $templateConfiguration = $this->configurationLoader->fromString(file_get_contents($templatePath));
+            } else {
+                throw new \UnexpectedValueException('Template path is nor a file or a path !');
+            }
+        }
+
+        return $templateConfiguration;
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return Configuration
+     */
+    protected function loadConfiguration(InputInterface $input)
+    {
+        return $this->inputTransformer->fromCommandLine(
+            [
+                InputTransformer::KEY_PACKAGE_NAME => $input->getArgument(InputTransformer::KEY_PACKAGE_NAME)
+            ] + $input->getOptions()
         );
     }
 }

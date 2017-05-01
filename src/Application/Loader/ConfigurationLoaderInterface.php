@@ -11,4 +11,11 @@ interface ConfigurationLoaderInterface
      * @return Configuration
      */
     public function fromPath($path);
+
+    /**
+     * @param string $serializedConfiguration
+     *
+     * @return Configuration
+     */
+    public function fromString($serializedConfiguration);
 }
