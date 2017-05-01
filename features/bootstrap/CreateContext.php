@@ -16,14 +16,13 @@ class CreateContext extends ComposerCMContext
      */
     public function iExecuteConsoleWithNameDestAndOption($name = null, $dest = null, PyStringNode $options = null)
     {
-        $dest = $dest ? $dest : DefaultContext::DEFAULT_DESTINATION;
         $commandArguments = sprintf(
-            'create "%s" "%s"',
+            '"%s" "%s"',
             $name ? $name : self::DEFAULT_NAME,
-            $dest
+            DefaultContext::getBasePath($dest)
         );
         $this->iCleanPath($dest);
-        $this->iExecuteComposerCMWith($commandArguments, $options);
+        $this->iExecuteComposerCMWith('create', $commandArguments, $options);
     }
 
     /**

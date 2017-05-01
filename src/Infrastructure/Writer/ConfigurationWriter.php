@@ -39,6 +39,8 @@ class ConfigurationWriter implements ConfigurationWriterInterface
             self::FILENAME
         );
 
+        var_dump("WRITE $filename");
+
         $this->filesystem->dumpFile($filename, $data);
     }
 }

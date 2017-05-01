@@ -67,7 +67,9 @@
       "./vendor/bin/phpunit --testsuite technical"
     ],
     "behat": [
-      "./vendor/bin/behat --no-snippets --colors --format progress"
+      "rm -Rf build/behat",
+      "mkdir -p build/behat",
+      "cd build/behat && ../../vendor/bin/behat --no-snippets --colors --format pretty --config ../../behat.yml"
     ],
     "cs": [
       "./vendor/bin/phpcs"

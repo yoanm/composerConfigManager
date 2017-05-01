@@ -14,6 +14,7 @@ class TemplateContext extends ComposerCMContext
      */
     public function iExecuteConsoleWithNameDestAndOption($path, PyStringNode $content)
     {
+        @mkdir(dirname($path));
         file_put_contents($path, $content->getRaw());
     }
 }
