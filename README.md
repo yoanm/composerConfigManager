@@ -60,7 +60,9 @@ See below for more information regarding command line options
      If more than one template is given, 
      * the first first one is updated with values from the second one
      * resulting configuration is updated with third template
+
      ...
+
      * resulting configuration is updated with X template
    * 2 - Resulting configuration with existing one 
      * **For update command only, in case at least a template was given**
