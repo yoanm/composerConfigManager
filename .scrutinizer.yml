@@ -19,8 +19,6 @@ build:
             - vendor
 
     dependencies:
-        before:
-            - composer global require hirak/prestissimo
         override:
             - composer build-ci
 
