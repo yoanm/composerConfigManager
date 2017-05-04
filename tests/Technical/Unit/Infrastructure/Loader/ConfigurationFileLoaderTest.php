@@ -6,7 +6,6 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder;
 use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;

@@ -6,11 +6,11 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AuthorListNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AutoloadListNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer;
-use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\PackageListNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ScriptListNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SuggestedPackageListNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNormalizer;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
 /**
  * Class ConfigurationDenormalizer
@@ -54,85 +54,85 @@ class ConfigurationDenormalizerTest extends \PHPUnit_Framework_TestCase
     public function testDenormalize()
     {
         $rawConfiguration = [
-            ConfigurationNormalizer::KEY_NAME => 'name',
-            ConfigurationNormalizer::KEY_TYPE => 'type',
-            ConfigurationNormalizer::KEY_LICENSE => 'license',
-            ConfigurationNormalizer::KEY_VERSION => 'version',
-            ConfigurationNormalizer::KEY_DESCRIPTION => 'description',
-            ConfigurationNormalizer::KEY_KEYWORDS => ['keyword1', 'keyword2'],
-            ConfigurationNormalizer::KEY_AUTHORS => ['authors'],
-            ConfigurationNormalizer::KEY_PROVIDE => ['provided'],
-            ConfigurationNormalizer::KEY_SUGGEST => ['suggested'],
-            ConfigurationNormalizer::KEY_SUPPORT => ['support'],
-            ConfigurationNormalizer::KEY_AUTOLOAD => ['autoload'],
-            ConfigurationNormalizer::KEY_AUTOLOAD_DEV => ['autoload_dev'],
-            ConfigurationNormalizer::KEY_REQUIRE => ['require'],
-            ConfigurationNormalizer::KEY_REQUIRE_DEV => ['require_dev'],
-            ConfigurationNormalizer::KEY_SCRIPT => ['script'],
+            ConfigurationFile::KEY_NAME => 'name',
+            ConfigurationFile::KEY_TYPE => 'type',
+            ConfigurationFile::KEY_LICENSE => 'license',
+            ConfigurationFile::KEY_VERSION => 'version',
+            ConfigurationFile::KEY_DESCRIPTION => 'description',
+            ConfigurationFile::KEY_KEYWORDS => ['keyword1', 'keyword2'],
+            ConfigurationFile::KEY_AUTHORS => ['authors'],
+            ConfigurationFile::KEY_PROVIDE => ['provided'],
+            ConfigurationFile::KEY_SUGGEST => ['suggested'],
+            ConfigurationFile::KEY_SUPPORT => ['support'],
+            ConfigurationFile::KEY_AUTOLOAD => ['autoload'],
+            ConfigurationFile::KEY_AUTOLOAD_DEV => ['autoload_dev'],
+            ConfigurationFile::KEY_REQUIRE => ['require'],
+            ConfigurationFile::KEY_REQUIRE_DEV => ['require_dev'],
+            ConfigurationFile::KEY_SCRIPTS => ['script'],
         ];
 
-        $this->authorListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_AUTHORS])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_AUTHORS])
+        $this->authorListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_AUTHORS])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_AUTHORS])
             ->shouldBeCalled();
-        $this->packageListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_PROVIDE])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_PROVIDE])
+        $this->packageListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_PROVIDE])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_PROVIDE])
             ->shouldBeCalled();
-        $this->suggestedPackageListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_SUGGEST])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_SUGGEST])
+        $this->suggestedPackageListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_SUGGEST])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_SUGGEST])
             ->shouldBeCalled();
-        $this->supportListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_SUPPORT])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_SUPPORT])
+        $this->supportListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_SUPPORT])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_SUPPORT])
             ->shouldBeCalled();
-        $this->autoloadListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_AUTOLOAD])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_AUTOLOAD])
+        $this->autoloadListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_AUTOLOAD])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_AUTOLOAD])
             ->shouldBeCalled();
-        $this->autoloadListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_AUTOLOAD_DEV])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_AUTOLOAD_DEV])
+        $this->autoloadListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_AUTOLOAD_DEV])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_AUTOLOAD_DEV])
             ->shouldBeCalled();
-        $this->packageListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_REQUIRE])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_REQUIRE])
+        $this->packageListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_REQUIRE])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_REQUIRE])
             ->shouldBeCalled();
-        $this->packageListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_REQUIRE_DEV])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_REQUIRE_DEV])
+        $this->packageListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_REQUIRE_DEV])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_REQUIRE_DEV])
             ->shouldBeCalled();
-        $this->scriptListNormalizer->denormalize($rawConfiguration[ConfigurationNormalizer::KEY_SCRIPT])
-            ->willReturn($rawConfiguration[ConfigurationNormalizer::KEY_SCRIPT])
+        $this->scriptListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_SCRIPTS])
+            ->willReturn($rawConfiguration[ConfigurationFile::KEY_SCRIPTS])
             ->shouldBeCalled();
 
         $configuration = $this->denormalizer->denormalize($rawConfiguration);
 
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_NAME], $configuration->getPackageName());
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_TYPE], $configuration->getType());
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_LICENSE], $configuration->getLicense());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_NAME], $configuration->getPackageName());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_TYPE], $configuration->getType());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_LICENSE], $configuration->getLicense());
         $this->assertSame(
-            $rawConfiguration[ConfigurationNormalizer::KEY_DESCRIPTION],
+            $rawConfiguration[ConfigurationFile::KEY_DESCRIPTION],
             $configuration->getDescription()
         );
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_KEYWORDS], $configuration->getKeywordList());
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_AUTHORS], $configuration->getAuthorList());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_KEYWORDS], $configuration->getKeywordList());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_AUTHORS], $configuration->getAuthorList());
         $this->assertSame(
-            $rawConfiguration[ConfigurationNormalizer::KEY_PROVIDE],
+            $rawConfiguration[ConfigurationFile::KEY_PROVIDE],
             $configuration->getProvidedPackageList()
         );
         $this->assertSame(
-            $rawConfiguration[ConfigurationNormalizer::KEY_SUGGEST],
+            $rawConfiguration[ConfigurationFile::KEY_SUGGEST],
             $configuration->getSuggestedPackageList()
         );
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_SUPPORT], $configuration->getSupportList());
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_AUTOLOAD], $configuration->getAutoloadList());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_SUPPORT], $configuration->getSupportList());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_AUTOLOAD], $configuration->getAutoloadList());
         $this->assertSame(
-            $rawConfiguration[ConfigurationNormalizer::KEY_AUTOLOAD_DEV],
+            $rawConfiguration[ConfigurationFile::KEY_AUTOLOAD_DEV],
             $configuration->getAutoloadDevList()
         );
         $this->assertSame(
-            $rawConfiguration[ConfigurationNormalizer::KEY_REQUIRE],
+            $rawConfiguration[ConfigurationFile::KEY_REQUIRE],
             $configuration->getRequiredPackageList()
         );
         $this->assertSame(
-            $rawConfiguration[ConfigurationNormalizer::KEY_REQUIRE_DEV],
+            $rawConfiguration[ConfigurationFile::KEY_REQUIRE_DEV],
             $configuration->getRequiredDevPackageList()
         );
-        $this->assertSame($rawConfiguration[ConfigurationNormalizer::KEY_SCRIPT], $configuration->getScriptList());
+        $this->assertSame($rawConfiguration[ConfigurationFile::KEY_SCRIPTS], $configuration->getScriptList());
     }
 
     public function testDenormalizeWithDefaultValues()

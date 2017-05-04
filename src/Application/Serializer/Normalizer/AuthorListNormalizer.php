@@ -2,6 +2,7 @@
 namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
 class AuthorListNormalizer implements DenormalizerInterface
 {
@@ -20,7 +21,7 @@ class AuthorListNormalizer implements DenormalizerInterface
         foreach ($authorList as $author) {
             $normalizedAuthor = [self::KEY_NAME => $author->getName()];
             if ($author->getEmail()) {
-                $normalizedAuthor[self::KEY_EMAIL] = $author->getEmail();
+                $normalizedAuthor[AuthorListNormalizer::KEY_EMAIL] = $author->getEmail();
             }
             if ($author->getRole()) {
                 $normalizedAuthor[self::KEY_ROLE] = $author->getRole();
