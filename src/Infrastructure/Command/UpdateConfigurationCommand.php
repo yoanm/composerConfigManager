@@ -7,8 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
 use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileList;
-use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileListRequest;
-use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Application\Request\UpdateConfigurationFileListRequest;
+use Yoanm\ComposerConfigManager\Infrastructure\Transformer\InputTransformer;
 
 class UpdateConfigurationCommand extends AbstractTemplatableCommand
 {

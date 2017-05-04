@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Updater\AuthorListUpdater;
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Updater\AuthorListUpdater
+ */
 class AuthorListUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AuthorListUpdater */

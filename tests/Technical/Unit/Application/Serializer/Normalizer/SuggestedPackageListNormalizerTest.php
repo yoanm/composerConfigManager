@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SuggestedPackageListNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SuggestedPackageListNormalizer
+ */
 class SuggestedPackageListNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SuggestedPackageListNormalizer */

@@ -1,6 +1,7 @@
 <?php
 namespace Yoanm\ComposerConfigManager\Application;
 
+use Yoanm\ComposerConfigManager\Application\Request\UpdateConfigurationFileListRequest;
 use Yoanm\ComposerConfigManager\Application\Updater\ConfigurationFileUpdater;
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationFileWriterInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;

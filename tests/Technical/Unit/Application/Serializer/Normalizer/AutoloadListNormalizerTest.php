@@ -4,8 +4,10 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Norm
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AutoloadListNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
-use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AutoloadListNormalizer
+ */
 class AutoloadListNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AutoloadListNormalizer */

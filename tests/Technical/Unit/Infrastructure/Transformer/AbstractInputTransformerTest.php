@@ -1,14 +1,13 @@
 <?php
-namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
-use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;
 use Yoanm\ComposerConfigManager\Domain\Model\Support;
-use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Infrastructure\Transformer\InputTransformer;
 
 abstract class AbstractInputTransformerTest extends \PHPUnit_Framework_TestCase
 {

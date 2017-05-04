@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Support;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNormalizer
+ */
 class SupportListNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SupportListNormalizer */

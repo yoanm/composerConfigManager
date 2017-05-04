@@ -12,6 +12,9 @@ use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNor
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer
+ */
 class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AuthorListNormalizer|ObjectProphecy */
