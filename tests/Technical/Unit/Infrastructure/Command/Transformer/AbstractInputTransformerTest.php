@@ -1,9 +1,8 @@
 <?php
-namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
-use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 use Yoanm\ComposerConfigManager\Domain\Model\SuggestedPackage;

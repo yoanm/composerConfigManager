@@ -1,5 +1,5 @@
 <?php
-namespace Yoanm\ComposerConfigManager\Infrastructure\Loader;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Loader;
 
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
@@ -7,9 +7,13 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
+use Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationFileLoader;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder;
 use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Infrastructure\Loader\ConfigurationFileLoader
+ */
 class ConfigurationFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Finder|ObjectProphecy */

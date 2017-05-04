@@ -3,7 +3,6 @@ namespace Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
-use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;

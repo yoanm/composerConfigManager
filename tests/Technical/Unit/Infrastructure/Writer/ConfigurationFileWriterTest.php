@@ -7,6 +7,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter
+ */
 class ConfigurationFileWriterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SerializerInterface|ObjectProphecy */

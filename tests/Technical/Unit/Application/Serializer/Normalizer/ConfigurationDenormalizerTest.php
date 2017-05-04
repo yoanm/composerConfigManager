@@ -13,7 +13,7 @@ use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNor
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
 /**
- * Class ConfigurationDenormalizer
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationDenormalizer
  */
 class ConfigurationDenormalizerTest extends \PHPUnit_Framework_TestCase
 {

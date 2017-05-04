@@ -9,6 +9,9 @@ use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationFileWriterInterf
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileList
+ */
 class UpdateConfigurationFileListTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ConfigurationFileWriterInterface|ObjectProphecy */
