@@ -50,7 +50,7 @@ See below for more information regarding command line options
  * Values are appended in a default order
    
 ### Update
- * A `--template` option is available, see below how template are managed
+ * A `--template` option is available, see below how templates are managed
  * Key order are kept from old configuration file. New one are appended in a default order
  
 ### Templates
