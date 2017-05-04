@@ -86,7 +86,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $requiredDevPackageList = [],
         $autoloadList = [],
         $autoloadDevList = [],
-        $scriptList = []
+        $scriptList = [],
+        $unmanagedPropertyList = []
     ) {
         $configuration = $this->buildConfiguration(
             $packageName,
@@ -103,7 +104,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
             $requiredDevPackageList,
             $autoloadList,
             $autoloadDevList,
-            $scriptList
+            $scriptList,
+            $unmanagedPropertyList
         );
 
         $this->assertSame(
@@ -122,7 +124,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
                 $requiredDevPackageList,
                 $autoloadList,
                 $autoloadDevList,
-                $scriptList
+                $scriptList,
+                $unmanagedPropertyList
             ),
             $this->normalizer->normalize($configuration->reveal())
         );
@@ -159,6 +162,15 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
                 'autoloadList' => ['AutoloadList'],
                 'autoloadDevList' => ['AutoloadDevList'],
                 'scriptList' => ['ScriptList'],
+                'unmanagedPropertyList' => [
+                    'a' => 'b',
+                    'c' => [
+                        'd' => [
+                            'e' => 'f'
+                        ]
+                    ],
+                    'g' => ['h', 'i']
+                ]
             ],
             'many entries' => [
                 'packageName' => 'packageName',
@@ -194,6 +206,7 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
      * @param array       $autoloadList
      * @param array       $autoloadDevList
      * @param array       $scriptList
+     * @param array       $unmanagedPropertyList
      *
      * @return Configuration|ObjectProphecy
      */
@@ -203,16 +216,17 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $packageLicense,
         $packageVersion = null,
         $description = null,
-        $keywordList = [],
-        $authorList = [],
-        $providedPackageList = [],
-        $suggestedPackageList = [],
-        $supportList = [],
-        $requiredPackageList = [],
-        $requiredDevPackageList = [],
-        $autoloadList = [],
-        $autoloadDevList = [],
-        $scriptList = []
+        array $keywordList = [],
+        array $authorList = [],
+        array $providedPackageList = [],
+        array $suggestedPackageList = [],
+        array $supportList = [],
+        array $requiredPackageList = [],
+        array $requiredDevPackageList = [],
+        array $autoloadList = [],
+        array $autoloadDevList = [],
+        array $scriptList = [],
+        array $unmanagedPropertyList = []
     ) {
         /** @var Configuration|ObjectProphecy $configuration */
         $configuration = $this->prophesize(Configuration::class);
@@ -262,6 +276,9 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $configuration->getScriptList()
             ->willReturn($scriptList)
             ->shouldBeCalled();
+        $configuration->getUnmanagedPropertyList()
+            ->willReturn($unmanagedPropertyList)
+            ->shouldBeCalled();
 
         $this->authorListNormalizer->normalize($authorList)
             ->willReturn($authorList)
@@ -310,6 +327,7 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
      * @param array       $autoloadList
      * @param array       $autoloadDevList
      * @param array       $scriptList
+     * @param array       $unmanagedPropertyList
      *
      * @return Configuration|ObjectProphecy
      */
@@ -319,16 +337,17 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $packageLicense,
         $packageVersion = null,
         $description = null,
-        $keywordList = [],
-        $authorList = [],
-        $providedPackageList = [],
-        $suggestedPackageList = [],
-        $supportList = [],
-        $requiredPackageList = [],
-        $requiredDevPackageList = [],
-        $autoloadList = [],
-        $autoloadDevList = [],
-        $scriptList = []
+        array $keywordList = [],
+        array $authorList = [],
+        array $providedPackageList = [],
+        array $suggestedPackageList = [],
+        array $supportList = [],
+        array $requiredPackageList = [],
+        array $requiredDevPackageList = [],
+        array $autoloadList = [],
+        array $autoloadDevList = [],
+        array $scriptList = [],
+        array $unmanagedPropertyList = []
     ) {
 
         $expected = [
@@ -374,6 +393,6 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
             $expected[ConfigurationFile::KEY_SCRIPTS] = $scriptList;
         }
 
-        return $expected;
+        return array_merge($expected, $unmanagedPropertyList);
     }
 }

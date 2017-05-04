@@ -69,6 +69,13 @@ class ConfigurationDenormalizerTest extends \PHPUnit_Framework_TestCase
             ConfigurationFile::KEY_REQUIRE => ['require'],
             ConfigurationFile::KEY_REQUIRE_DEV => ['require_dev'],
             ConfigurationFile::KEY_SCRIPTS => ['script'],
+            'a' => 'b',
+            'c' => [
+                'd' => [
+                    'e' => 'f'
+                ]
+            ],
+            'g' => ['h', 'i']
         ];
 
         $this->authorListNormalizer->denormalize($rawConfiguration[ConfigurationFile::KEY_AUTHORS])
@@ -133,6 +140,12 @@ class ConfigurationDenormalizerTest extends \PHPUnit_Framework_TestCase
             $configuration->getRequiredDevPackageList()
         );
         $this->assertSame($rawConfiguration[ConfigurationFile::KEY_SCRIPTS], $configuration->getScriptList());
+
+        //Unmanaged properties
+        $unmanagedPropertyList = $configuration->getUnmanagedPropertyList();
+        $this->assertSame($rawConfiguration['a'], $unmanagedPropertyList['a']);
+        $this->assertSame($rawConfiguration['c'], $unmanagedPropertyList['c']);
+        $this->assertSame($rawConfiguration['g'], $unmanagedPropertyList['g']);
     }
 
     public function testDenormalizeWithDefaultValues()

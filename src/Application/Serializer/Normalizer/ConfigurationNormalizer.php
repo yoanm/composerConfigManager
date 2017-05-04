@@ -130,7 +130,7 @@ class ConfigurationNormalizer
             ConfigurationFile::KEY_SCRIPTS
         );
 
-        return $normalizedConfiguration;
+        return array_merge($normalizedConfiguration, $configuration->getUnmanagedPropertyList());
     }
 
     /**

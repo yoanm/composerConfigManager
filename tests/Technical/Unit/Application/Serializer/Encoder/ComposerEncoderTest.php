@@ -42,11 +42,11 @@ EXPECTED
                 'a' => 'b'
             ],
             $this->encoder->decode(
-                <<<EXPECTED
+                <<<ENCODED
 {
     "a": "b"
 }
-EXPECTED
+ENCODED
             )
         );
     }

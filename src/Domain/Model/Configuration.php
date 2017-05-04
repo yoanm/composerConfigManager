@@ -33,23 +33,26 @@ class Configuration
     private $requiredDevPackageList = [];
     /** @var Script[] */
     private $scriptList = [];
+    /** @var array */
+    private $unmanagedPropertyList = [];
 
     /**
-     * @param string      $packageName
-     * @param string      $type
-     * @param string      $license
-     * @param string      $packageVersion
-     * @param string|null $description
-     * @param array       $keywordList
-     * @param array       $authorList
-     * @param array       $providedPackageList
-     * @param array       $suggestedPackageList
-     * @param array       $supportList
-     * @param array       $autoloadList
-     * @param array       $autoloadDevList
-     * @param array       $requiredPackageList
-     * @param array       $requiredDevPackageList
-     * @param array       $scriptList
+     * @param string|null        $packageName
+     * @param string|null        $type
+     * @param string|null        $license
+     * @param string|null        $packageVersion
+     * @param string|null        $description
+     * @param string[]           $keywordList
+     * @param Author[]           $authorList
+     * @param Package[]          $providedPackageList
+     * @param SuggestedPackage[] $suggestedPackageList
+     * @param Support[]          $supportList
+     * @param Autoload[]         $autoloadList
+     * @param Autoload[]         $autoloadDevList
+     * @param Package[]          $requiredPackageList
+     * @param Package[]          $requiredDevPackageList
+     * @param Script[]           $scriptList
+     * @param array              $unmanagedPropertyList
      */
     public function __construct(
         $packageName,
@@ -66,7 +69,8 @@ class Configuration
         array $autoloadDevList,
         array $requiredPackageList,
         array $requiredDevPackageList,
-        array $scriptList
+        array $scriptList,
+        array $unmanagedPropertyList = []
     ) {
         $this->packageName = $packageName;
         $this->type = $type;
@@ -85,6 +89,7 @@ class Configuration
         $this->requiredPackageList = $requiredPackageList;
         $this->requiredDevPackageList = $requiredDevPackageList;
         $this->scriptList = $scriptList;
+        $this->unmanagedPropertyList = $unmanagedPropertyList;
     }
 
     /**
@@ -205,5 +210,13 @@ class Configuration
     public function getScriptList()
     {
         return $this->scriptList;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUnmanagedPropertyList()
+    {
+        return $this->unmanagedPropertyList;
     }
 }
