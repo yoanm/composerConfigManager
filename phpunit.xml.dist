@@ -11,7 +11,7 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          beStrictAboutTestsThatDoNotTestAnything="true"
-         checkForUnintentionallyCoveredCode="true"
+         forceCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutChangesToGlobalState="true"
          bootstrap="vendor/autoload.php"
@@ -30,11 +30,10 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <file>src/Infrastructure/Command/AbstractTemplatableCommand.php</file> <!-- abstract entry point => tested with behat -->
-                <file>src/Infrastructure/Command/CreateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
-                <file>src/Infrastructure/Command/UpdateConfigurationCommand.php</file> <!-- entry point => tested with behat -->
-                <file>src/Application/UpdateConfigurationFileListRequest.php</file> <!-- DTO => tested with behat -->
                 <file>src/Infrastructure/SfApplication.php</file> <!-- tested thanks to behat tests -->
+                <directory>src/Domain/Model</directory> <!-- Model -->
+                <directory>src/Infrastructure/Command</directory><!-- entry point => tested with behat -->
+                <directory>src/Application/Request</directory><!-- DTO => tested with behat -->
             </exclude>
         </whitelist>
     </filter>

@@ -1,10 +1,13 @@
 <?php
-namespace Technical\Integration\Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
+namespace Technical\Unit\Yoanm\ComposerConfigManager\Infrastructure\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
-use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Infrastructure\Transformer\InputTransformer;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Infrastructure\Transformer\InputTransformer
+ */
 class InputTransformerTest extends AbstractInputTransformerTest
 {
     public function testReturnNull()

@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder as AppComposerEncoder;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Infrastructure\Serializer\Encoder\ComposerEncoder
+ */
 class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AppComposerEncoder|ObjectProphecy */

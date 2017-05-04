@@ -10,6 +10,9 @@ use Yoanm\ComposerConfigManager\Application\Updater\PlainValueUpdater;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Updater\ConfigurationFileUpdater
+ */
 class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PlainValueUpdater|ObjectProphecy */

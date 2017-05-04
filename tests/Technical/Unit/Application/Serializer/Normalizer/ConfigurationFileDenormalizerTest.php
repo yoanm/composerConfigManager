@@ -7,6 +7,9 @@ use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationF
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationFileDenormalizer
+ */
 class ConfigurationFileDenormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ConfigurationDenormalizer|ObjectProphecy */

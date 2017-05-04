@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Updater\ListUpdater;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationItemInterface;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Updater\ListUpdater
+ */
 class ListUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ListUpdater */

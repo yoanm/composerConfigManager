@@ -3,6 +3,9 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Updater;
 
 use Yoanm\ComposerConfigManager\Application\Updater\PlainValueUpdater;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Updater\PlainValueUpdater
+ */
 class PlainValueUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PlainValueUpdater */
