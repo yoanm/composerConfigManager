@@ -30,16 +30,10 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <directory>src/Domain/Model</directory> <!-- Model -->
                 <file>src/Infrastructure/SfApplication.php</file> <!-- tested thanks to behat tests -->
-                <!-- entry point => tested with behat -->
-                <file>src/Infrastructure/Command/AbstractTemplatableCommand.php</file>
-                <file>src/Infrastructure/Command/CreateConfigurationCommand.php</file>
-                <file>src/Infrastructure/Command/UpdateConfigurationCommand.php</file>
-                <!-- END - entry point -->
-                <!-- DTO => tested with behat -->
-                <file>src/Application/UpdateConfigurationFileListRequest.php</file>
-                <!-- END - DTO -->
+                <directory>src/Domain/Model</directory> <!-- Model -->
+                <directory>src/Infrastructure/Command</directory><!-- entry point => tested with behat -->
+                <directory>src/Application/Request</directory><!-- DTO => tested with behat -->
             </exclude>
         </whitelist>
     </filter>

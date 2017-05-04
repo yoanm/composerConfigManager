@@ -1,5 +1,5 @@
 <?php
-namespace Yoanm\ComposerConfigManager\Application;
+namespace Yoanm\ComposerConfigManager\Application\Request;
 
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 

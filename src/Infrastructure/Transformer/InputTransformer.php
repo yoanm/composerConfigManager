@@ -1,5 +1,5 @@
 <?php
-namespace Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
