@@ -5,7 +5,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
-use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
 abstract class AbstractTemplatableCommand extends Command
