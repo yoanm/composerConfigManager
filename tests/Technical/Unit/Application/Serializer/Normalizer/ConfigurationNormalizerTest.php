@@ -10,7 +10,11 @@ use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ScriptListNorm
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SuggestedPackageListNormalizer;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\SupportListNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ConfigurationNormalizer
+ */
 class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AuthorListNormalizer|ObjectProphecy */
@@ -85,7 +89,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $requiredDevPackageList = [],
         $autoloadList = [],
         $autoloadDevList = [],
-        $scriptList = []
+        $scriptList = [],
+        $unmanagedPropertyList = []
     ) {
         $configuration = $this->buildConfiguration(
             $packageName,
@@ -102,7 +107,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
             $requiredDevPackageList,
             $autoloadList,
             $autoloadDevList,
-            $scriptList
+            $scriptList,
+            $unmanagedPropertyList
         );
 
         $this->assertSame(
@@ -121,7 +127,8 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
                 $requiredDevPackageList,
                 $autoloadList,
                 $autoloadDevList,
-                $scriptList
+                $scriptList,
+                $unmanagedPropertyList
             ),
             $this->normalizer->normalize($configuration->reveal())
         );
@@ -158,6 +165,15 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
                 'autoloadList' => ['AutoloadList'],
                 'autoloadDevList' => ['AutoloadDevList'],
                 'scriptList' => ['ScriptList'],
+                'unmanagedPropertyList' => [
+                    'a' => 'b',
+                    'c' => [
+                        'd' => [
+                            'e' => 'f'
+                        ]
+                    ],
+                    'g' => ['h', 'i']
+                ]
             ],
             'many entries' => [
                 'packageName' => 'packageName',
@@ -193,6 +209,7 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
      * @param array       $autoloadList
      * @param array       $autoloadDevList
      * @param array       $scriptList
+     * @param array       $unmanagedPropertyList
      *
      * @return Configuration|ObjectProphecy
      */
@@ -202,16 +219,17 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $packageLicense,
         $packageVersion = null,
         $description = null,
-        $keywordList = [],
-        $authorList = [],
-        $providedPackageList = [],
-        $suggestedPackageList = [],
-        $supportList = [],
-        $requiredPackageList = [],
-        $requiredDevPackageList = [],
-        $autoloadList = [],
-        $autoloadDevList = [],
-        $scriptList = []
+        array $keywordList = [],
+        array $authorList = [],
+        array $providedPackageList = [],
+        array $suggestedPackageList = [],
+        array $supportList = [],
+        array $requiredPackageList = [],
+        array $requiredDevPackageList = [],
+        array $autoloadList = [],
+        array $autoloadDevList = [],
+        array $scriptList = [],
+        array $unmanagedPropertyList = []
     ) {
         /** @var Configuration|ObjectProphecy $configuration */
         $configuration = $this->prophesize(Configuration::class);
@@ -261,6 +279,9 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $configuration->getScriptList()
             ->willReturn($scriptList)
             ->shouldBeCalled();
+        $configuration->getUnmanagedPropertyList()
+            ->willReturn($unmanagedPropertyList)
+            ->shouldBeCalled();
 
         $this->authorListNormalizer->normalize($authorList)
             ->willReturn($authorList)
@@ -309,6 +330,7 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
      * @param array       $autoloadList
      * @param array       $autoloadDevList
      * @param array       $scriptList
+     * @param array       $unmanagedPropertyList
      *
      * @return Configuration|ObjectProphecy
      */
@@ -318,61 +340,62 @@ class ConfigurationNormalizerTest extends \PHPUnit_Framework_TestCase
         $packageLicense,
         $packageVersion = null,
         $description = null,
-        $keywordList = [],
-        $authorList = [],
-        $providedPackageList = [],
-        $suggestedPackageList = [],
-        $supportList = [],
-        $requiredPackageList = [],
-        $requiredDevPackageList = [],
-        $autoloadList = [],
-        $autoloadDevList = [],
-        $scriptList = []
+        array $keywordList = [],
+        array $authorList = [],
+        array $providedPackageList = [],
+        array $suggestedPackageList = [],
+        array $supportList = [],
+        array $requiredPackageList = [],
+        array $requiredDevPackageList = [],
+        array $autoloadList = [],
+        array $autoloadDevList = [],
+        array $scriptList = [],
+        array $unmanagedPropertyList = []
     ) {
 
         $expected = [
-            ConfigurationNormalizer::KEY_NAME => $packageName,
-            ConfigurationNormalizer::KEY_TYPE =>$packageType,
-            ConfigurationNormalizer::KEY_LICENSE => $packageLicense
+            ConfigurationFile::KEY_NAME => $packageName,
+            ConfigurationFile::KEY_TYPE =>$packageType,
+            ConfigurationFile::KEY_LICENSE => $packageLicense
         ];
 
         if ($packageVersion) {
-            $expected[ConfigurationNormalizer::KEY_VERSION] = $packageVersion;
+            $expected[ConfigurationFile::KEY_VERSION] = $packageVersion;
         }
         if ($description) {
-            $expected[ConfigurationNormalizer::KEY_DESCRIPTION] = $description;
+            $expected[ConfigurationFile::KEY_DESCRIPTION] = $description;
         }
         if (count($keywordList)) {
-            $expected[ConfigurationNormalizer::KEY_KEYWORDS] = $keywordList;
+            $expected[ConfigurationFile::KEY_KEYWORDS] = $keywordList;
         }
         if (count($authorList)) {
-            $expected[ConfigurationNormalizer::KEY_AUTHORS] = $authorList;
+            $expected[ConfigurationFile::KEY_AUTHORS] = $authorList;
         }
         if (count($providedPackageList)) {
-            $expected[ConfigurationNormalizer::KEY_PROVIDE] = $providedPackageList;
+            $expected[ConfigurationFile::KEY_PROVIDE] = $providedPackageList;
         }
         if (count($suggestedPackageList)) {
-            $expected[ConfigurationNormalizer::KEY_SUGGEST] = $suggestedPackageList;
+            $expected[ConfigurationFile::KEY_SUGGEST] = $suggestedPackageList;
         }
         if (count($supportList)) {
-            $expected[ConfigurationNormalizer::KEY_SUPPORT] = $supportList;
+            $expected[ConfigurationFile::KEY_SUPPORT] = $supportList;
         }
         if (count($requiredPackageList)) {
-            $expected[ConfigurationNormalizer::KEY_REQUIRE] = $requiredPackageList;
+            $expected[ConfigurationFile::KEY_REQUIRE] = $requiredPackageList;
         }
         if (count($requiredDevPackageList)) {
-            $expected[ConfigurationNormalizer::KEY_REQUIRE_DEV] = $requiredDevPackageList;
+            $expected[ConfigurationFile::KEY_REQUIRE_DEV] = $requiredDevPackageList;
         }
         if (count($autoloadList)) {
-            $expected[ConfigurationNormalizer::KEY_AUTOLOAD] = $autoloadList;
+            $expected[ConfigurationFile::KEY_AUTOLOAD] = $autoloadList;
         }
         if (count($autoloadDevList)) {
-            $expected[ConfigurationNormalizer::KEY_AUTOLOAD_DEV] = $autoloadDevList;
+            $expected[ConfigurationFile::KEY_AUTOLOAD_DEV] = $autoloadDevList;
         }
         if (count($scriptList)) {
-            $expected[ConfigurationNormalizer::KEY_SCRIPT] = $scriptList;
+            $expected[ConfigurationFile::KEY_SCRIPTS] = $scriptList;
         }
 
-        return $expected;
+        return array_merge($expected, $unmanagedPropertyList);
     }
 }

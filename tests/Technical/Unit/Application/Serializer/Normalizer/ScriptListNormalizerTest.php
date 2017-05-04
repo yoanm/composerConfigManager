@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ScriptListNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Script;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\ScriptListNormalizer
+ */
 class ScriptListNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ScriptListNormalizer */

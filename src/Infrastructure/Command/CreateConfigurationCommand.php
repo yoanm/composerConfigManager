@@ -8,9 +8,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yoanm\ComposerConfigManager\Application\Loader\ConfigurationFileLoaderInterface;
 use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileList;
-use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileListRequest;
+use Yoanm\ComposerConfigManager\Application\Request\UpdateConfigurationFileListRequest;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
-use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransformer;
+use Yoanm\ComposerConfigManager\Infrastructure\Transformer\InputTransformer;
 
 class CreateConfigurationCommand extends AbstractTemplatableCommand
 {
@@ -54,7 +54,7 @@ class CreateConfigurationCommand extends AbstractTemplatableCommand
             ->addArgument(
                 InputTransformer::KEY_PACKAGE_NAME,
                 InputArgument::OPTIONAL,
-                'Name for the composer package. Optionnal if a template containing package-name is given.'
+                'Name for the composer package. Optional if a template containing package name is given.'
             )
             ->addOption(
                 InputTransformer::KEY_TYPE,

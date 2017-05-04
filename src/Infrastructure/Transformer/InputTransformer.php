@@ -1,9 +1,8 @@
 <?php
-namespace Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer;
+namespace Yoanm\ComposerConfigManager\Infrastructure\Transformer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 use Yoanm\ComposerConfigManager\Domain\Model\Autoload;
-use Yoanm\ComposerConfigManager\Domain\Model\AutoloadEntry;
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Domain\Model\Package;
@@ -70,30 +69,30 @@ class InputTransformer
             self::KEY_SCRIPT,
         ];
         $defaultNormalizedFileKeyList = [
-            'name' => [self::KEY_PACKAGE_NAME],
-            'description' => [self::KEY_DESCRIPTION],
-            'version' => [self::KEY_PACKAGE_VERSION],
-            'type' => [self::KEY_TYPE],
-            'keywords' => [self::KEY_KEYWORD],
-            'license' => [self::KEY_LICENSE],
-            'authors' => [self::KEY_AUTHOR],
-            'support' => [self::KEY_SUPPORT],
-            'require' => [self::KEY_REQUIRE],
-            'require-dev' => [self::KEY_REQUIRE_DEV],
-            'provide' => [self::KEY_PROVIDED_PACKAGE],
-            'suggest' => [self::KEY_SUGGESTED_PACKAGE],
-            'autoload' => [self::KEY_AUTOLOAD_PSR0, self::KEY_AUTOLOAD_PSR4],
-            'autoload-dev' => [self::KEY_AUTOLOAD_DEV_PSR0, self::KEY_AUTOLOAD_DEV_PSR4],
-            'scripts' => [self::KEY_SCRIPT],
+            ConfigurationFile::KEY_NAME => [self::KEY_PACKAGE_NAME],
+            ConfigurationFile::KEY_DESCRIPTION => [self::KEY_DESCRIPTION],
+            ConfigurationFile::KEY_VERSION => [self::KEY_PACKAGE_VERSION],
+            ConfigurationFile::KEY_TYPE => [self::KEY_TYPE],
+            ConfigurationFile::KEY_KEYWORDS => [self::KEY_KEYWORD],
+            ConfigurationFile::KEY_LICENSE => [self::KEY_LICENSE],
+            ConfigurationFile::KEY_AUTHORS => [self::KEY_AUTHOR],
+            ConfigurationFile::KEY_SUPPORT => [self::KEY_SUPPORT],
+            ConfigurationFile::KEY_REQUIRE => [self::KEY_REQUIRE],
+            ConfigurationFile::KEY_REQUIRE_DEV => [self::KEY_REQUIRE_DEV],
+            ConfigurationFile::KEY_PROVIDE => [self::KEY_PROVIDED_PACKAGE],
+            ConfigurationFile::KEY_SUGGEST => [self::KEY_SUGGESTED_PACKAGE],
+            ConfigurationFile::KEY_AUTOLOAD => [self::KEY_AUTOLOAD_PSR0, self::KEY_AUTOLOAD_PSR4],
+            ConfigurationFile::KEY_AUTOLOAD_DEV => [self::KEY_AUTOLOAD_DEV_PSR0, self::KEY_AUTOLOAD_DEV_PSR4],
+            ConfigurationFile::KEY_SCRIPTS => [self::KEY_SCRIPT],
         ];
         if (0 === count(array_intersect($defaultKeyList, array_keys($inputList)))) {
             return null;
         }
-        $fileKeyList = [];
+        $configKeyList = [];
         foreach ($defaultNormalizedFileKeyList as $fileKey => $inputKeyList) {
             foreach ($inputKeyList as $inputKey) {
                 if (isset($inputList[$inputKey])) {
-                    $fileKeyList[] = $fileKey;
+                    $configKeyList[] = $fileKey;
                     break;
                 }
             }
@@ -117,7 +116,7 @@ class InputTransformer
                 $this->extractRequiredDevPackages($inputList),
                 $this->extractScripts($inputList)
             ),
-            $fileKeyList
+            $configKeyList
         );
     }
 

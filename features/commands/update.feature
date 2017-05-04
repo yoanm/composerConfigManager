@@ -32,6 +32,7 @@ Feature: As user
       "scripts",
       "name",
       "support",
+      "bin",
       "description",
       "authors",
       "require-dev",

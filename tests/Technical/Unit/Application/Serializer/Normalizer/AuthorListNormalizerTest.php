@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AuthorListNormalizer;
 use Yoanm\ComposerConfigManager\Domain\Model\Author;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Normalizer\AuthorListNormalizer
+ */
 class AuthorListNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AuthorListNormalizer */

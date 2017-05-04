@@ -2,6 +2,7 @@
 namespace Yoanm\ComposerConfigManager\Application\Serializer\Normalizer;
 
 use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
+use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 
 /**
  * Class ConfigurationDenormalizer
@@ -45,67 +46,102 @@ class ConfigurationDenormalizer implements DenormalizerInterface
     public function denormalize(array $configuration)
     {
         return new Configuration(
-            $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_NAME),
-            $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_TYPE),
-            $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_LICENSE),
-            $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_VERSION),
-            $this->valueOrNull($configuration, ConfigurationNormalizer::KEY_DESCRIPTION),
+            $this->valueOrNull($configuration, ConfigurationFile::KEY_NAME),
+            $this->valueOrNull($configuration, ConfigurationFile::KEY_TYPE),
+            $this->valueOrNull($configuration, ConfigurationFile::KEY_LICENSE),
+            $this->valueOrNull($configuration, ConfigurationFile::KEY_VERSION),
+            $this->valueOrNull($configuration, ConfigurationFile::KEY_DESCRIPTION),
             $this->extractKeywordList($configuration),
             $this->getNormalizedOrDefault(
                 $this->authorListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_AUTHORS,
+                ConfigurationFile::KEY_AUTHORS,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->packageListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_PROVIDE,
+                ConfigurationFile::KEY_PROVIDE,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->suggestedPackageListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_SUGGEST,
+                ConfigurationFile::KEY_SUGGEST,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->supportListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_SUPPORT,
+                ConfigurationFile::KEY_SUPPORT,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->autoloadListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_AUTOLOAD,
+                ConfigurationFile::KEY_AUTOLOAD,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->autoloadListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_AUTOLOAD_DEV,
+                ConfigurationFile::KEY_AUTOLOAD_DEV,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->packageListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_REQUIRE,
+                ConfigurationFile::KEY_REQUIRE,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->packageListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_REQUIRE_DEV,
+                ConfigurationFile::KEY_REQUIRE_DEV,
                 []
             ),
             $this->getNormalizedOrDefault(
                 $this->scriptListNormalizer,
                 $configuration,
-                ConfigurationNormalizer::KEY_SCRIPT,
+                ConfigurationFile::KEY_SCRIPTS,
                 []
-            )
+            ),
+            $this->loadUnmanagedPropertyList($configuration)
         );
+    }
+
+    /**
+     * @param array $configuration
+     *
+     * @return array
+     */
+    protected function loadUnmanagedPropertyList(array $configuration)
+    {
+        $managedKeyList = [
+            ConfigurationFile::KEY_NAME => true,
+            ConfigurationFile::KEY_TYPE => true,
+            ConfigurationFile::KEY_LICENSE => true,
+            ConfigurationFile::KEY_VERSION => true,
+            ConfigurationFile::KEY_DESCRIPTION => true,
+            ConfigurationFile::KEY_KEYWORDS => true,
+            ConfigurationFile::KEY_AUTHORS => true,
+            ConfigurationFile::KEY_PROVIDE => true,
+            ConfigurationFile::KEY_SUGGEST => true,
+            ConfigurationFile::KEY_SUPPORT => true,
+            ConfigurationFile::KEY_REQUIRE => true,
+            ConfigurationFile::KEY_REQUIRE_DEV => true,
+            ConfigurationFile::KEY_AUTOLOAD => true,
+            ConfigurationFile::KEY_AUTOLOAD_DEV => true,
+            ConfigurationFile::KEY_SCRIPTS => true,
+        ];
+        $unmanagedPropertyList = [];
+        foreach ($configuration as $key => $value) {
+            if (!isset($managedKeyList[$key])) {
+                $unmanagedPropertyList[$key] = $value;
+            }
+        }
+
+        return $unmanagedPropertyList;
     }
 
     /**
@@ -139,8 +175,8 @@ class ConfigurationDenormalizer implements DenormalizerInterface
      */
     protected function extractKeywordList(array $configuration)
     {
-        return isset($configuration[ConfigurationNormalizer::KEY_KEYWORDS])
-            ? $configuration[ConfigurationNormalizer::KEY_KEYWORDS]
+        return isset($configuration[ConfigurationFile::KEY_KEYWORDS])
+            ? $configuration[ConfigurationFile::KEY_KEYWORDS]
             : [];
     }
 }

@@ -5,6 +5,9 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\Updater\ListUpdater;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationItemInterface;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Updater\ListUpdater
+ */
 class ListUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ListUpdater */
@@ -115,5 +118,76 @@ class ListUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($newEntity1->reveal(), array_shift($list));
         $this->assertSame($oldEntity2->reveal(), array_shift($list));
         $this->assertSame($newEntity2->reveal(), array_shift($list));
+    }
+
+    public function testUpdateRaw()
+    {
+        $itemId = 'id';
+        $newPropertyList = [
+            'a' => 'b'
+        ];
+        $oldPropertyList = [];
+
+        $list = $this->updater->updateRaw($newPropertyList, $oldPropertyList);
+
+        $this->assertCount(1, $list);
+        $this->assertSame($newPropertyList, $list);
+    }
+
+    public function testUpdateRawWithOldValues()
+    {
+        $newPropertyList = [
+            'c' => 'd',
+        ];
+        $oldPropertyList = [
+            'a' => 'b',
+        ];
+
+        // Assert Old entities are before new ones
+        $this->assertSame(
+            [
+                'a' => 'b',
+                'c' => 'd',
+            ],
+            $this->updater->updateRaw($newPropertyList, $oldPropertyList)
+        );
+    }
+
+    public function testUpdateRawWithOldValuesToUpdateAndNewValues()
+    {
+        $newPropertyList = [
+            'c' => [
+                'd' => [
+                    'e' => 'f2',
+                    'i' => 'j',
+                ]
+            ],
+            'k' => ['l', 'm'],
+        ];
+        $oldPropertyList = [
+            'a' => 'b',
+            'c' => [
+                'd' => [
+                    'e' => 'f',
+                    'g' => 'h'
+                ],
+            ],
+        ];
+
+
+        $this->assertSame(
+            [
+                'a' => 'b',
+                'c' => [
+                    'd' => [
+                        'e' => 'f2',
+                        'g' => 'h',
+                        'i' => 'j',
+                    ]
+                ],
+                'k' => ['l', 'm'],
+            ],
+            $this->updater->updateRaw($newPropertyList, $oldPropertyList)
+        );
     }
 }

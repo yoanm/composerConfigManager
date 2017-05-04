@@ -10,9 +10,6 @@ sudo: false
 matrix:
   fast_finish: true
 
-before_install:
-  - composer global require hirak/prestissimo
-
 install:
   - composer build-ci
 

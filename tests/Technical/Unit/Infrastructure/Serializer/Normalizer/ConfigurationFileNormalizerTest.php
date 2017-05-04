@@ -8,6 +8,9 @@ use Yoanm\ComposerConfigManager\Domain\Model\Configuration;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationFileNormalizer;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Infrastructure\Serializer\Normalizer\ConfigurationFileNormalizer
+ */
 class ConfigurationFileNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AppNormalizer|ObjectProphecy */

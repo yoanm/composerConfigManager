@@ -4,6 +4,9 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Serializer\Enco
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Serializer\Encoder\ComposerEncoder
+ */
 class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ComposerEncoder */
@@ -42,11 +45,11 @@ EXPECTED
                 'a' => 'b'
             ],
             $this->encoder->decode(
-                <<<EXPECTED
+                <<<ENCODED
 {
     "a": "b"
 }
-EXPECTED
+ENCODED
             )
         );
     }

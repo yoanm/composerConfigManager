@@ -3,6 +3,9 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application\Updater;
 
 use Yoanm\ComposerConfigManager\Application\Updater\KeywordListUpdater;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\Updater\KeywordListUpdater
+ */
 class KeywordListUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var KeywordListUpdater */

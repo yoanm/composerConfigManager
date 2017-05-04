@@ -3,12 +3,15 @@ namespace Technical\Unit\Yoanm\ComposerConfigManager\Application;
 
 use Prophecy\Prophecy\ObjectProphecy;
 use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileList;
-use Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileListRequest;
+use Yoanm\ComposerConfigManager\Application\Request\UpdateConfigurationFileListRequest;
 use Yoanm\ComposerConfigManager\Application\Updater\ConfigurationFileUpdater;
 use Yoanm\ComposerConfigManager\Application\Writer\ConfigurationFileWriterInterface;
 use Yoanm\ComposerConfigManager\Domain\Model\ConfigurationFile;
 use Yoanm\ComposerConfigManager\Infrastructure\Writer\ConfigurationFileWriter;
 
+/**
+ * @covers Yoanm\ComposerConfigManager\Application\UpdateConfigurationFileList
+ */
 class UpdateConfigurationFileListTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ConfigurationFileWriterInterface|ObjectProphecy */

@@ -35,4 +35,48 @@ class ListUpdater
 
         return array_merge($normalizedOldEntityList, $newEntityList);
     }
+
+    /**
+     * @param array $newPropertyList
+     * @param array $oldPropertyList
+     *
+     * @return array
+     */
+    public function updateRaw(array $newPropertyList, array $oldPropertyList)
+    {
+        $newPropertyKeyList = [];
+        foreach ($newPropertyList as $propertyKey => $value) {
+            $newPropertyKeyList[$propertyKey] = true;
+        }
+        $normalizedOldPropertyList = [];
+        foreach ($oldPropertyList as $propertyKey => $oldPropertyValue) {
+            if (!isset($newPropertyKeyList[$propertyKey])) {
+                if (count($oldPropertyValue)) {
+                    $normalizedOldPropertyList[$propertyKey] = $oldPropertyValue;
+                }
+            } else {
+                // A new value have been defined
+                $newValue = $this->mergeRawValue(
+                    $newPropertyList[$propertyKey],
+                    $oldPropertyValue
+                );
+                unset($newPropertyList[$propertyKey]);
+                if (count($newValue)) {
+                    $normalizedOldPropertyList[$propertyKey] = $newValue;
+                }
+            }
+        }
+
+        return array_merge($normalizedOldPropertyList, $newPropertyList);
+    }
+
+    protected function mergeRawValue($newPropertyValue, $oldPropertyValue)
+    {
+        $isArray = is_array($newPropertyValue) && is_array($oldPropertyValue);
+
+        return (false === $isArray)
+            ? $newPropertyValue
+            : $this->updateRaw($newPropertyValue, $oldPropertyValue)
+        ;
+    }
 }
