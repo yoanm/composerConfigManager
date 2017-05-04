@@ -42,7 +42,7 @@ class ListUpdater
      *
      * @return array
      */
-    public function updateUnmanaged(array $newPropertyList, array $oldPropertyList)
+    public function updateRaw(array $newPropertyList, array $oldPropertyList)
     {
         $newPropertyKeyList = [];
         foreach ($newPropertyList as $propertyKey => $value) {
@@ -54,7 +54,7 @@ class ListUpdater
                 $normalizedOldPropertyList[$propertyKey] = $oldPropertyValue;
             } else {
                 // A new value have been defined
-                $normalizedOldPropertyList[$propertyKey] = $this->updateUnmanaged(
+                $normalizedOldPropertyList[$propertyKey] = $this->mergeRawValue(
                     $newPropertyList[$propertyKey],
                     $oldPropertyValue
                 );
@@ -63,5 +63,15 @@ class ListUpdater
         }
 
         return array_merge($normalizedOldPropertyList, $newPropertyList);
+    }
+
+    protected function mergeRawValue($newPropertyValue, $oldPropertyValue)
+    {
+        $isArray = is_array($newPropertyValue) && is_array($oldPropertyValue);
+
+        return (false === $isArray)
+            ? $newPropertyValue
+            : $this->updateRaw($newPropertyValue, $oldPropertyValue)
+        ;
     }
 }

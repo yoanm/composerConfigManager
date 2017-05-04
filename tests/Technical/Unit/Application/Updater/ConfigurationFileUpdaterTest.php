@@ -352,7 +352,7 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->listUpdater->update($scriptList, $scriptList)
             ->willReturn($scriptList)
             ->shouldBeCalled();
-        $this->listUpdater->updateUnmanaged($unmanagedPropertyList, $unmanagedPropertyList)
+        $this->listUpdater->updateRaw($unmanagedPropertyList, $unmanagedPropertyList)
             ->willReturn($unmanagedPropertyList)
             ->shouldBeCalled();
     }

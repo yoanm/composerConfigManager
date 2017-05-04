@@ -7,6 +7,11 @@ use Yoanm\ComposerConfigManager\Infrastructure\Command\Transformer\InputTransfor
 
 class InputTransformerTest extends AbstractInputTransformerTest
 {
+    public function testReturnNull()
+    {
+        $this->assertNull($this->transformer->fromCommandLine(['a' => 'b', 'c' => 'd']));
+    }
+
     public function testWholeConfig()
     {
         $keyword = 'keyword';
