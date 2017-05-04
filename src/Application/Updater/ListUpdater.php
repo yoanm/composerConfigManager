@@ -35,4 +35,33 @@ class ListUpdater
 
         return array_merge($normalizedOldEntityList, $newEntityList);
     }
+
+    /**
+     * @param array $newPropertyList
+     * @param array $oldPropertyList
+     *
+     * @return array
+     */
+    public function updateUnmanaged(array $newPropertyList, array $oldPropertyList)
+    {
+        $newPropertyKeyList = [];
+        foreach ($newPropertyList as $propertyKey => $value) {
+            $newPropertyKeyList[$propertyKey] = true;
+        }
+        $normalizedOldPropertyList = [];
+        foreach ($oldPropertyList as $propertyKey => $oldPropertyValue) {
+            if (!isset($newPropertyKeyList[$propertyKey])) {
+                $normalizedOldPropertyList[$propertyKey] = $oldPropertyValue;
+            } else {
+                // A new value have been defined
+                $normalizedOldPropertyList[$propertyKey] = $this->updateUnmanaged(
+                    $newPropertyList[$propertyKey],
+                    $oldPropertyValue
+                );
+                unset($newPropertyList[$propertyKey]);
+            }
+        }
+
+        return array_merge($normalizedOldPropertyList, $newPropertyList);
+    }
 }

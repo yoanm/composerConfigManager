@@ -24,7 +24,6 @@ class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
 {
     "a": "b"
 }
-
 EXPECTED
             ,
             $this->encoder->encode(
@@ -42,11 +41,11 @@ EXPECTED
                 'a' => 'b'
             ],
             $this->encoder->decode(
-                <<<EXPECTED
+                <<<ENCODED
 {
     "a": "b"
 }
-EXPECTED
+ENCODED
             )
         );
     }

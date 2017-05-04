@@ -105,8 +105,43 @@ class ConfigurationDenormalizer implements DenormalizerInterface
                 $configuration,
                 ConfigurationFile::KEY_SCRIPTS,
                 []
-            )
+            ),
+            $this->loadUnmanagedPropertyList($configuration)
         );
+    }
+
+    /**
+     * @param array $configuration
+     *
+     * @return array
+     */
+    protected function loadUnmanagedPropertyList(array $configuration)
+    {
+        $managedKeyList = [
+            ConfigurationFile::KEY_NAME => true,
+            ConfigurationFile::KEY_TYPE => true,
+            ConfigurationFile::KEY_LICENSE => true,
+            ConfigurationFile::KEY_VERSION => true,
+            ConfigurationFile::KEY_DESCRIPTION => true,
+            ConfigurationFile::KEY_KEYWORDS => true,
+            ConfigurationFile::KEY_AUTHORS => true,
+            ConfigurationFile::KEY_PROVIDE => true,
+            ConfigurationFile::KEY_SUGGEST => true,
+            ConfigurationFile::KEY_SUPPORT => true,
+            ConfigurationFile::KEY_REQUIRE => true,
+            ConfigurationFile::KEY_REQUIRE_DEV => true,
+            ConfigurationFile::KEY_AUTOLOAD => true,
+            ConfigurationFile::KEY_AUTOLOAD_DEV => true,
+            ConfigurationFile::KEY_SCRIPTS => true,
+        ];
+        $unmanagedPropertyList = [];
+        foreach ($configuration as $key => $value) {
+            if (!isset($managedKeyList[$key])) {
+                $unmanagedPropertyList[$key] = $value;
+            }
+        }
+
+        return $unmanagedPropertyList;
     }
 
     /**

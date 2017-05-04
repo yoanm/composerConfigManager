@@ -113,7 +113,11 @@ class ConfigurationFileUpdater
                 $newConfiguration->getRequiredDevPackageList(),
                 $baseConfiguration->getRequiredDevPackageList()
             ),
-            $this->listUpdater->update($newConfiguration->getScriptList(), $baseConfiguration->getScriptList())
+            $this->listUpdater->update($newConfiguration->getScriptList(), $baseConfiguration->getScriptList()),
+            $this->listUpdater->updateUnmanaged(
+                $newConfiguration->getUnmanagedPropertyList(),
+                $baseConfiguration->getUnmanagedPropertyList()
+            )
         );
     }
 

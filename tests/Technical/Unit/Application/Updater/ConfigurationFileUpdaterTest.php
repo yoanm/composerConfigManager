@@ -58,6 +58,15 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
         $requiredPackageList = ['requiredPackageList'];
         $requiredDevPackageList = ['requiredDevPackageList'];
         $scriptList = ['scriptList'];
+        $unmanagedPropertyList = [
+            'a' => 'b',
+            'c' => [
+                'd' => [
+                    'e' => 'f'
+                ]
+            ],
+            'g' => ['h', 'i']
+        ];
 
         $baseKeyList = ['key_1', 'key_2'];
         $newKeyList = ['key_1', 'key_0'];
@@ -101,7 +110,8 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
             $autoloadDevList,
             $requiredPackageList,
             $requiredDevPackageList,
-            $scriptList
+            $scriptList,
+            $unmanagedPropertyList
         );
         $this->configureEntity(
             $baseConfiguration,
@@ -119,7 +129,8 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
             $autoloadDevList,
             $requiredPackageList,
             $requiredDevPackageList,
-            $scriptList
+            $scriptList,
+            $unmanagedPropertyList
         );
         $this->configureUpdater(
             $packageName,
@@ -136,7 +147,8 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
             $autoloadDevList,
             $requiredPackageList,
             $requiredDevPackageList,
-            $scriptList
+            $scriptList,
+            $unmanagedPropertyList
         );
 
         $updatedConfigurationFile = $this->updater->update([
@@ -163,6 +175,7 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($requiredPackageList, $updatedConfiguration->getRequiredPackageList());
         $this->assertSame($requiredDevPackageList, $updatedConfiguration->getRequiredDevPackageList());
         $this->assertSame($scriptList, $updatedConfiguration->getScriptList());
+        $this->assertSame($unmanagedPropertyList, $updatedConfiguration->getUnmanagedPropertyList());
 
         $this->assertSame(
             ['key_1', 'key_2', 'key_0'],
@@ -171,7 +184,7 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Configuration|ObjectProphecy $newConfiguration
+     * @param Configuration|ObjectProphecy $configuration
      * @param string|null                  $packageName
      * @param string|null                  $$type
      * @param string|null                  $license
@@ -187,9 +200,10 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
      * @param array                        $requiredPackageList
      * @param array                        $requiredDevPackageList
      * @param array                        $scriptList
+     * @param array                        $unmanagedPropertyList
      */
     protected function configureEntity(
-        ObjectProphecy $newConfiguration,
+        ObjectProphecy $configuration,
         $packageName = null,
         $type = null,
         $license = null,
@@ -204,52 +218,56 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
         array $autoloadDevList = [],
         array $requiredPackageList = [],
         array $requiredDevPackageList = [],
-        array $scriptList = []
+        array $scriptList = [],
+        array $unmanagedPropertyList = []
     ) {
-        $newConfiguration->getPackageName()
+        $configuration->getPackageName()
             ->willReturn($packageName)
             ->shouldBeCalled();
-        $newConfiguration->getType()
+        $configuration->getType()
             ->willReturn($type)
             ->shouldBeCalled();
-        $newConfiguration->getLicense()
+        $configuration->getLicense()
             ->willReturn($license)
             ->shouldBeCalled();
-        $newConfiguration->getPackageVersion()
+        $configuration->getPackageVersion()
             ->willReturn($packageVersion)
             ->shouldBeCalled();
-        $newConfiguration->getDescription()
+        $configuration->getDescription()
             ->willReturn($description)
             ->shouldBeCalled();
-        $newConfiguration->getKeywordList()
+        $configuration->getKeywordList()
             ->willReturn($keywordList)
             ->shouldBeCalled();
-        $newConfiguration->getAuthorList()
+        $configuration->getAuthorList()
             ->willReturn($authorList)
             ->shouldBeCalled();
-        $newConfiguration->getProvidedPackageList()
+        $configuration->getProvidedPackageList()
             ->willReturn($providedPackageList)
             ->shouldBeCalled();
-        $newConfiguration->getSuggestedPackageList()
+        $configuration->getSuggestedPackageList()
             ->willReturn($suggestedPackageList)
             ->shouldBeCalled();
-        $newConfiguration->getSupportList()
+        $configuration->getSupportList()
             ->willReturn($supportList)
             ->shouldBeCalled();
-        $newConfiguration->getAutoloadList()
+        $configuration->getAutoloadList()
             ->willReturn($autoloadList)
             ->shouldBeCalled();
-        $newConfiguration->getAutoloadDevList()
+        $configuration->getAutoloadDevList()
             ->willReturn($autoloadDevList)
             ->shouldBeCalled();
-        $newConfiguration->getRequiredPackageList()
+        $configuration->getRequiredPackageList()
             ->willReturn($requiredPackageList)
             ->shouldBeCalled();
-        $newConfiguration->getRequiredDevPackageList()
+        $configuration->getRequiredDevPackageList()
             ->willReturn($requiredDevPackageList)
             ->shouldBeCalled();
-        $newConfiguration->getScriptList()
+        $configuration->getScriptList()
             ->willReturn($scriptList)
+            ->shouldBeCalled();
+        $configuration->getUnmanagedPropertyList()
+            ->willReturn($unmanagedPropertyList)
             ->shouldBeCalled();
     }
 
@@ -269,6 +287,7 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
      * @param array       $requiredPackageList
      * @param array       $requiredDevPackageList
      * @param array       $scriptList
+     * @param array       $unmanagedPropertyList
      */
     public function configureUpdater(
         $packageName,
@@ -285,7 +304,8 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
         array $autoloadDevList,
         array $requiredPackageList,
         array $requiredDevPackageList,
-        array $scriptList
+        array $scriptList,
+        array $unmanagedPropertyList
     ) {
         $this->plainValueUpdater->update($packageName, $packageName)
             ->willReturn($packageName)
@@ -331,6 +351,9 @@ class ConfigurationFileUpdaterTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled();
         $this->listUpdater->update($scriptList, $scriptList)
             ->willReturn($scriptList)
+            ->shouldBeCalled();
+        $this->listUpdater->updateUnmanaged($unmanagedPropertyList, $unmanagedPropertyList)
+            ->willReturn($unmanagedPropertyList)
             ->shouldBeCalled();
     }
 }

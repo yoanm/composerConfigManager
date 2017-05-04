@@ -50,7 +50,7 @@ See below for more information regarding command line options
  * Values are appended in a default order
    
 ### Update
- * A `--template` option is available, given values will be applied to old file and then resulting configuration will be applied to the template. In case you want force template values over old file values, rename old file with `.old` extension, copy the template as `composer.json` and then use `composer update ./composer.json --template composer.json.old`
+ * A `--template` option is available, see below how template are managed
  * Key order are kept from old configuration file. New one are appended in a default order
  
 ### Templates
@@ -111,6 +111,8 @@ See below for more information regarding command line options
 <a name="managed-properties"></a>
 ## Managed properties
 
+Following properties could be define with option from command line : 
+
   * Package name
   * Package type
   * License
@@ -126,6 +128,8 @@ See below for more information regarding command line options
   * Required packages *Many allowed*
   * Required dev packages *Many allowed*
   * Scripts
+  
+All others properties could ever be defined in templates and will be managed in a default way (could produce unexpected merge for complex nested values)
 
 <a name="full-composer-configuration"></a>
 ## Full composer configuration
