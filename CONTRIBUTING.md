@@ -25,7 +25,7 @@ composer coverage
  * Push to your fork and [submit a pull request](https://github.com/yoanm/composerConfigManager/compare/).
  * Wait for feedback or merge.
 
-  Some stuff that will increase your pull request's acceptance:
-    * Write tests.
-    * Follow PSR-2 coding style.
-    * Write good commit messages.
+Some stuff that will increase your pull request's acceptance:    
+  * Write tests.
+  * Follow PSR-2 coding style.
+  * Write good commit messages.
