@@ -113,7 +113,7 @@ See below for more information regarding command line options
 <a name="managed-properties"></a>
 ## Managed properties
 
-Following properties could be define with option from command line : 
+Following properties could be defined with option from command line : 
 
   * Package name
   * Package type
