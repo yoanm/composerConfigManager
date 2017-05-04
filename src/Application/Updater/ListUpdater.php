@@ -51,14 +51,19 @@ class ListUpdater
         $normalizedOldPropertyList = [];
         foreach ($oldPropertyList as $propertyKey => $oldPropertyValue) {
             if (!isset($newPropertyKeyList[$propertyKey])) {
-                $normalizedOldPropertyList[$propertyKey] = $oldPropertyValue;
+                if (count($oldPropertyValue)) {
+                    $normalizedOldPropertyList[$propertyKey] = $oldPropertyValue;
+                }
             } else {
                 // A new value have been defined
-                $normalizedOldPropertyList[$propertyKey] = $this->mergeRawValue(
+                $newValue = $this->mergeRawValue(
                     $newPropertyList[$propertyKey],
                     $oldPropertyValue
                 );
                 unset($newPropertyList[$propertyKey]);
+                if (count($newValue)) {
+                    $normalizedOldPropertyList[$propertyKey] = $newValue;
+                }
             }
         }
 

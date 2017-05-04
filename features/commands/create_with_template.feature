@@ -18,7 +18,11 @@ Feature: As user
       "suggest": {},
       "version": null,
       "autoload": {},
-      "type": null
+      "type": null,
+      "unmanaged_a": null,
+      "unmanaged_b": {},
+      "unmanaged_c": null,
+      "unmanaged_d": {}
     }
 
     """
@@ -93,7 +97,9 @@ Feature: As user
           "default-template-script2-command_1",
           "default-template-script2-command_2"
         ]
-      }
+      },
+      "unmanaged_d": ["D"],
+      "unmanaged_a": "A"
     }
 
     """
@@ -114,6 +120,8 @@ Feature: As user
       "version",
       "autoload",
       "type",
+      "unmanaged_a",
+      "unmanaged_d",
       "license",
       "keywords"
     ]
@@ -248,6 +256,13 @@ Feature: As user
             "default-template-script2-command_2"
         ]
       }
+    }
+    """
+    And configuration file should contains:
+    """
+    {
+      "unmanaged_a": "A",
+      "unmanaged_d": ["D"]
     }
     """
 

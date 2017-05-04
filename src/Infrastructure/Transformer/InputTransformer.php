@@ -88,11 +88,11 @@ class InputTransformer
         if (0 === count(array_intersect($defaultKeyList, array_keys($inputList)))) {
             return null;
         }
-        $fileKeyList = [];
+        $configKeyList = [];
         foreach ($defaultNormalizedFileKeyList as $fileKey => $inputKeyList) {
             foreach ($inputKeyList as $inputKey) {
                 if (isset($inputList[$inputKey])) {
-                    $fileKeyList[] = $fileKey;
+                    $configKeyList[] = $fileKey;
                     break;
                 }
             }
@@ -116,7 +116,7 @@ class InputTransformer
                 $this->extractRequiredDevPackages($inputList),
                 $this->extractScripts($inputList)
             ),
-            $fileKeyList
+            $configKeyList
         );
     }
 

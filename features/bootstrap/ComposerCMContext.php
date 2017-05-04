@@ -58,6 +58,7 @@ class ComposerCMContext implements Context
     "type1": "default-support-type1",
     "type2": "default-support-type2"
   },
+  "bin": ["bin/plop"],
   "description": "default-description",
   "authors": [
     {
