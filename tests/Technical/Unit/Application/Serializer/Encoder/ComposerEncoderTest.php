@@ -24,6 +24,7 @@ class ComposerEncoderTest extends \PHPUnit_Framework_TestCase
 {
     "a": "b"
 }
+
 EXPECTED
             ,
             $this->encoder->encode(

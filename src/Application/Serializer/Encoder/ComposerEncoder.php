@@ -16,6 +16,8 @@ class ComposerEncoder
 
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new UnexpectedValueException(json_last_error_msg());
+        } else {
+            $encodedJson .= "\n";
         }
 
         return $encodedJson;
